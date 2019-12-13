@@ -1,2 +1,0 @@
-# sandboxNode
-Created with CodeSandbox
