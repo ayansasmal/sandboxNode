@@ -3,8 +3,6 @@ import { initializeLogger } from "../utils/logger";
 
 const connectionURI =
   "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/test?retryWrites=true&w=majority";
-
-// mongodb+srv://<username>:<password>@maincluster-cmwtk.mongodb.net/test?retryWrites=true&w=majority
 const logger = initializeLogger("mongoose-js");
 
 mongoose.Promise = global.Promise;
