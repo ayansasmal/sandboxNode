@@ -28,7 +28,7 @@ const options = {
 
 const createNewTask = function(description) {
   logger.debug(
-    `Creating and saving new task with description as "${description}"`
+    `Creating and saving new task with description: "${description}"`
   );
   return new Models.Task({
     description,
@@ -37,4 +37,9 @@ const createNewTask = function(description) {
   }).save();
 };
 
-export default { createNewTask };
+const fetchAllTasks = function(fn) {
+  logger.debug("Reading all the Tasks");
+  Models.Task.find({}, fn);
+};
+
+export default { createNewTask, fetchAllTasks };

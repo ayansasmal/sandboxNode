@@ -4,13 +4,13 @@ const { createLogger, format, transports } = winston;
 const { combine, timestamp, label, printf } = format;
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  return `${timestamp} [${label}] ${level}: ${message}`;
+  return `${timestamp} [${label}] ${level} : ${message}`;
 });
 
 const colorizedFormat = format.colorize({
   colors: {
     info: "white italic",
-    debug: "green bold",
+    debug: "green italic",
     error: "black bgRed italic"
   },
   all: true
