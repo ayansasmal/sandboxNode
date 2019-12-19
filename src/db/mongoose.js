@@ -2,17 +2,20 @@ import mongoose from "mongoose";
 import { initializeLogger } from "../utils/logger";
 import Models from "./models";
 
-const connectionURI =
-  "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/task-manager?retryWrites=true&w=majority";
+//const inmemoryMongo = new MongoMemoryServer();
+
+// const connectionURI =
+//   "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/task-manager?retryWrites=true&w=majority";
+//const connectionURI = inmemoryMongo.getConnectionString();
 const logger = initializeLogger("mongoose-js");
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(connectionURI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect(connectionURI, {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useUnifiedTopology: true
+// });
 
 const options = {
   timeZone: "Australia/Sydney",

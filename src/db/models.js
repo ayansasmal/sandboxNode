@@ -4,10 +4,13 @@ import Validator from "validator";
 const Models = {};
 Models.Task = mongoose.model("Task", {
   description: {
-    type: String
+    type: String,
+    required: true,
+    trim: true
   },
   completed: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   createdOn: {
     type: String
@@ -49,7 +52,7 @@ Models.User = mongoose.model("User", {
     minlength: 6,
     trim: true,
     validate(value) {
-      if (value.toLowerCase() === "password") {
+      if (value.toLowerCase().trim() === "password") {
         throw new Error("Entered password is not allowed");
       }
     }

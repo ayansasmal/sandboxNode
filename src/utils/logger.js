@@ -53,25 +53,23 @@ const createExceptionHandlers = () => {
   return transportArray;
 };
 
-const logger = createLogger({
-  format: combine(
-    label({ label: "default-application" }),
-    timestamp({ format: timestampFormat }),
-    myFormat
-  ),
-  transports: createTransports(),
-  exceptionHandlers: createExceptionHandlers(),
-  exitOnError: false
-});
-
 const initializeLogger = providedLabel => {
-  logger.log("info", "initializing logger");
+  const logger = createLogger({
+    format: combine(
+      label({ label: "default-application" }),
+      timestamp({ format: timestampFormat }),
+      myFormat
+    ),
+    transports: createTransports(),
+    exceptionHandlers: createExceptionHandlers(),
+    exitOnError: false
+  });
   logger.format = combine(
     label({ label: providedLabel }),
     timestamp({ format: timestampFormat }),
     myFormat
   );
-  logger.log("info", `Update logger for ${providedLabel}`);
+  logger.log("info", `created logger for ${providedLabel}`);
   logger.log("debug", "test debug");
   logger.log("error", "test error");
   return logger;
