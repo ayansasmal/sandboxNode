@@ -9,13 +9,14 @@ const logger = initializeLogger("handler-js");
  * Connect to the in-memory database.
  */
 export async function connectDatabase() {
-  let uri;
+  logger.debug(`DB Configuration :: ${process.env.DB_SRC}`);
+
+  let uri =
+    "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/task-manager?retryWrites=true&w=majority";
+
   if (process.env.DB_SRC && process.env.DB_SRC === "local") {
     logger.debug("Connecting to local DB");
     uri = await mongod.getConnectionString();
-  } else {
-    uri =
-      "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/task-manager?retryWrites=true&w=majority";
   }
 
   const mongooseOpts = {
@@ -46,7 +47,6 @@ export async function closeDatabase() {
  */
 export async function clearDatabase() {
   const collections = connection.collections;
-
   for (const key in collections) {
     const collection = collections[key];
     await collection.deleteMany();

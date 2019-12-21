@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { initializeLogger } from "../utils/logger";
-import Models from "./models";
+import User from "../models/user";
 
-const logger = initializeLogger("operations-js");
+const logger = initializeLogger("user-operations-js");
 
 mongoose.Promise = global.Promise;
 
@@ -18,20 +18,20 @@ const options = {
   second: "2-digit"
 };
 
-const createNewTask = function(description) {
+const create = function(description) {
   logger.debug(
     `Creating and saving new task with description: "${description}"`
   );
-  return new Models.Task({
+  return new User({
     description,
     completed: false,
     createdOn: new Date().toLocaleDateString("en-AU", options)
   }).save();
 };
 
-const fetchAllTasks = function(fn) {
+const fetchAll = function(fn) {
   logger.debug("Reading all the Tasks");
-  Models.Task.find({}, fn);
+  User.find({}, fn);
 };
 
-export default { createNewTask, fetchAllTasks };
+export default { create, fetchAll };

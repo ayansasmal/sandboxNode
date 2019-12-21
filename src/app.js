@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "./db/operations";
+import Tasks from "./db/operations/task";
 import { connectDatabase, closeDatabase, clearDatabase } from "./db/handler";
 import { createServer } from "http";
 import { initializeLogger } from "./utils/logger";
@@ -21,7 +21,7 @@ app.get("/", function(req, res) {
 });
 
 app.post("/task", function(req, res) {
-  const task = mongoose.createNewTask("New Task created");
+  const task = Tasks.create("New Task created");
   task
     .then(doc => {
       logger.debug(`Saved Document:: ${JSON.stringify(doc)}`);
@@ -37,12 +37,12 @@ app.post("/task", function(req, res) {
 
 app.get("/task/read", function(req, res) {
   res.write(`${new Date()} fetching...\n`);
-  mongoose.fetchAllTasks((err, tasks) => {
+  Tasks.fetchAll((err, tasks) => {
     if (err) {
       logger.error(`Unable to save document ${JSON.stringify(err)}`);
       res.write(`Server is up but ${JSON.stringify(err)}`);
     } else if (tasks) {
-      res.write("Fetched...\n");
+      res.write(`Fetched...\n[${tasks.length}]\n`);
       tasks.forEach(task => {
         logger.debug(`Task is ${JSON.stringify(task)}`);
         res.write(`Task : ${JSON.stringify(task)}\n`);
@@ -52,6 +52,10 @@ app.get("/task/read", function(req, res) {
   });
 });
 
-app.get("/user/create", function(req, res) {
+app.post("/user/create", function(req, res) {
+  logger.debug("Trying to create user");
+});
+
+app.get("/user/", function(req, res) {
   logger.debug("Trying to create user");
 });
