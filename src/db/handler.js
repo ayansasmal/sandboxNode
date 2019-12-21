@@ -3,13 +3,20 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { initializeLogger } from "../utils/logger";
 
 const mongod = new MongoMemoryServer();
-const logger = initializeLogger("db-handler-js");
+const logger = initializeLogger("handler-js");
 
 /**
  * Connect to the in-memory database.
  */
 export async function connectDatabase() {
-  const uri = await mongod.getConnectionString();
+  let uri;
+  if (process.env.DB_SRC && process.env.DB_SRC === "local") {
+    logger.debug("Connecting to local DB");
+    uri = await mongod.getConnectionString();
+  } else {
+    uri =
+      "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/task-manager?retryWrites=true&w=majority";
+  }
 
   const mongooseOpts = {
     useNewUrlParser: true,

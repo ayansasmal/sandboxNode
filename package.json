@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/app.js",
-    "start-mongoose": "nodemon --exec babel-node ./src/db/mongoose.js"
+    "start": "DB_SRC=local nodemon --exec babel-node ./src/app.js",
+    "start-prod": "nodemon --exec babel-node ./src/app.js"
   },
   "dependencies": {
     "@babel/cli": "^7.7.4",

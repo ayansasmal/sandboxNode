@@ -1,6 +1,6 @@
 import express from "express";
-import mongoose from "./db/mongoose";
-import { connectDatabase, closeDatabase, clearDatabase } from "./db/db-handler";
+import mongoose from "./db/operations";
+import { connectDatabase, closeDatabase, clearDatabase } from "./db/handler";
 import { createServer } from "http";
 import { initializeLogger } from "./utils/logger";
 
@@ -36,6 +36,7 @@ app.post("/task", function(req, res) {
 });
 
 app.get("/task/read", function(req, res) {
+  res.write(`${new Date()} fetching...\n`);
   mongoose.fetchAllTasks((err, tasks) => {
     if (err) {
       logger.error(`Unable to save document ${JSON.stringify(err)}`);
