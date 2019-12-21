@@ -1,0 +1,26 @@
+2019-12-21 20:52:09.137 [task-operations-js] info : created logger for task-operations-js
+2019-12-21 20:52:09.306 [handler-js] info : created logger for handler-js
+2019-12-21 20:52:09.307 [app-js] info : created logger for app-js
+2019-12-21 20:52:09.141 [task-operations-js] debug : test debug
+2019-12-21 20:52:09.141 [task-operations-js] error : test error
+2019-12-21 20:52:09.306 [handler-js] debug : test debug
+2019-12-21 20:52:09.306 [handler-js] error : test error
+2019-12-21 20:52:09.309 [handler-js] debug : DB Configuration :: local
+2019-12-21 20:52:09.310 [handler-js] debug : Connecting to local DB
+2019-12-21 20:52:09.307 [app-js] debug : test debug
+2019-12-21 20:52:09.307 [app-js] error : test error
+2019-12-21 20:52:09.308 [app-js] info : Server is up and running
+2019-12-21 20:52:09.910 [handler-js] debug : connected to db
+2019-12-21 20:52:19.678 [task-operations-js] info : created logger for task-operations-js
+2019-12-21 20:52:19.777 [handler-js] info : created logger for handler-js
+2019-12-21 20:52:19.778 [app-js] info : created logger for app-js
+2019-12-21 20:52:19.682 [task-operations-js] debug : test debug
+2019-12-21 20:52:19.682 [task-operations-js] error : test error
+2019-12-21 20:52:19.777 [handler-js] debug : test debug
+2019-12-21 20:52:19.777 [handler-js] error : test error
+2019-12-21 20:52:19.781 [handler-js] debug : DB Configuration :: local
+2019-12-21 20:52:19.781 [handler-js] debug : Connecting to local DB
+2019-12-21 20:52:19.778 [app-js] debug : test debug
+2019-12-21 20:52:19.778 [app-js] error : test error
+2019-12-21 20:52:19.779 [app-js] info : Server is up and running
+2019-12-21 20:52:19.877 [handler-js] debug : connected to db

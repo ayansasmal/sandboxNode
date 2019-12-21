@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { initializeLogger } from "../utils/logger";
+import { initializeLogger } from "../../utils/logger";
 import Task from "../models/task";
 
 const logger = initializeLogger("task-operations-js");

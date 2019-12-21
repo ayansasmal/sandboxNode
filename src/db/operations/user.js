@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { initializeLogger } from "../utils/logger";
+import { initializeLogger } from "../../utils/logger";
 import User from "../models/user";
 
 const logger = initializeLogger("user-operations-js");
