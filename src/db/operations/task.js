@@ -18,13 +18,19 @@ const options = {
   second: "2-digit"
 };
 
-const create = function(description) {
+const create = function(task) {
+  if (!task) {
+    logger.error("Task is invalid");
+    throw new Error(`Task is invalid, ${JSON.stringify(task)}`);
+  }
   logger.debug(
-    `Creating and saving new task with description: "${description}"`
+    `Creating and saving new task "${JSON.stringify(task)}", ${
+      task.description
+    }`
   );
   return new Task({
-    description,
-    completed: false,
+    description: task.description,
+    completed: task.completed,
     createdOn: new Date().toLocaleDateString("en-AU", options)
   }).save();
 };
@@ -34,4 +40,9 @@ const fetchAll = function(fn) {
   Task.find({}, fn);
 };
 
-export default { create, fetchAll };
+const fetch = (id, fn) => {
+  logger.debug(`Find task by id ${id}`);
+  Task.findById(id, fn);
+};
+
+export default { create, fetchAll, fetch };

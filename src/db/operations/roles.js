@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { initializeLogger } from "../../utils/logger";
-import User from "../models/user";
+import Role from "../models/role";
 
-const logger = initializeLogger("user-operations-js");
+const logger = initializeLogger("role-operations-js");
 
 mongoose.Promise = global.Promise;
 
@@ -18,26 +18,23 @@ const options = {
   second: "2-digit"
 };
 
-const create = function(description) {
+const create = function(name, description) {
   logger.debug(
-    `Creating and saving new task with description: "${description}"`
+    `Creating and saving new role ${name} with description: "${description}"`
   );
-  return new User({
+  return new Role({
+    name,
     description,
-    completed: false,
+    createdBy: "Ayan",
     createdOn: new Date().toLocaleDateString("en-AU", options)
   }).save();
 };
 
 const fetchAll = function(fn) {
   logger.debug("Reading all the Tasks");
-  User.find({}, fn);
+  Role.find({}, fn);
 };
 
-const verify = () => {};
-
-const update = () => {};
-
-const login = () => {};
-
-export default { create, fetchAll };
+const addRole = role => {
+  logger.debug(`Adding role ${role} to user`);
+};

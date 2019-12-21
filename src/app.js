@@ -9,6 +9,8 @@ const logger = initializeLogger("app-js");
 logger.info("Server is up and running");
 
 const app = express();
+app.use(express.json());
+
 const port = process.env.PORT || 8080;
 //create a server object:
 createServer(app).listen(port); //the server object listens on port 8080
@@ -21,35 +23,52 @@ app.get("/", function(req, res) {
 });
 
 app.post("/task", function(req, res) {
-  const task = Tasks.create("New Task created");
-  task
-    .then(doc => {
-      logger.debug(`Saved Document:: ${JSON.stringify(doc)}`);
-      res.write(`${new Date()} Server is up and ${doc._id}`);
-      res.end(); //end the response
-    })
-    .catch(err => {
-      logger.error(`Unable to save document ${JSON.stringify(err)}`);
-      res.write(`${new Date()} Server is up but ${JSON.stringify(err)}`);
-      res.end(); //end the response
-    });
+  try {
+    const task = Tasks.create(req.body, "");
+    task
+      .then(doc => {
+        logger.debug(`Saved Document:: ${JSON.stringify(doc)}`);
+        res.write(`${new Date()} Server is up and ${doc._id}`);
+        res.status(201);
+        res.end(); //end the response
+      })
+      .catch(err => {
+        logger.error(`Unable to save document ${JSON.stringify(err)}`);
+        res.write(`${new Date()} Server is up but ${JSON.stringify(err)}`);
+        res.status(400);
+        res.end(); //end the response
+      });
+  } catch (err) {
+    logger.error("Unable to create Task", err);
+    res.sendStatus(400);
+    res.end(); //end the response
+  }
 });
 
-app.get("/task/read", function(req, res) {
-  res.write(`${new Date()} fetching...\n`);
+app.get("/task/read/", function(req, res) {
   Tasks.fetchAll((err, tasks) => {
     if (err) {
       logger.error(`Unable to save document ${JSON.stringify(err)}`);
       res.write(`Server is up but ${JSON.stringify(err)}`);
+      res.end(); //end the response
     } else if (tasks) {
-      res.write(`Fetched...\n[${tasks.length}]\n`);
-      tasks.forEach(task => {
-        logger.debug(`Task is ${JSON.stringify(task)}`);
-        res.write(`Task : ${JSON.stringify(task)}\n`);
-      });
+      res.send(tasks);
     }
-    res.end(); //end the response
   });
+});
+
+app.get("/task/read/:id", function(req, res) {
+  if (req.params.id) {
+    Tasks.fetch(req.params.id, (err, task) => {
+      if (err) {
+        logger.error(`Unable to save document ${JSON.stringify(err)}`);
+        res.write(`Server is up but ${JSON.stringify(err)}`);
+        res.end(); //end the response
+      } else if (task) {
+        res.send(task);
+      }
+    });
+  }
 });
 
 app.post("/user/create", function(req, res) {
