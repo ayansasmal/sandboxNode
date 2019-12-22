@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Roles from "../db/operations/role";
+import Roles from "../db/operations/roles";
 import { initializeLogger } from "../utils/logger";
 
 const router = Router();

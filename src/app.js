@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { initializeLogger } from "./utils/logger";
 import taskRouter from "./routes/task";
 import userRouter from "./routes/user";
+import roleRouter from "./routes/role";
 
 const logger = initializeLogger("app-js");
 
@@ -26,3 +27,5 @@ app.get("/", function(req, res) {
 app.use("/task", taskRouter);
 
 app.use("/user", userRouter);
+
+app.use("/role", roleRouter);
