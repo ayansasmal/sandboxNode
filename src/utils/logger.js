@@ -70,8 +70,6 @@ const initializeLogger = providedLabel => {
     myFormat
   );
   logger.log("info", `created logger for ${providedLabel}`);
-  logger.log("debug", "test debug");
-  logger.log("error", "test error");
   return logger;
 };
 
