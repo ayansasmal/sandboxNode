@@ -20,16 +20,11 @@ export async function connectDatabase() {
   }
 
   const mongooseOpts = {
-    useNewUrlParser: true,
-    autoReconnect: true,
-    reconnectTries: Number.MAX_VALUE,
-    reconnectInterval: 1000
+    useUnifiedTopology: true,
+    useNewUrlParser: true
   };
 
-  await connect(
-    uri,
-    mongooseOpts
-  );
+  await connect(uri, mongooseOpts);
   logger.debug("connected to db");
 }
 

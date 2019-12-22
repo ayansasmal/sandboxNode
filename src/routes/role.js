@@ -6,7 +6,7 @@ const router = Router();
 
 const logger = initializeLogger("user-route-js");
 
-router.post("/create", function(req, res) {
+router.post("/", function(req, res) {
   logger.debug("Trying to create user");
 });
 

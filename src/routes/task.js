@@ -6,19 +6,20 @@ const router = Router();
 
 const logger = initializeLogger("task-route-js");
 
-router.get("/read/", function(req, res) {
+router.get("/", function(req, res) {
   Tasks.fetchAll((err, tasks) => {
     if (err) {
       logger.error(`Unable to save document ${JSON.stringify(err)}`);
       res.write(`Server is up but ${JSON.stringify(err)}`);
       res.end(); //end the response
     } else if (tasks) {
+      logger.debug(`Fetched ${tasks.length} Tasks`);
       res.send(tasks);
     }
   });
 });
 
-router.get("/read/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   if (req.params.id) {
     Tasks.fetch(req.params.id, (err, task) => {
       if (err) {
