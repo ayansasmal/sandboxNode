@@ -34,6 +34,10 @@ const fetchAll = function(fn) {
   User.find({}, fn);
 };
 
+const addRole = () => {
+  logger.debug("Adding role to the current user");
+};
+
 const verify = () => {};
 
 const update = () => {};

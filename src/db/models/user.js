@@ -5,15 +5,18 @@ const User = mongoose.model("User", {
   identifier: {
     username: {
       type: String,
-      trim: true
+      trim: true,
+      required: true
     },
     firstName: {
       type: String,
-      trim: true
+      trim: true,
+      required: true
     },
     lastName: {
       type: String,
-      trim: true
+      trim: true,
+      required: true
     },
     email: {
       type: String,

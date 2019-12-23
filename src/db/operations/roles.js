@@ -35,8 +35,4 @@ const fetchAll = function(fn) {
   Role.find({}, fn);
 };
 
-const addRole = role => {
-  logger.debug(`Adding role ${role} to user`);
-};
-
-export default { create, fetchAll, addRole };
+export default { create, fetchAll };
