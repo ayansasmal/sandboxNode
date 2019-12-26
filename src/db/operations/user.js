@@ -1,31 +1,21 @@
 import mongoose from "mongoose";
 import { initializeLogger } from "../../utils/logger";
 import User from "../models/user";
+import LocaleDate from "../../utils/dateUtil";
 
 const logger = initializeLogger("user-operations-js");
 
 mongoose.Promise = global.Promise;
 
-const options = {
-  timeZone: "Australia/Sydney",
-  hour12: false,
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit"
-};
-
-const create = function(description) {
-  logger.debug(
-    `Creating and saving new task with description: "${description}"`
-  );
+const create = function(user) {
+  logger.debug(`Creating and saving new user  "${JSON.stringify(user)}"`);
   return new User({
-    description,
-    completed: false,
-    createdOn: new Date().toLocaleDateString("en-AU", options)
+    identifier: user.identifier,
+    password: user.password,
+    role: user.role,
+    createdOn: LocaleDate,
+    lastLoggedIn: LocaleDate,
+    isLoggedIn: true
   }).save();
 };
 
@@ -38,10 +28,22 @@ const addRole = () => {
   logger.debug("Adding role to the current user");
 };
 
-const verify = () => {};
+const verify = user => {
+  return new Promise((resolve, reject) => {
+    if (user) {
+      User.findOne(user, (err, data) => {
+        if (data) {
+          resolve(data);
+        } else if (err) {
+          reject(err);
+        }
+      });
+    }
+  });
+};
 
 const update = () => {};
 
 const login = () => {};
 
-export default { create, fetchAll };
+export default { create, fetchAll, verify };

@@ -1,22 +1,11 @@
 import mongoose from "mongoose";
 import { initializeLogger } from "../../utils/logger";
 import Role from "../models/role";
+import LocaleDate from "../../utils/dateUtil";
 
 const logger = initializeLogger("role-operations-js");
 
 mongoose.Promise = global.Promise;
-
-const options = {
-  timeZone: "Australia/Sydney",
-  hour12: false,
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit"
-};
 
 const create = function(name, description) {
   logger.debug(
@@ -26,7 +15,7 @@ const create = function(name, description) {
     name,
     description,
     createdBy: "Ayan",
-    createdOn: new Date().toLocaleDateString("en-AU", options)
+    createdOn: LocaleDate
   }).save();
 };
 

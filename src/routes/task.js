@@ -7,45 +7,56 @@ const router = Router();
 const logger = initializeLogger("task-route-js");
 
 router.get("/", function(req, res) {
-  Tasks.fetchAll((err, tasks) => {
-    if (err) {
+  Tasks.fetchAll()
+    .then(tasks => {
+      if (tasks && tasks.length >= 1) {
+        logger.debug(`Fetched ${tasks.length} Tasks`);
+        res.send(tasks);
+      } else {
+        logger.debug("No Task found");
+        res.write(`No tasks found in system.`);
+        res.end();
+      }
+    })
+    .catch(err => {
       logger.error(`Unable to save document ${JSON.stringify(err)}`);
       res.write(`Server is up but ${JSON.stringify(err)}`);
       res.end(); //end the response
-    } else if (tasks) {
-      logger.debug(`Fetched ${tasks.length} Tasks`);
-      res.send(tasks);
-    }
-  });
+    });
 });
 
 router.get("/:id", function(req, res) {
   if (req.params.id) {
-    Tasks.fetch(req.params.id, (err, task) => {
-      if (err) {
-        logger.error(`Unable to save document ${JSON.stringify(err)}`);
+    Tasks.fetch(req.params.id)
+      .then(task => {
+        if (!task) {
+          logger.error(`Unable to fetch document ${req.params.id}`);
+          res.write(`No Task found...`);
+          res.end(); //end the response
+        } else if (task) {
+          res.send(task);
+        }
+      })
+      .catch(err => {
+        logger.error(`Unable to fetch document ${JSON.stringify(err)}`);
         res.write(`Server is up but ${JSON.stringify(err)}`);
         res.end(); //end the response
-      } else if (task) {
-        res.send(task);
-      }
-    });
+      });
   }
 });
 
 router.post("/", function(req, res) {
   try {
-    const task = Tasks.create(req.body, "");
-    task
+    Tasks.create(req.body)
       .then(doc => {
         logger.debug(`Saved Document:: ${JSON.stringify(doc)}`);
-        res.write(`${new Date()} Server is up and ${doc._id}`);
+        res.write(`Task created with id ${doc._id}`);
         res.status(201);
         res.end(); //end the response
       })
       .catch(err => {
         logger.error(`Unable to save document ${JSON.stringify(err)}`);
-        res.write(`${new Date()} Server is up but ${JSON.stringify(err)}`);
+        res.write(`Failed to create Task due to ${JSON.stringify(err)}`);
         res.status(400);
         res.end(); //end the response
       });

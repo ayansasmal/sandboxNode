@@ -8,7 +8,20 @@ const logger = initializeLogger("user-route-js");
 
 router.post("/", function(req, res) {
   logger.debug("Trying to create user");
-  Users.create();
+  if (req.body) {
+    Users.create(req.body)
+      .then(data => {
+        logger.debug(`Created User with id ${data._id}`);
+        res.write(`Created User with id ${data._id}`);
+        res.status(201);
+        res.send();
+      })
+      .catch(err => {
+        logger.error(`Unable to create user ${JSON.stringify(err)}`);
+        res.write(`Failed to create user ${err}`);
+        res.send();
+      });
+  }
 });
 
 router.get("/", function(req, res) {
