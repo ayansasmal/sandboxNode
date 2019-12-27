@@ -7,6 +7,8 @@ import userRoutes from "./routes/user";
 import roleRoutes from "./routes/role";
 import LocaleDate from "./utils/dateUtil";
 
+import Login from "./db/operations/login";
+
 const logger = initializeLogger("app-js");
 
 logger.info("Server is up and running");
@@ -32,7 +34,21 @@ app.get("/", function(req, res) {
 });
 
 app.post("/login", (req, res) => {
-  logger.debug(`Logging in ${req.body}`);
+  logger.debug(`Logging in ${JSON.stringify(req.body)}`);
+  Login.login(req.body)
+    .then(data => {
+      if (data) {
+        logger.debug(`Found user ${JSON.stringify(data)}`);
+        res.cookie("session", data.jwt);
+        res.send(data);
+      }
+    })
+    .catch(err => {
+      logger.error(err);
+      res.write(err.description);
+      res.status(401);
+      res.end();
+    });
 });
 
 app.get("/logout", (req, res) => {});

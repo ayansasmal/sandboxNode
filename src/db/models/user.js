@@ -44,6 +44,10 @@ const User = mongoose.model("User", {
       }
     }
   },
+  iv: {
+    type: String,
+    required: true
+  },
   createdOn: {
     type: String
   },
