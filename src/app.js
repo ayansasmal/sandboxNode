@@ -1,7 +1,11 @@
 import express from "express";
-import { connectDatabase } from "./db/handler";
 import { createServer } from "http";
+import { connectDatabase } from "./db/handler";
 import { initializeLogger } from "./utils/logger";
+import { OpenApiValidator } from "express-openapi-validator";
+import YAML from "yamljs";
+import { connector } from "swagger-routes-express";
+import api from "./api";
 import taskRoutes from "./routes/task";
 import userRoutes from "./routes/user";
 import roleRoutes from "./routes/role";
@@ -52,3 +56,41 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {});
+
+/* 
+
+const app = express();
+app.use(express.json());
+
+const loadRoutes = async app => {
+  const apiSpec = YAML.load("./config/swagger.yaml");
+  const connect = connector(api, apiSpec, {
+    onCreateRoute: (method, descriptor) => {
+      console.log(`Interface created : ${method} ${descriptor[0]}`);
+    }
+  });
+  connect(app);
+  return app;
+};
+
+new OpenApiValidator({
+  apiSpec: "./config/swagger.yaml",
+  validateResponses: true,
+  validateRequests: true
+})
+  .install(app)
+  .then(() => {
+    loadRoutes(app).then(() => {
+      app.use((err, req, res, next) => {
+        res.status(err.status || 500).json({
+          message: err.message,
+          errors: err.errors
+        });
+      });
+      createServer(app).listen(3000, () => {
+        console.log("Server is up and running");
+      });
+    });
+  });
+
+*/
