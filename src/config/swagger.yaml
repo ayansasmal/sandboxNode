@@ -9,7 +9,7 @@ paths:
   /:
     get:
       description: healthcheck
-      operationId: healthcheck
+      operationId: healthCheck
       responses:
         "200":
           description: success response
@@ -25,13 +25,13 @@ paths:
   /login:
     post:
       description: Login to the application
-      operationId: login
+      operationId: loginUser
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: ""
+              $ref: "#/components/schemas/LoginDetails"
       responses:
         "200":
           description: Successfull Login
@@ -45,6 +45,15 @@ paths:
               schema:
                 type: string
                 example: sessionid=abcde12345; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
         "401":
           description: Username and password combination is incorrect
           content:
@@ -64,6 +73,29 @@ paths:
       responses:
         "204":
           description: Successfull logout
+  
+  /user:
+    post:
+      description: Create user of the application
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDetails"
+      responses:
+        "201":
+          description: User creation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
   ## -- /task -- ##
   /task:
     get:
@@ -169,6 +201,55 @@ components:
           type: string
         description:
           type: string
+
+    LoginDetails:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    UserDetails:
+      type: object
+      required:
+        - identifier
+        - password
+      properties:
+        identifier:
+          type: object
+          properties:
+            username:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            mobileNumber:
+              type: string
+        password:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+            
+    Role:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
     Task:
       type: object
       required:
