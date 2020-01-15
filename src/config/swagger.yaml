@@ -73,7 +73,26 @@ paths:
       responses:
         "204":
           description: Successfull logout
-
+  /whoami:
+    get:
+      description: Get logged in user's username
+      operationId: whoami
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  firstname:
+                    type: string
+                  lastname:
+                    type: string
+        "404":
+          description: no user found response
   /user:
     post:
       description: Create user of the application
