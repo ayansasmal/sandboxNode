@@ -23,6 +23,7 @@ const login = user => {
               data.password
             ) {
               logger.debug("password match");
+              User.login({ "identifier.username": data.identifier.username });
               resolve({
                 data: {
                   username: data.identifier.username,

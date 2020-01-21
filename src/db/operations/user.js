@@ -17,7 +17,7 @@ const create = function(user) {
     role: user.role,
     createdOn: LocaleDate,
     lastLoggedIn: LocaleDate,
-    isLoggedIn: true,
+    isLoggedIn: false,
     iv: newPass.iv
   }).save();
 };
@@ -72,6 +72,29 @@ const verify = user => {
 
 const update = () => {};
 
-const login = () => {};
+const login = user => {
+  logger.debug(`Updating login for ${JSON.stringify(user)}`);
+  return new Promise((resolve, reject) => {
+    try {
+      User.findOneAndUpdate(
+        user,
+        { lastLoggedIn: LocaleDate, isLoggedIn: true },
+        { new: true },
+        (err, data) => {
+          if (data) {
+            logger.debug(`Updated user :: ${JSON.stringify(data)}`);
+            resolve(data);
+          } else {
+            logger.error(JSON.stringify(err));
+            reject({ status: "Error", description: err.message });
+          }
+        }
+      );
+    } catch (err) {
+      logger.error(JSON.stringify(err));
+      reject({ status: "Error", description: err.message });
+    }
+  });
+};
 
-export default { create, fetchAll, verify, isUsernameAvailable };
+export default { create, fetchAll, verify, isUsernameAvailable, login };
