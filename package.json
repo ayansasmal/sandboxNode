@@ -18,7 +18,7 @@
     "mongodb": "^3.5.2",
     "mongodb-memory-server": "6.2.3",
     "mongoose": "^5.8.9",
-    "validator": "12.1.0",
+    "validator": "12.2.0",
     "winston": "^3.2.1",
     "express-openapi-validator": "^3.6.6",
     "swagger-parser": "^8.0.4",
