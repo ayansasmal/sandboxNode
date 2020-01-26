@@ -52,7 +52,7 @@ const login = user => {
         })
         .catch(err => {
           logger.error(err);
-          reject(err);
+          reject({ status: "Error", description: err.message });
         });
     } catch (err) {
       logger.error(err);

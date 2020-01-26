@@ -6,17 +6,25 @@ const logger = initializeLogger("login-controller");
 
 export const loginUser = (req, res) => {
   logger.debug("Login interface invoked");
-  Login.login(req.body)
-    .then(data => {
-      logger.debug(data);
-      res.set("session", data.jwt);
-      res.cookie("jwt", data.jwt);
-      res.json({ status: "Login successfull" });
-    })
-    .catch(err => {
-      logger.error(err);
-      res.json(err);
-    });
+  try {
+    Login.login(req.body)
+      .then(data => {
+        logger.debug(data);
+        res.set("session", data.jwt);
+        res.cookie("jwt", data.jwt);
+        res.status(204);
+        res.json({ status: "Login successfull" });
+      })
+      .catch(err => {
+        logger.error(err);
+        res.status(500);
+        res.json(err);
+      });
+  } catch (err) {
+    logger.error(err);
+    res.status(500);
+    res.json(err);
+  }
 };
 
 export const whoami = (req, res) => {

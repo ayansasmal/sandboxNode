@@ -21,7 +21,8 @@ export async function connectDatabase() {
 
   const mongooseOpts = {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
   };
 
   await connect(uri, mongooseOpts);

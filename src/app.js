@@ -13,12 +13,13 @@ logger.info("Server is up and running");
 
 const app = express();
 app.use(express.json());
+app.disable("x-powered-by");
 
 const loadRoutes = async app => {
   const apiSpec = YAML.load("./src/config/swagger.yaml");
   const connect = connector(api, apiSpec, {
     onCreateRoute: (method, descriptor) => {
-      console.log(`Interface created : ${method} ${descriptor}`);
+      logger.debug(`Interface created : ${method} ${descriptor}`);
     }
   });
   connect(app);
@@ -41,7 +42,7 @@ new OpenApiValidator({
       });
       const port = process.env.PORT || 8080;
       createServer(app).listen(port, () => {
-        console.log("Server is up and running");
+        logger.debug("Server is up and running");
         connectDatabase();
       });
     });

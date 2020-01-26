@@ -54,6 +54,18 @@ paths:
                 properties:
                   status:
                     type: string
+        "204":
+          description: Successful login
+          headers:
+            session:
+              description: header value containing the JWT for the session
+              schema:
+                type: string
+            Set-Cookie:
+              description: set cookie with the jwt for the session
+              schema:
+                type: string
+                example: sessionid=abcde12345; Path=/; HttpOnly
         "401":
           description: Username and password combination is incorrect
           content:
