@@ -31,9 +31,9 @@ const options = {
   swaggerDefinition,
   // path to the API docs
   apis: [
-    "./src/config/partials/login-api.yaml",
-    "./src/config/partials/users-api.yaml",
-    "./src/config/partials/roles-api.yaml"
+    "./src/config/login-api.yaml",
+    "./src/config/users-api.yaml",
+    "./src/config/roles-api.yaml"
   ]
 };
 
