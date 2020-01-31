@@ -1,0 +1,105 @@
+paths:
+  /login:
+    post:
+      description: Login to the application
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDetails"
+      responses:
+        "200":
+          description: Successfull Login
+          headers:
+            session:
+              description: header value containing the JWT for the session
+              schema:
+                type: string
+            Set-Cookie:
+              description: set cookie with the jwt for the session
+              schema:
+                type: string
+                example: sessionid=abcde12345; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+        "204":
+          description: Successful login
+          headers:
+            session:
+              description: header value containing the JWT for the session
+              schema:
+                type: string
+            Set-Cookie:
+              description: set cookie with the jwt for the session
+              schema:
+                type: string
+                example: sessionid=abcde12345; Path=/; HttpOnly
+        "401":
+          description: Username and password combination is incorrect
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Username not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /logout:
+    get:
+      description: Logout from the application
+      operationId: logout
+      responses:
+        "204":
+          description: Successfull logout
+  /whoami:
+    get:
+      description: Get logged in user's username
+      operationId: whoami
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  firstname:
+                    type: string
+                  lastname:
+                    type: string
+        "404":
+          description: no user found response
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        description:
+          type: string
+
+    LoginDetails:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
