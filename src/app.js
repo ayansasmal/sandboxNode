@@ -23,7 +23,10 @@ const swaggerDefinition = {
     version: "1.0.0", // Version of the app
     description:
       "This is the swagger specification for Dastkar Exhibition System" // short description of the app
-  }
+  },
+  servers: [
+    { url: "http://localhost:8080", description: " Local host server details" }
+  ]
 };
 
 const options = {
