@@ -43,7 +43,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 app.use(
-  "/docs",
+  "/api-doc",
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, { explorer: true })
 );
