@@ -218,15 +218,12 @@ components:
         artisans:
           type: array
           items:
-            $ref: "#/components/schemas/Artisan"
-
-    Artisan:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: string
-        name:
-          type: string
+            type: object
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+              name:
+                type: string

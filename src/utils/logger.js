@@ -32,6 +32,7 @@ const createTransports = () => {
   const transportArray = [
     new transports.File({ filename: "log/error.log", level: "error" })
   ];
+
   if (isProductionEnv) {
     return transportArray;
   }

@@ -1,6 +1,7 @@
 import { connect, connection } from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { initializeLogger } from "../utils/logger";
+import { configurations } from "./../config";
 
 const mongod = new MongoMemoryServer();
 const logger = initializeLogger("handler-js");
@@ -11,10 +12,17 @@ const logger = initializeLogger("handler-js");
 export async function connectDatabase() {
   logger.debug(`DB Configuration :: ${process.env.DB_SRC}`);
 
-  let uri =
-    "mongodb+srv://super-user:super-user-mongo-ayan@maincluster-cmwtk.mongodb.net/task-manager?retryWrites=true&w=majority";
+  let uri = configurations.MONGO_ONLINE_URL.replace(
+    "<username>",
+    configurations.MONGO_CREDS.SUPER.USERNAME
+  )
+    .replace("<password>", configurations.MONGO_CREDS.SUPER.PASSWORD)
+    .replace("<dbname>", configurations.DB_NAME);
 
-  if (process.env.DB_SRC && process.env.DB_SRC === "local") {
+  if (
+    process.env.DB_SRC &&
+    process.env.DB_SRC === configurations.LOCAL_SWITCH_KEYWORD
+  ) {
     logger.debug("Connecting to local DB");
     uri = await mongod.getConnectionString();
   }
