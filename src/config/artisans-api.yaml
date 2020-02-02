@@ -1,0 +1,180 @@
+paths:
+  /artisan:
+    get:
+      description: Fetch all the artisans
+      operationId: fetchArtisans
+      responses:
+        "200":
+          description: successfull in fetching details of all the artisans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Artisan"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      description: Create a new artisan
+      operationId: createArtisan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Artisan"
+      responses:
+        "201":
+          description: Artisan created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - artisanId
+                  - status
+                properties:
+                  artisanId:
+                    type: string
+                  status:
+                    type: string
+        default:
+          description: Artisan already exists and cannot be created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /artisan/{artisanId}:
+    get:
+      description: Get details of the artisan
+      operationId: getArtisan
+      parameters:
+        - in: path
+          name: artisanId
+          required: true
+          schema:
+            type: string
+          description: Artisan id of the artisan to be fetched
+      responses:
+        "200":
+          description: successfully fetched artisan details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Artisan"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      description: Update details of the artisan
+      operationId: updateArtisan
+      parameters:
+        - in: path
+          name: artisanId
+          required: true
+          schema:
+            type: string
+          description: Artisan id of the artisan to be fetched
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Artisan"
+      responses:
+        "200":
+          description: successfully fetched artisan details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Artisan"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Artisan:
+      type: object
+      required:
+        - id
+        - name
+        - pointOfContact
+        - contacts
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        pointOfContact:
+          type: object
+          required:
+            - name
+            - address
+            - contacts
+          properties:
+            name:
+              type: string
+            address:
+              $ref: "#/components/schemas/Address"
+            contacts:
+              type: array
+              items:
+                $ref: "#/components/schemas/Contact"
+        address:
+          $ref: "#/components/schemas/Address"
+        contacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Contact"
+        emailId:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+
+    Contact:
+      type: object
+      required:
+        - number
+        - type
+      properties:
+        number:
+          type: string
+        type:
+          type: string
+
+    Address:
+      type: object
+      required:
+        - line1
+        - state
+        - city
+        - pin
+      properties:
+        line1:
+          type: string
+        line2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        pin:
+          type: string
+        country:
+          type: string

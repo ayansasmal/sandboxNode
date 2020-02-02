@@ -1,0 +1,232 @@
+paths:
+  /event:
+    get:
+      description: Get all events
+      operationId: fetchEvents
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Status of the events to be fetched
+      responses:
+        "200":
+          description: successfully fetched events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+        "404":
+          description: unable to find events as per query params
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      description: Create an event
+      operationId: createEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - eventId
+                  - status
+                properties:
+                  eventId:
+                    type: string
+                  status:
+                    type: string
+        "201":
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - eventId
+                  - status
+                properties:
+                  eventId:
+                    type: string
+                  status:
+                    type: string
+        "406":
+          description: Event already exists and cannot be created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /event/{eventId}:
+    get:
+      description: Get details of the event
+      operationId: getEvent
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Event Id of the event to be fetched
+      responses:
+        "200":
+          description: successfully fetched event details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      description: Update details of the event
+      operationId: updateEvent
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Event Id of the event to be fetched
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "202":
+          description: successfully updated event details
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /event/{eventId}/artisan:
+    post:
+      description: Add artisan to event
+      operationId: addArtisan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Artisan"
+      responses:
+        "200":
+          description: Event Updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - eventId
+                  - status
+                properties:
+                  eventId:
+                    type: string
+                  status:
+                    type: string
+        "201":
+          description: Event Updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - eventId
+                  - status
+                properties:
+                  eventId:
+                    type: string
+                  status:
+                    type: string
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Event:
+      type: object
+      required:
+        - name
+        - startsOn
+        - endsOn
+        - location
+        - pointOfContact
+      properties:
+        name:
+          type: string
+        startsOn:
+          type: string
+        endsOn:
+          type: string
+        location:
+          type: string
+        pointOfContact:
+          type: string
+        adUrl:
+          type: string
+        comments:
+          type: string
+        artisans:
+          type: array
+          items:
+            $ref: "#/components/schemas/Artisan"
+
+    Artisan:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string

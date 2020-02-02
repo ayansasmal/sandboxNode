@@ -1,0 +1,14 @@
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        description:
+          type: string
+    Status:
+      type: object
+      properties:
+        status:
+          type: string

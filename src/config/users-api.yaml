@@ -15,23 +15,10 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - status
-                properties:
-                  status:
-                    type: string
+                $ref: "#components/schemas/Status"
 
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        description:
-          type: string
-
     UserDetails:
       type: object
       required:
