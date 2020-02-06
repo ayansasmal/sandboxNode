@@ -1,0 +1,38 @@
+paths:
+  /campaign:
+    post:
+      description: Create new campaign
+      operationId: createCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Campaign"
+      responses:
+        "200":
+          description: Success responses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Campaign"
+
+components:
+  schemas:
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+        startdate:
+          type: string
+        enddate:
+          type: string

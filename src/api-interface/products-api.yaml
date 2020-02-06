@@ -1,0 +1,108 @@
+paths:
+  /product:
+    post:
+      description: Create product of the application
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDetails"
+      responses:
+        "201":
+          description: User creation successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        products:
+          type: array
+          items:
+            type: string
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        tag:
+          type: array
+          items:
+            type: string
+        price:
+          type: number
+        currency:
+          type: string
+        restrictions:
+          type: object
+          properties:
+            maximum:
+              type: number
+            minimun:
+              type: number
+            description:
+              type: string
+        images:
+          type: array
+          items:
+            type: string
+        campaigns:
+          type: array
+          items:
+            type: string
+
+    UserDetails:
+      type: object
+      required:
+        - identifier
+        - password
+      properties:
+        identifier:
+          type: object
+          properties:
+            username:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            mobileNumber:
+              type: string
+        password:
+          type: string
+        role:
+          type: array
+          items:
+            type: string
+
+    Role:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
