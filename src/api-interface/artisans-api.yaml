@@ -102,6 +102,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    delete:
+      description: Remove the artisan
+      operationId: removeArtisan
+      parameters:
+        - in: path
+          name: artisanId
+          required: true
+          schema:
+            type: string
+          description: Artisan id of the artisan to be fetched
+      responses:
+        "200":
+          description: details of deleted Artisan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
@@ -146,6 +169,10 @@ components:
             type: string
         description:
           type: string
+        products:
+          type: array
+          items:
+            type: string
 
     Contact:
       type: object

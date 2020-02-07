@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start-once": "DB_SRC=local babel-node ./src/app.js",
-    "start": "DB_SRC=local nodemon --exec babel-node ./src/app.js",
-    "start-prod": "nodemon --exec babel-node ./src/app.js"
+    "start": "DB_SRC=local nodemon -e js,json,yaml --exec babel-node ./src/app.js",
+    "start-prod": "nodemon -e js,json,yaml --exec babel-node ./src/app.js"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",

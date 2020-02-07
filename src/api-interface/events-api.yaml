@@ -141,11 +141,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    delete:
+      description: delete the selected event
+      operationId: removeEvent
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Event Id of the event to be deleted
+      responses:
+        "200":
+          description: successfully fetched event details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /event/{eventId}/artisan:
     post:
       description: Add artisan to event
       operationId: addArtisan
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Event Id of the event to be fetched
       requestBody:
         required: true
         content:
@@ -190,6 +220,58 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /event/{eventId}/artisan/{artisanId}:
+    delete:
+      description: remove artisan from event
+      operationId: removeArtisanEvent
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Event Id of the event to be updated
+        - in: path
+          name: artisanId
+          required: true
+          schema:
+            type: string
+          description: artisan Id of the event to be removed
+      responses:
+        "200":
+          description: Event Updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - eventId
+                  - status
+                properties:
+                  eventId:
+                    type: string
+                  status:
+                    type: string
+        "201":
+          description: Event Updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - eventId
+                  - status
+                properties:
+                  eventId:
+                    type: string
+                  status:
+                    type: string
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Event:

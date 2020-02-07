@@ -1,5 +1,17 @@
 paths:
   /product:
+    get:
+      description: Fetch all the products
+      operationId: fetchAllProducts
+      responses:
+        "200":
+          description: success fetchAllProducts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
     post:
       description: Create product of the application
       operationId: createProduct
@@ -8,10 +20,157 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserDetails"
+              $ref: "#/components/schemas/Product"
       responses:
         "201":
           description: User creation successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+
+  /product/{productId}:
+    get:
+      description: get details of the product
+      operationId: getProductDetails
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+          description: productId of the product to be fetched
+      responses:
+        "200":
+          description: product details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    post:
+      description: update details of the product
+      operationId: updateProductDetails
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+          description: productId of the product to be fetched
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: successfully updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+    delete:
+      description: remove product
+      operationId: removeProduct
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+          description: productId of the product to be fetched
+      responses:
+        "200":
+          description: deleted products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+  /categories:
+    get:
+      description: Fetch all categories
+      operationId: fetchCategories
+      responses:
+        "200":
+          description: List of all categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+    post:
+      description: create new Category
+      operationId: createCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        "201":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+
+  /categories/{code}:
+    get:
+      description: Fetch all categories
+      operationId: getCategory
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            type: string
+          description: code of the category to be fetched
+      responses:
+        "200":
+          description: List of all categories
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+    post:
+      description: create new Category
+      operationId: updateCategory
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            type: string
+          description: code of the category to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        "201":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+    delete:
+      description: delete the selected Category
+      operationId: removeCategory
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            type: string
+          description: code of the category to be deleted
+      responses:
+        "200":
+          description: successful deletion
           content:
             application/json:
               schema:
@@ -22,6 +181,8 @@ components:
     Category:
       type: object
       properties:
+        code:
+          type: string
         name:
           type: string
         description:
@@ -69,40 +230,3 @@ components:
           type: array
           items:
             type: string
-
-    UserDetails:
-      type: object
-      required:
-        - identifier
-        - password
-      properties:
-        identifier:
-          type: object
-          properties:
-            username:
-              type: string
-            firstName:
-              type: string
-            lastName:
-              type: string
-            email:
-              type: string
-            mobileNumber:
-              type: string
-        password:
-          type: string
-        role:
-          type: array
-          items:
-            type: string
-
-    Role:
-      type: object
-      required:
-        - name
-        - description
-      properties:
-        name:
-          type: string
-        description:
-          type: string

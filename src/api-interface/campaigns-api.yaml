@@ -1,5 +1,17 @@
 paths:
   /campaign:
+    get:
+      description: Fetch all campaigns
+      operationId: getCampaigns
+      responses:
+        "200":
+          description: List of campaigns
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Campaign"
     post:
       description: Create new campaign
       operationId: createCampaign
@@ -15,9 +27,66 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Campaign"
+                $ref: "#/components/schemas/Status"
+
+  /campaign/{campaignId}:
+    get:
+      description: Fetch a campaign
+      operationId: getCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          required: true
+          schema:
+            type: string
+          description: campaign Id of the campaign to be fetched
+      responses:
+        "200":
+          description: successful responses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Campaign"
+    post:
+      description: Update campaign
+      operationId: updateCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          required: true
+          schema:
+            type: string
+          description: campaign Id of the campaign to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Campaign"
+      responses:
+        "200":
+          description: Success responses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+    delete:
+      description: Delete the selected campaign
+      operationId: removeCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          required: true
+          schema:
+            type: string
+          description: campaign Id of the campaign to be deleted
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
 
 components:
   schemas:

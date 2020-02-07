@@ -52,7 +52,7 @@ app.get("/swagger.json", function(req, res) {
 const loadRoutes = async app => {
   const connect = connector(api, swaggerSpec, {
     onCreateRoute: (method, descriptor) => {
-      logger.debug(`Interface created : ${method} ${descriptor}`);
+      logger.debug(`Interface created : ${method} ${descriptor[0]}`);
     }
   });
   connect(app);

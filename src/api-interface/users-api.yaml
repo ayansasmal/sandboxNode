@@ -1,5 +1,17 @@
 paths:
   /user:
+    get:
+      description: Fetch all the users
+      operationId: fetchAllUsers
+      responses:
+        "200":
+          description: successfull retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserDetails"
     post:
       description: Create user of the application
       operationId: createUser
@@ -17,13 +29,70 @@ paths:
               schema:
                 $ref: "#/components/schemas/Status"
 
+  /user/{username}:
+    get:
+      description: Fetch all the users
+      operationId: fetchUser
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: username of the user
+      responses:
+        "200":
+          description: successfull retrieval
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDetails"
+    post:
+      description: update user of the application
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: username of the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDetails"
+      responses:
+        "201":
+          description: User creation successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+    delete:
+      description: delete user
+      operationId: removeUser
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: username of the user
+      responses:
+        "200":
+          description: successfull removal
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
 components:
   schemas:
     UserDetails:
       type: object
       required:
         - identifier
-        - password
       properties:
         identifier:
           type: object

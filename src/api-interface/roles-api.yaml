@@ -28,6 +28,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
+  /roles/{name}:
+    get:
+      description: Fetch detail of the role
+      operationId: getRole
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: name of the role
+      responses:
+        "200":
+          description: All the roles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+    delete:
+      description: delete the role
+      operationId: removeRole
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: name of the role
+      responses:
+        "200":
+          description: role deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
 components:
   schemas:
     Role:
