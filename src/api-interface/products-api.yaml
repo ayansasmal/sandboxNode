@@ -1,7 +1,9 @@
 paths:
-  /product:
+  /products:
     get:
       description: Fetch all the products
+      tags:
+        - Product Management
       operationId: fetchAllProducts
       responses:
         "200":
@@ -14,6 +16,8 @@ paths:
                   $ref: "#/components/schemas/Product"
     post:
       description: Create product of the application
+      tags:
+        - Product Management
       operationId: createProduct
       requestBody:
         required: true
@@ -29,17 +33,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Status"
 
-  /product/{productId}:
+  /products/{productId}:
+    parameters:
+      - $ref: "#/components/parameters/productId"
     get:
       description: get details of the product
+      tags:
+        - Product Management
       operationId: getProductDetails
-      parameters:
-        - in: path
-          name: productId
-          required: true
-          schema:
-            type: string
-          description: productId of the product to be fetched
       responses:
         "200":
           description: product details
@@ -49,6 +50,8 @@ paths:
                 $ref: "#/components/schemas/Product"
     post:
       description: update details of the product
+      tags:
+        - Product Management
       operationId: updateProductDetails
       parameters:
         - in: path
@@ -72,6 +75,8 @@ paths:
                 $ref: "#/components/schemas/Status"
     delete:
       description: remove product
+      tags:
+        - Product Categories Management
       operationId: removeProduct
       parameters:
         - in: path
@@ -90,6 +95,8 @@ paths:
   /categories:
     get:
       description: Fetch all categories
+      tags:
+        - Product Categories Management
       operationId: fetchCategories
       responses:
         "200":
@@ -102,6 +109,8 @@ paths:
                   $ref: "#/components/schemas/Category"
     post:
       description: create new Category
+      tags:
+        - Product Categories Management
       operationId: createCategory
       requestBody:
         required: true
@@ -118,16 +127,13 @@ paths:
                 $ref: "#/components/schemas/Status"
 
   /categories/{code}:
+    parameters:
+      - $ref: "#/components/parameters/productCode"
     get:
       description: Fetch all categories
+      tags:
+        - Product Categories Management
       operationId: getCategory
-      parameters:
-        - in: path
-          name: code
-          required: true
-          schema:
-            type: string
-          description: code of the category to be fetched
       responses:
         "200":
           description: List of all categories
@@ -137,14 +143,9 @@ paths:
                 $ref: "#/components/schemas/Category"
     post:
       description: create new Category
+      tags:
+        - Product Categories Management
       operationId: updateCategory
-      parameters:
-        - in: path
-          name: code
-          required: true
-          schema:
-            type: string
-          description: code of the category to be updated
       requestBody:
         required: true
         content:
@@ -160,14 +161,9 @@ paths:
                 $ref: "#/components/schemas/Status"
     delete:
       description: delete the selected Category
+      tags:
+        - Product Categories Management
       operationId: removeCategory
-      parameters:
-        - in: path
-          name: code
-          required: true
-          schema:
-            type: string
-          description: code of the category to be deleted
       responses:
         "200":
           description: successful deletion
@@ -177,6 +173,21 @@ paths:
                 $ref: "#/components/schemas/Status"
 
 components:
+  parameters:
+    productCode:
+      in: path
+      name: code
+      required: true
+      schema:
+        type: string
+      description: code of the category to be deleted
+    productId:
+      in: path
+      name: productId
+      required: true
+      schema:
+        type: string
+      description: productId of the product to be fetched
   schemas:
     Category:
       type: object

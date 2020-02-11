@@ -2,6 +2,8 @@ paths:
   /user:
     get:
       description: Fetch all the users
+      tags:
+        - User Management
       operationId: fetchAllUsers
       responses:
         "200":
@@ -14,6 +16,8 @@ paths:
                   $ref: "#/components/schemas/UserDetails"
     post:
       description: Create user of the application
+      tags:
+        - User Management
       operationId: createUser
       requestBody:
         required: true
@@ -30,16 +34,13 @@ paths:
                 $ref: "#/components/schemas/Status"
 
   /user/{username}:
+    parameters:
+      - $ref: "#/components/parameters/username"
     get:
       description: Fetch all the users
+      tags:
+        - User Management
       operationId: fetchUser
-      parameters:
-        - in: path
-          name: username
-          required: true
-          schema:
-            type: string
-          description: username of the user
       responses:
         "200":
           description: successfull retrieval
@@ -49,14 +50,9 @@ paths:
                 $ref: "#/components/schemas/UserDetails"
     post:
       description: update user of the application
+      tags:
+        - User Management
       operationId: updateUser
-      parameters:
-        - in: path
-          name: username
-          required: true
-          schema:
-            type: string
-          description: username of the user
       requestBody:
         required: true
         content:
@@ -72,14 +68,9 @@ paths:
                 $ref: "#/components/schemas/Status"
     delete:
       description: delete user
+      tags:
+        - User Management
       operationId: removeUser
-      parameters:
-        - in: path
-          name: username
-          required: true
-          schema:
-            type: string
-          description: username of the user
       responses:
         "200":
           description: successfull removal
@@ -88,6 +79,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Status"
 components:
+  parameters:
+    username:
+      in: path
+      name: username
+      required: true
+      schema:
+        type: string
+      description: username of the user
   schemas:
     UserDetails:
       type: object

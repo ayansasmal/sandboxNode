@@ -2,6 +2,8 @@ paths:
   /roles:
     get:
       description: Fetch all the roles
+      tags:
+        - Role Management
       operationId: getAllRoles
       responses:
         "200":
@@ -14,6 +16,8 @@ paths:
                   $ref: "#/components/schemas/Role"
     post:
       description: Create role for an user
+      tags:
+        - Role Management
       operationId: createRole
       requestBody:
         required: true
@@ -29,16 +33,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/Status"
   /roles/{name}:
+    parameters:
+      - $ref: "#/components/parameters/id"
     get:
       description: Fetch detail of the role
+      tags:
+        - Role Management
       operationId: getRole
-      parameters:
-        - in: path
-          name: name
-          required: true
-          schema:
-            type: string
-          description: name of the role
       responses:
         "200":
           description: All the roles
@@ -48,14 +49,9 @@ paths:
                 $ref: "#/components/schemas/Role"
     delete:
       description: delete the role
+      tags:
+        - Role Management
       operationId: removeRole
-      parameters:
-        - in: path
-          name: name
-          required: true
-          schema:
-            type: string
-          description: name of the role
       responses:
         "200":
           description: role deleted successfully
@@ -64,6 +60,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Status"
 components:
+  parameters:
+    id:
+      in: path
+      name: name
+      required: true
+      schema:
+        type: string
+      description: name of the role
   schemas:
     Role:
       type: object

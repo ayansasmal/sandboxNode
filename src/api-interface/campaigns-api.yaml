@@ -2,6 +2,8 @@ paths:
   /campaign:
     get:
       description: Fetch all campaigns
+      tags:
+        - Campaign Management
       operationId: getCampaigns
       responses:
         "200":
@@ -14,6 +16,8 @@ paths:
                   $ref: "#/components/schemas/Campaign"
     post:
       description: Create new campaign
+      tags:
+        - Campaign Management
       operationId: createCampaign
       requestBody:
         required: true
@@ -30,16 +34,13 @@ paths:
                 $ref: "#/components/schemas/Status"
 
   /campaign/{campaignId}:
+    parameters:
+      - $ref: "#/components/parameters/campaignId"
     get:
       description: Fetch a campaign
+      tags:
+        - Campaign Management
       operationId: getCampaign
-      parameters:
-        - in: path
-          name: campaignId
-          required: true
-          schema:
-            type: string
-          description: campaign Id of the campaign to be fetched
       responses:
         "200":
           description: successful responses
@@ -49,14 +50,9 @@ paths:
                 $ref: "#/components/schemas/Campaign"
     post:
       description: Update campaign
+      tags:
+        - Campaign Management
       operationId: updateCampaign
-      parameters:
-        - in: path
-          name: campaignId
-          required: true
-          schema:
-            type: string
-          description: campaign Id of the campaign to be updated
       requestBody:
         required: true
         content:
@@ -72,14 +68,9 @@ paths:
                 $ref: "#/components/schemas/Status"
     delete:
       description: Delete the selected campaign
+      tags:
+        - Campaign Management
       operationId: removeCampaign
-      parameters:
-        - in: path
-          name: campaignId
-          required: true
-          schema:
-            type: string
-          description: campaign Id of the campaign to be deleted
       responses:
         "200":
           description: successfully deleted
@@ -89,6 +80,14 @@ paths:
                 $ref: "#/components/schemas/Status"
 
 components:
+  parameters:
+    campaignId:
+      in: path
+      name: campaignId
+      required: true
+      schema:
+        type: string
+      description: campaign Id of the campaign to be fetched
   schemas:
     Campaign:
       type: object

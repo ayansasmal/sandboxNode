@@ -2,6 +2,8 @@ paths:
   /artisan:
     get:
       description: Fetch all the artisans
+      tags:
+        - Artisan Management
       operationId: fetchArtisans
       responses:
         "200":
@@ -21,6 +23,8 @@ paths:
     post:
       description: Create a new artisan
       operationId: createArtisan
+      tags:
+        - Artisan Management
       requestBody:
         required: true
         content:
@@ -28,7 +32,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Artisan"
       responses:
-        "201":
+        201:
           description: Artisan created successfully
           content:
             application/json:
@@ -50,18 +54,15 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   /artisan/{artisanId}:
+    parameters:
+      - $ref: "#/components/parameters/artisanId"
     get:
       description: Get details of the artisan
       operationId: getArtisan
-      parameters:
-        - in: path
-          name: artisanId
-          required: true
-          schema:
-            type: string
-          description: Artisan id of the artisan to be fetched
+      tags:
+        - Artisan Management
       responses:
-        "200":
+        200:
           description: successfully fetched artisan details
           content:
             application/json:
@@ -76,13 +77,8 @@ paths:
     post:
       description: Update details of the artisan
       operationId: updateArtisan
-      parameters:
-        - in: path
-          name: artisanId
-          required: true
-          schema:
-            type: string
-          description: Artisan id of the artisan to be fetched
+      tags:
+        - Artisan Management
       requestBody:
         required: true
         content:
@@ -90,7 +86,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Artisan"
       responses:
-        "200":
+        200:
           description: successfully fetched artisan details
           content:
             application/json:
@@ -105,15 +101,10 @@ paths:
     delete:
       description: Remove the artisan
       operationId: removeArtisan
-      parameters:
-        - in: path
-          name: artisanId
-          required: true
-          schema:
-            type: string
-          description: Artisan id of the artisan to be fetched
+      tags:
+        - Artisan Management
       responses:
-        "200":
+        200:
           description: details of deleted Artisan
           content:
             application/json:
@@ -127,6 +118,15 @@ paths:
                 $ref: "#/components/schemas/Error"
 
 components:
+  parameters:
+    artisanId:
+      in: path
+      name: artisanId
+      required: true
+      schema:
+        type: string
+      description: Artisan id of the artisan to be fetched
+
   schemas:
     Artisan:
       type: object

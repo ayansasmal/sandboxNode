@@ -3,6 +3,8 @@ paths:
     post:
       description: Login to the application
       operationId: loginUser
+      tags:
+        - Session Management
       requestBody:
         required: true
         content:
@@ -54,13 +56,18 @@ paths:
     get:
       description: Logout from the application
       operationId: logout
+      tags:
+        - Session Management
       responses:
         "204":
           description: Successfull logout
+
   /whoami:
     get:
       description: Get logged in user's username
       operationId: whoami
+      tags:
+        - Session Management
       responses:
         "200":
           description: success response

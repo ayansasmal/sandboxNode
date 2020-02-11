@@ -1,7 +1,9 @@
 paths:
-  /event:
+  /events:
     get:
       description: Get all events
+      tags:
+        - Event Management
       operationId: fetchEvents
       parameters:
         - in: query
@@ -33,6 +35,8 @@ paths:
 
     post:
       description: Create an event
+      tags:
+        - Event Management
       operationId: createEvent
       requestBody:
         required: true
@@ -82,17 +86,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /event/{eventId}:
+  /events/{eventId}:
+    parameters:
+      - $ref: "#/components/parameters/eventId"
     get:
       description: Get details of the event
+      tags:
+        - Event Management
       operationId: getEvent
-      parameters:
-        - in: path
-          name: eventId
-          required: true
-          schema:
-            type: string
-          description: Event Id of the event to be fetched
       responses:
         "200":
           description: successfully fetched event details
@@ -109,14 +110,9 @@ paths:
 
     post:
       description: Update details of the event
+      tags:
+        - Event Management
       operationId: updateEvent
-      parameters:
-        - in: path
-          name: eventId
-          required: true
-          schema:
-            type: string
-          description: Event Id of the event to be fetched
       requestBody:
         required: true
         content:
@@ -143,14 +139,9 @@ paths:
                 $ref: "#/components/schemas/Error"
     delete:
       description: delete the selected event
+      tags:
+        - Event Management
       operationId: removeEvent
-      parameters:
-        - in: path
-          name: eventId
-          required: true
-          schema:
-            type: string
-          description: Event Id of the event to be deleted
       responses:
         "200":
           description: successfully fetched event details
@@ -165,17 +156,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /event/{eventId}/artisan:
+  /events/{eventId}/artisan:
     post:
       description: Add artisan to event
+      tags:
+        - Event Management
       operationId: addArtisan
       parameters:
-        - in: path
-          name: eventId
-          required: true
-          schema:
-            type: string
-          description: Event Id of the event to be fetched
+        - $ref: "#/components/parameters/eventId"
       requestBody:
         required: true
         content:
@@ -220,23 +208,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /event/{eventId}/artisan/{artisanId}:
+  /events/{eventId}/artisan/{artisanId}:
     delete:
       description: remove artisan from event
+      tags:
+        - Event Management
       operationId: removeArtisanEvent
       parameters:
-        - in: path
-          name: eventId
-          required: true
-          schema:
-            type: string
-          description: Event Id of the event to be updated
-        - in: path
-          name: artisanId
-          required: true
-          schema:
-            type: string
-          description: artisan Id of the event to be removed
+        - $ref: "#/components/parameters/eventId"
+        - $ref: "#/components/parameters/artisanId"
       responses:
         "200":
           description: Event Updated successfully
@@ -273,6 +253,21 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 components:
+  parameters:
+    eventId:
+      in: path
+      name: eventId
+      required: true
+      schema:
+        type: string
+      description: Event Id of the event to be updated
+    artisanId:
+      in: path
+      name: artisanId
+      required: true
+      schema:
+        type: string
+      description: artisan Id of the event to be removed
   schemas:
     Event:
       type: object

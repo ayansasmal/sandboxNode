@@ -12,3 +12,21 @@ components:
       properties:
         status:
           type: string
+
+tags:
+  - name: Artisan Management
+    description: Everything about managing the Artisans for Dastkar Exhibition System
+  - name: Event Management
+    description: Everything about managing the Events for Dastkar Exhibition System
+  - name: Campaign Management
+    description: Everything about managing the Campaigns for Dastkar Exhibition System
+  - name: Product Management
+    description: Everything about managing the Products for Dastkar Exhibition System
+  - name: Product Categories Management
+    description: Everything about managing the Categories of Products for Dastkar Exhibition System
+  - name: User Management
+    description: Everything about managing the Users for Dastkar Exhibition System
+  - name: Role Management
+    description: Everything about managing the Roles for the Users for Dastkar Exhibition System
+  - name: Session Management
+    description: Everything about managing the Session for Dastkar Exhibition System
