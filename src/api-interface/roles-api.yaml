@@ -34,7 +34,7 @@ paths:
                 $ref: "#/components/schemas/Status"
   /roles/{name}:
     parameters:
-      - $ref: "#/components/parameters/id"
+      - $ref: "#/components/parameters/name"
     get:
       description: Fetch detail of the role
       tags:
@@ -61,7 +61,7 @@ paths:
                 $ref: "#/components/schemas/Status"
 components:
   parameters:
-    id:
+    name:
       in: path
       name: name
       required: true

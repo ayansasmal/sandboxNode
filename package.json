@@ -6,7 +6,8 @@
   "scripts": {
     "start-once": "DB_SRC=local babel-node ./src/app.js",
     "start": "DB_SRC=local nodemon -e js,json,yaml --exec babel-node ./src/app.js",
-    "start-prod": "nodemon -e js,json,yaml --exec babel-node ./src/app.js"
+    "start-prod": "nodemon -e js,json,yaml --exec babel-node ./src/app.js",
+    "start-dummy": "nodemon -e js,json,yaml --exec babel-node ./src/dummy.js"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
@@ -16,9 +17,9 @@
     "express": "4.17.1",
     "express-openapi-validator": "^3.6.7",
     "jsonwebtoken": "8.5.1",
-    "mongodb": "^3.5.2",
+    "mongodb": "^3.5.3",
     "mongodb-memory-server": "6.2.4",
-    "mongoose": "^5.8.11",
+    "mongoose": "^5.8.12",
     "swagger-jsdoc": "^3.5.0",
     "swagger-parser": "^8.0.4",
     "swagger-routes-express": "^3.1.2",

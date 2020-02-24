@@ -2,6 +2,8 @@ components:
   schemas:
     Error:
       type: object
+      required:
+        - message
       properties:
         message:
           type: string
@@ -9,6 +11,8 @@ components:
           type: string
     Status:
       type: object
+      required:
+        - status
       properties:
         status:
           type: string

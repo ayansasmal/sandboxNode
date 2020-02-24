@@ -76,7 +76,7 @@ paths:
     delete:
       description: remove product
       tags:
-        - Product Categories Management
+        - Product Management
       operationId: removeProduct
       parameters:
         - in: path

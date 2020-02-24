@@ -7,7 +7,7 @@ const logger = initializeLogger("role-operations-js");
 
 mongoose.Promise = global.Promise;
 
-const create = function(name, description) {
+const create = async (name, description) => {
   logger.debug(
     `Creating and saving new role ${name} with description: "${description}"`
   );
@@ -19,7 +19,7 @@ const create = function(name, description) {
   }).save();
 };
 
-const fetchAll = function(fn) {
+const fetchAll = async fn => {
   logger.debug("Reading all the Tasks");
   return new Promise((resolve, reject) => {
     Role.find({}, (err, data) => {
@@ -32,7 +32,7 @@ const fetchAll = function(fn) {
   });
 };
 
-const fetch = role => {
+const fetch = async role => {
   logger.debug("Reading all the Tasks");
   return new Promise((resolve, reject) => {
     Role.find({ name: role }, (err, data) => {
@@ -45,7 +45,7 @@ const fetch = role => {
   });
 };
 
-const isValidRole = role => {
+const isValidRole = async role => {
   logger.debug(`Trying to validate ${role}`);
   return new Promise((resolve, reject) => {
     Role.findOne(role, (err, data) => {
@@ -58,16 +58,21 @@ const isValidRole = role => {
   });
 };
 
-const exists = role => {
+const exists = async role => {
   logger.debug(`Trying to find ${JSON.stringify(role)}`);
   return new Promise((resolve, reject) => {
     Role.findOne(role, (err, data) => {
+      if (err) {
+        reject({
+          status: "error",
+          message: "Unable to find role",
+          description: JSON.stringify(err)
+        });
+      }
       if (data) {
         resolve(true);
-      } else if (!data) {
-        resolve(false);
       } else {
-        reject({ status: "error", message: "Unable to find role" });
+        resolve(false);
       }
     });
   });

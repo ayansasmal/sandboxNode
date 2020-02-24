@@ -30,7 +30,7 @@ const swaggerDefinition = {
 };
 
 const options = {
-  // import swaggerDefinitions
+  // import basic swagger config
   swaggerDefinition,
   // path to the API docs
   apis: ["./src/api-interface/*.yaml"]

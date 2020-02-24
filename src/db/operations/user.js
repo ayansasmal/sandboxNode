@@ -8,8 +8,8 @@ const logger = initializeLogger("user-operations-js");
 
 mongoose.Promise = global.Promise;
 
-const create = function(user) {
-  logger.debug(`Creating and saving new user  "${JSON.stringify(user)}"`);
+const create = async user => {
+  logger.debug(`Creating and saving new user "${JSON.stringify(user)}"`);
   const newPass = password.encrypt(user.password);
   return new User({
     identifier: user.identifier,
@@ -22,12 +22,12 @@ const create = function(user) {
   }).save();
 };
 
-const fetchAll = function(fn) {
-  logger.debug("Reading all the Tasks");
+const fetchAll = async fn => {
+  logger.debug("Reading all the Users");
   User.find({}, fn);
 };
 
-const isUsernameAvailable = user => {
+const isUsernameAvailable = async user => {
   logger.debug(`Finding user ${JSON.stringify(user)}`);
   return new Promise((resolve, reject) => {
     User.find(user, (err, data) => {
@@ -48,7 +48,7 @@ const addRole = () => {
   logger.debug("Adding role to the current user");
 };
 
-const verify = user => {
+const verify = async user => {
   logger.debug(`Finding user ${JSON.stringify(user)}`);
   return new Promise((resolve, reject) => {
     if (user) {
@@ -72,7 +72,7 @@ const verify = user => {
 
 const update = () => {};
 
-const login = user => {
+const login = async user => {
   logger.debug(`Updating login for ${JSON.stringify(user)}`);
   return new Promise((resolve, reject) => {
     try {
