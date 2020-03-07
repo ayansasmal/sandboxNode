@@ -19,7 +19,7 @@ const create = async (name, description) => {
   }).save();
 };
 
-const fetchAll = async fn => {
+const fetchAll = async () => {
   logger.debug("Reading all the Tasks");
   return new Promise((resolve, reject) => {
     Role.find({}, (err, data) => {

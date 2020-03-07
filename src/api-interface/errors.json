@@ -1,0 +1,19 @@
+{
+  "errors": [
+    {
+      "code": "validation-error",
+      "message": "Error due to validation failure, please validate the parameters",
+      "description": ""
+    },
+    {
+      "code": "user-management-0001",
+      "message": "Unable to create user as username exists",
+      "description": ""
+    },
+    {
+      "code": "user-management-0002",
+      "message": "Unable to create user as username exists",
+      "description": ""
+    }
+  ]
+}
