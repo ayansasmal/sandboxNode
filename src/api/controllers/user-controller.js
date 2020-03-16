@@ -18,20 +18,6 @@ export const createUser = async (req, res) => {
   }
 };
 
-const createAvailableUsername = async (req, res) => {
-  try {
-    const createdUser = await Users.create(req.body);
-    logger.debug(`${JSON.stringify(createdUser)}`);
-    logger.debug(`Created User with id ${createdUser._id}`);
-    res.status(201);
-    res.json({ status: `User created with id ${createdUser._id}` });
-  } catch (err) {
-    logger.error(`Unable to create user ${JSON.stringify(err)}`);
-    res.status(400);
-    res.json(err);
-  }
-};
-
 const checkIfUsernameIsAvailable = async (req, res) => {
   const isUserNameAvailable = await Users.isUsernameAvailable({
     "identifier.username": req.body.identifier.username
@@ -51,6 +37,33 @@ const checkIfUsernameIsAvailable = async (req, res) => {
   }
 };
 
+const createAvailableUsername = async (req, res) => {
+  try {
+    const createdUser = await Users.create(req.body);
+    logger.debug(`${JSON.stringify(createdUser)}`);
+    logger.debug(`Created User with id ${createdUser._id}`);
+    res.status(201);
+    res.json({ status: `User created with id ${createdUser._id}` });
+  } catch (err) {
+    logger.error(`Unable to create user ${JSON.stringify(err)}`);
+    res.status(400);
+    res.json(err);
+  }
+};
+
+export const updateUser = async (req, res) => {
+  logger.debug(req.params);
+  logger.debug(`Updating the user ${JSON.stringify(req.body)}`);
+};
+
 export const removeUser = async (req, res) => {
-  logger.debug("removing user");
+  logger.debug(`Removing user ${JSON.stringify(req.body)}`);
+};
+
+export const fetchUser = async (req, res) => {
+  logger.debug(`Finding user ${JSON.stringify(req.body)}`);
+};
+
+export const fetchAllUsers = async (req, res) => {
+  logger.debug(`Fetch all users`);
 };

@@ -1,6 +1,12 @@
 import { initializeLogger } from "../utils/logger";
 import { loginUser, whoami } from "./controllers/login-controller";
-import { createUser } from "./controllers/user-controller";
+import {
+  createUser,
+  removeUser,
+  updateUser,
+  fetchUser,
+  fetchAllUsers
+} from "./controllers/user-controller";
 import {
   createRole,
   fetchAllRoles,
@@ -18,6 +24,10 @@ export default {
   healthCheck,
   loginUser,
   createUser,
+  removeUser,
+  updateUser,
+  fetchUser,
+  fetchAllUsers,
   whoami,
   createRole,
   getAllRoles: fetchAllRoles,

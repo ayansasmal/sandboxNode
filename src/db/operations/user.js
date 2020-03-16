@@ -22,26 +22,25 @@ const create = async user => {
   }).save();
 };
 
-const retrieveUser = async user => {
+const retrieveUser = async filter => {
   return new Promise((resolve, reject) => {
-    User.find(user, (err, data) => {
+    User.find(filter, (err, data) => {
+      if (err)
+        reject({
+          status: "Error",
+          message: err.message,
+          description: "unable to fetch user(s)"
+        });
       if (data === null || data.length === 0) {
-        reject({ status: "error", message: "cannot find the user" });
+        reject({ status: "error", message: "No Users found" });
+      } else {
         resolve({
           status: "success",
-          message: "username is available",
-          description: "no user found"
+          records: data
         });
-      } else {
-        reject({ status: "error", message: "username not available" });
       }
     });
   });
-};
-
-const fetchAll = async fn => {
-  logger.debug("Reading all the Users");
-  User.find({}, fn);
 };
 
 const isUsernameAvailable = async user => {
@@ -114,4 +113,4 @@ const login = async user => {
   });
 };
 
-export default { create, fetchAll, verify, isUsernameAvailable, login };
+export default { create, retrieveUser, verify, isUsernameAvailable, login };
