@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
-import { initializeLogger } from "../../utils/logger";
+
 import User from "../models/user";
 import LocaleDate from "../../utils/dateUtil";
 import password from "../../utils/password";
+
+import { initializeLogger } from "../../utils/logger";
 
 const logger = initializeLogger("user-operations-js");
 
@@ -15,7 +17,6 @@ const create = async user => {
     identifier: user.identifier,
     password: newPass.encryptedData,
     role: user.role,
-    createdOn: LocaleDate,
     lastLoggedIn: LocaleDate,
     isLoggedIn: false,
     iv: newPass.iv
@@ -23,24 +24,50 @@ const create = async user => {
 };
 
 const retrieveUser = async filter => {
+  logger.debug(`Filter ${JSON.stringify(filter)}`);
   return new Promise((resolve, reject) => {
-    User.find(filter, (err, data) => {
-      if (err)
-        reject({
-          status: "Error",
-          message: err.message,
-          description: "unable to fetch user(s)"
-        });
-      if (data === null || data.length === 0) {
-        reject({ status: "error", message: "No Users found" });
-      } else {
-        resolve({
-          status: "success",
-          records: data
-        });
-      }
-    });
+    try {
+      User.find(filter, (err, data) => {
+        if (err) {
+          logger.error(err);
+          reject({
+            status: "Error",
+            message: err.message,
+            description: "unable to fetch user(s)"
+          });
+        }
+        if (data === null || data === [] || data.length === 0) {
+          logger.error("Empty data set");
+          reject({ status: "error", message: "No Users found" });
+        } else {
+          logger.debug(`Got response ${data}`);
+          resolve({
+            status: "success",
+            records: sanitizeUserData(data)
+          });
+        }
+        return;
+      });
+    } catch (err) {
+      logger.error(err);
+      reject({
+        status: "Error",
+        message: err.message,
+        description: "unable to fetch user(s)"
+      });
+    }
   });
+};
+
+const sanitizeUserData = records => {
+  const sanitzedData = records.map(rec => {
+    rec.password = undefined;
+    rec.iv = undefined;
+    rec.isLoggedIn = undefined;
+    rec._id = undefined;
+    return rec;
+  });
+  return sanitzedData;
 };
 
 const isUsernameAvailable = async user => {
@@ -86,7 +113,7 @@ const verify = async user => {
   });
 };
 
-const update = () => {};
+const update = async user => {};
 
 const login = async user => {
   logger.debug(`Updating login for ${JSON.stringify(user)}`);

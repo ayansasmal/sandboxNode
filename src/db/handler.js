@@ -3,7 +3,9 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { initializeLogger } from "../utils/logger";
 import { configurations } from "./../config";
 
-const mongod = new MongoMemoryServer();
+const mongod = new MongoMemoryServer({
+  instance: { port: 53005, dbName: "dastkar-app" }
+});
 const logger = initializeLogger("handler-js");
 
 /**
@@ -11,7 +13,6 @@ const logger = initializeLogger("handler-js");
  */
 export async function connectDatabase() {
   logger.debug(`DB Configuration :: ${process.env.DB_SRC}`);
-
   let uri = configurations.MONGO_ONLINE_URL.replace(
     "<username>",
     configurations.MONGO_CREDS.SUPER.USERNAME
@@ -34,7 +35,7 @@ export async function connectDatabase() {
   };
 
   await connect(uri, mongooseOpts);
-  logger.debug("connected to db");
+  logger.debug(`connected to db at ${uri}`);
 }
 
 /**

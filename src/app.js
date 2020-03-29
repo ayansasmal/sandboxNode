@@ -6,6 +6,11 @@ import { connectDatabase } from "./db/handler";
 import { initializeLogger } from "./utils/logger";
 import { OpenApiValidator } from "express-openapi-validator";
 import { connector } from "swagger-routes-express";
+
+import { readHeaders } from "./utils/headerUtils";
+
+import AuditEvent from "../src/db/operations/audit";
+
 import api from "./api";
 
 const logger = initializeLogger("app-js");
@@ -47,6 +52,18 @@ app.use(
 app.get("/swagger.json", function(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
+});
+
+app.get("/api/audit/:id/history", async (req, res) => {
+  const history = await AuditEvent.fetchAudits();
+  res.status(200);
+  res.json(history);
+});
+
+app.use((req, res, next) => {
+  logger.debug("in middleware");
+  readHeaders(req);
+  next();
 });
 
 const loadRoutes = async app => {

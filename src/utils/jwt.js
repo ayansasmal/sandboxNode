@@ -5,7 +5,13 @@ export const logger = initializeLogger("jwt-utils");
 
 const pwd = "ayansasmalisthecreatorofappli";
 export const getToken = (data, isSigned) => {
-  return jwt.sign(data, pwd);
+  try {
+    logger.debug(`creating token with data :: ${JSON.stringify(data)}`);
+    return jwt.sign(data, pwd);
+  } catch (err) {
+    logger.error(`Error ${typeof err} :: ${err.name} ${err.message}`);
+    throw err;
+  }
 };
 
 export const getData = (token, isSigned) => {

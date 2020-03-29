@@ -1,7 +1,6 @@
 import Users from "../../db/operations/user";
 import { initializeLogger } from "../../utils/logger";
-
-import ErrorCode from "../../db/operations/errorCode";
+import login from "../../db/operations/login";
 
 const logger = initializeLogger("user-controller");
 
@@ -42,6 +41,12 @@ const createAvailableUsername = async (req, res) => {
     const createdUser = await Users.create(req.body);
     logger.debug(`${JSON.stringify(createdUser)}`);
     logger.debug(`Created User with id ${createdUser._id}`);
+    const createCreds = await login.createLoginCreds({
+      username: req.body.identifier.username,
+      email: req.body.identifier.email,
+      password: req.body.password
+    });
+    logger.debug(`Created login creds ${createCreds}`);
     res.status(201);
     res.json({ status: `User created with id ${createdUser._id}` });
   } catch (err) {
@@ -53,7 +58,9 @@ const createAvailableUsername = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   logger.debug(req.params);
-  logger.debug(`Updating the user ${JSON.stringify(req.body)}`);
+  logger.debug(
+    `Updating the user ${req.params.username} ${JSON.stringify(req.body)}`
+  );
 };
 
 export const removeUser = async (req, res) => {
@@ -61,9 +68,29 @@ export const removeUser = async (req, res) => {
 };
 
 export const fetchUser = async (req, res) => {
-  logger.debug(`Finding user ${JSON.stringify(req.body)}`);
+  logger.debug(`Finding user ${JSON.stringify(req.params)}`);
+  try {
+    const user = await Users.retrieveUser({});
+    logger.debug(`Fetched user ${JSON.stringify(user)}`);
+    res.status(200);
+    res.json(user.records[0]);
+  } catch (err) {
+    logger.error(`Unable to fetch user ${JSON.stringify(err)}`);
+    res.status(400);
+    res.json(err);
+  }
 };
 
 export const fetchAllUsers = async (req, res) => {
   logger.debug(`Fetch all users`);
+  try {
+    const users = await Users.retrieveUser({});
+    logger.debug(`Fetched users ${JSON.stringify(users)}`);
+    res.status(200);
+    res.json(users.records);
+  } catch (err) {
+    logger.error(`Unable to fetch users ${JSON.stringify(err)}`);
+    res.status(400);
+    res.json(err);
+  }
 };
