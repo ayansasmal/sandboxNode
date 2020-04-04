@@ -1,7 +1,7 @@
 import { initializeLogger } from "./logger";
 import { getData } from "./jwt";
 
-const logger = initializeLogger("header-utils.js");
+const logger = initializeLogger("header-utils-js");
 
 export let headers,
   username = "anonymous";
@@ -20,8 +20,10 @@ const readUserName = sessionJWT => {
       const data = getData(sessionJWT);
       logger.debug(`Data from jwt ${JSON.stringify(data)}`);
       username = data.username;
-      return username;
+    } else {
+      username = "anonymous";
     }
+    return username;
   } catch (err) {
     logger.error("Unable to fetch user name", err);
   }

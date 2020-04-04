@@ -17,7 +17,7 @@ export const loginUser = (req, res) => {
       })
       .catch(err => {
         logger.error(err);
-        res.status(500);
+        res.status(403);
         res.json(err);
       });
   } catch (err) {

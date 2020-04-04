@@ -54,9 +54,10 @@ LoginSchema.post("save", (doc, next) => {
   next();
 });
 
-LoginSchema.post("updateOne", { document: true, query: false }, (doc, next) => {
+// LoginSchema.post("updateOne", { document: true, query: false }, (doc, next) => {
+LoginSchema.post("updateOne", (doc, next) => {
   logger.debug(`Updating document ${JSON.stringify(doc)}`);
-  AuditEvent.createAudit("updating login credentials", doc);
+  AuditEvent.createAudit("updating login credentials", this);
   next();
 });
 

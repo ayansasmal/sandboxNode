@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { initializeLogger } from "../../utils/logger";
 import User from "./user";
-import password from "../../utils/password";
+import passwordUtils from "../../utils/password";
 import { getToken } from "../../utils/jwt";
 import Login from "../models/login";
 import LocaleDate from "../../utils/dateUtil";
@@ -19,12 +19,12 @@ const login = user => {
       if (fetchedLoginCreds.length === 1 && fetchedLoginCreds[0]) {
         const isValid = await validateLoginCreds(
           fetchedLoginCreds,
-          user,
-          resolve,
+          user.password,
           reject
         );
         logger.debug(`isValid ${JSON.stringify(isValid)}`);
         if (isValid) {
+          await getLoginResponse(user, resolve, reject);
           const updatedLoginCreds = await Login.updateOne(
             { username: user.username },
             { isLoggedIn: true, lastLoggedIn: LocaleDate }
@@ -76,7 +76,7 @@ const createLoginCreds = async login => {
       const fetchedCreds = await fetchLoginCreds({ username: login.username });
       if (!fetchedCreds || fetchedCreds.length === 0) {
         logger.debug("found no creds");
-        const newPass = password.encrypt(login.password);
+        const newPass = passwordUtils.encrypt(login.password);
         login.password = newPass.encryptedData;
         login.iv = newPass.iv;
         new Login(login).save((err, data) => {
@@ -101,25 +101,59 @@ const createLoginCreds = async login => {
   });
 };
 
+const updateLoginCreds = async loginCreds => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const fetchedLoginCreds = await fetchLoginCreds({
+        username: loginCreds.username
+      });
+      if (fetchedLoginCreds.length === 1 && fetchedLoginCreds[0]) {
+        const isValid = await validateLoginCreds(
+          fetchedLoginCreds,
+          loginCreds.oldPassword,
+          reject
+        );
+        logger.debug(`isValid ${JSON.stringify(isValid)}`);
+        if (isValid) {
+          const newPass = passwordUtils.encrypt(loginCreds.newPassword);
+          const updatedLoginCreds = await Login.updateOne(
+            { username: loginCreds.username },
+            { password: newPass.encryptedData, iv: newPass.iv }
+          );
+          logger.debug(`Updated creds ${JSON.stringify(updatedLoginCreds)}`);
+        } else {
+          logger.error(`invalid response ${JSON.stringify(isValid)}`);
+        }
+      } else {
+        logger.error(
+          `Unable to find creds ${JSON.stringify(fetchedLoginCreds)}`
+        );
+        reject({
+          status: "error",
+          message: "unable to find credentials for the user"
+        });
+      }
+    } catch (err) {
+      logger.error(err);
+      reject({ status: "Error", description: err.message });
+    }
+  });
+};
+
 export default { login, fetchLoginCreds, createLoginCreds };
 
-async function validateLoginCreds(fetchedLoginCreds, user, resolve, reject) {
+async function validateLoginCreds(fetchedLoginCreds, password, reject) {
   logger.debug(`Found login creds ${JSON.stringify(fetchedLoginCreds)}`);
-  if (
-    fetchedLoginCreds[0].iv &&
-    fetchedLoginCreds[0].password &&
-    user.password
-  ) {
+  if (fetchedLoginCreds[0].iv && fetchedLoginCreds[0].password && password) {
     logger.debug("validating provided password");
-    const freshPassword = password.encrypt(
-      user.password,
+    const freshPassword = passwordUtils.encrypt(
+      password,
       fetchedLoginCreds[0].iv
     ).encryptedData;
     logger.debug(
       `Calculated password ${freshPassword} Fetched password ${fetchedLoginCreds[0].password}`
     );
     if (freshPassword === fetchedLoginCreds[0].password) {
-      await getLoginResponse(user, resolve, reject);
       return true;
     } else {
       reject({ status: "error", message: "Password mismatch" });

@@ -10,7 +10,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 const colorizedFormat = format.colorize({
   colors: {
     info: "white italic",
-    debug: "green italic",
+    debug: "yellow italic",
     error: "black bgRed italic"
   },
   all: true
@@ -70,7 +70,7 @@ const initializeLogger = providedLabel => {
     timestamp({ format: timestampFormat }),
     myFormat
   );
-  logger.log("info", `created logger for ${providedLabel}`);
+  // logger.log("info", `created logger for ${providedLabel}`);
   return logger;
 };
 

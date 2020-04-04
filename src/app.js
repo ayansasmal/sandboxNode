@@ -7,7 +7,7 @@ import { initializeLogger } from "./utils/logger";
 import { OpenApiValidator } from "express-openapi-validator";
 import { connector } from "swagger-routes-express";
 
-import { readHeaders } from "./utils/headerUtils";
+import { readHeaders, username } from "./utils/headerUtils";
 
 import AuditEvent from "../src/db/operations/audit";
 
@@ -20,6 +20,8 @@ logger.info("Server is up and running");
 const app = express();
 app.use(express.json());
 app.disable("x-powered-by");
+
+const securityCheckExclusion = ["/login", "/audit"];
 
 const swaggerDefinition = {
   openapi: "3.0.2",
@@ -54,22 +56,37 @@ app.get("/swagger.json", function(req, res) {
   res.send(swaggerSpec);
 });
 
-app.get("/api/audit/:id/history", async (req, res) => {
-  const history = await AuditEvent.fetchAudits();
+app.get("/audit/:id/history", async (req, res) => {
+  const history = await AuditEvent.fetchAudits(req.params.id);
   res.status(200);
   res.json(history);
 });
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   logger.debug("in middleware");
-  readHeaders(req);
-  next();
+  const excluded = await isExcluded(req);
+  logger.debug(`${req.url} isExcluded ${excluded}`);
+  if (excluded) {
+    next();
+    return;
+  }
+  const headers = await readHeaders(req);
+  logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
+  if (username && username !== "anonymous") {
+    next();
+  } else {
+    await AuditEvent.createAudit(
+      "Failed security check",
+      JSON.stringify(req.body)
+    );
+    res.sendStatus(403);
+  }
 });
 
 const loadRoutes = async app => {
   const connect = connector(api, swaggerSpec, {
     onCreateRoute: (method, descriptor) => {
-      logger.debug(`Interface created : ${method} ${descriptor[0]}`);
+      // logger.debug(`Interface created : ${method} ${descriptor[0]}`);
     }
   });
   connect(app);
@@ -98,3 +115,13 @@ new OpenApiValidator({
       });
     });
   });
+const isExcluded = async req => {
+  var isExcluded = false;
+  securityCheckExclusion.forEach(excl => {
+    if (!isExcluded && (req.url === excl || req.url.startsWith(excl, 0))) {
+      // logger.debug(`found exclusion for ${req.url} ${excl}`);
+      isExcluded = true;
+    }
+  });
+  return isExcluded;
+};

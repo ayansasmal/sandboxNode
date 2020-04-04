@@ -7,13 +7,25 @@ const logger = initializeLogger("audit-operations-js");
 
 const createAudit = async (interaction, data) => {
   logger.debug(`creating audit ${JSON.stringify(interaction)}`);
-  return new Audit({ interaction, data, executedBy: username }).save();
+  return new Audit({
+    interaction,
+    data: sanitizeData(data),
+    executedBy: username
+  }).save();
 };
 
-const fetchAudits = async () => {
+const sanitizeData = data => {
+  if (data && typeof data !== "string") {
+    data.password = undefined;
+    data.iv = undefined;
+  }
+  return JSON.stringify(data);
+};
+
+const fetchAudits = async id => {
   return new Promise((resolve, reject) => {
     try {
-      Audit.find({}, (err, data) => {
+      Audit.find({ executedBy: id }, (err, data) => {
         if (err) {
           reject(err);
         }
