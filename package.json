@@ -7,18 +7,19 @@
     "start-once": "DB_SRC=local babel-node ./src/app.js",
     "start": "DB_SRC=local nodemon -e js,json,yaml --exec babel-node ./src/app.js",
     "start-prod": "nodemon -e js,json,yaml --exec babel-node ./src/app.js",
-    "start-dummy": "nodemon -e js,json,yaml --exec babel-node ./src/dummy.js"
+    "start-dummy": "nodemon -e js,json,yaml --exec babel-node ./src/dummy.js",
+    "env-dev": "env-cmd -e development nodemon -e js,json,yaml --exec babel-node ./src/app.js"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
-    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "express": "4.17.1",
     "express-openapi-validator": "^3.11.0",
     "jsonwebtoken": "8.5.1",
     "mongodb": "^3.5.5",
-    "mongodb-memory-server": "6.5.1",
+    "mongodb-memory-server": "6.5.2",
     "mongoose": "^5.9.7",
     "swagger-jsdoc": "^4.0.0",
     "swagger-parser": "^9.0.1",
@@ -29,7 +30,22 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "2.0.2"
+    "@types/babel__core": "^7.1.7",
+    "@types/express": "^4.17.6",
+    "@types/jest": "^25.2.1",
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/mongodb": "^3.5.5",
+    "@types/mongodb-memory-server": "^2.3.0",
+    "@types/mongoose": "^5.7.10",
+    "@types/swagger-jsdoc": "^3.0.2",
+    "@types/swagger-parser": "^7.0.1",
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/validator": "^13.0.0",
+    "@types/winston": "^2.4.4",
+    "babel-jest": "^25.3.0",
+    "env-cmd": "^10.1.0",
+    "jest": "^25.3.0",
+    "nodemon": "2.0.3"
   },
   "keywords": []
 }
