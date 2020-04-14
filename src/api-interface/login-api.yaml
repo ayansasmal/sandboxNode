@@ -40,6 +40,10 @@ paths:
               schema:
                 type: string
                 example: sessionid=abcde12345; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
         "401":
           description: Username and password combination is incorrect
           content:

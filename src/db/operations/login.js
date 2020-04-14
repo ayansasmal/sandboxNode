@@ -1,20 +1,20 @@
 import mongoose from "mongoose";
 import { initializeLogger } from "../../utils/logger";
 import User from "./user";
-import passwordUtils from "../../utils/password";
 import { getToken } from "../../utils/jwt";
 import Login from "../models/login";
 import LocaleDate from "../../utils/dateUtil";
+import bcrypt from "bcrypt";
 
 const logger = initializeLogger("login-operations-js");
 mongoose.Promise = global.Promise;
 
-const login = user => {
+const login = (user) => {
   logger.debug(`Logging in for the user ${JSON.stringify(user)}`);
   return new Promise(async (resolve, reject) => {
     try {
       const fetchedLoginCreds = await fetchLoginCreds({
-        username: user.username
+        username: user.username,
       });
       if (fetchedLoginCreds.length === 1 && fetchedLoginCreds[0]) {
         const isValid = await validateLoginCreds(
@@ -39,7 +39,7 @@ const login = user => {
         );
         reject({
           status: "error",
-          message: "unable to find credentials for the user"
+          message: "unable to find credentials for the user",
         });
       }
     } catch (err) {
@@ -49,7 +49,7 @@ const login = user => {
   });
 };
 
-const fetchLoginCreds = async user => {
+const fetchLoginCreds = async (user) => {
   return new Promise((resolve, reject) => {
     logger.debug(`Searching for ${JSON.stringify(user)}`);
     Login.find(user, (err, data) => {
@@ -69,24 +69,24 @@ const fetchLoginCreds = async user => {
   });
 };
 
-const createLoginCreds = async login => {
+const createLoginCreds = async (login) => {
   return new Promise(async (resolve, reject) => {
     try {
       logger.debug(`creating the login creds with ${JSON.stringify(login)}`);
       const fetchedCreds = await fetchLoginCreds({ username: login.username });
       if (!fetchedCreds || fetchedCreds.length === 0) {
         logger.debug("found no creds");
-        const newPass = passwordUtils.encrypt(login.password);
-        login.password = newPass.encryptedData;
-        login.iv = newPass.iv;
+        const hashedPassword = await bcrypt.hash(login.password, 10);
+        login.password = hashedPassword;
         new Login(login).save((err, data) => {
           if (err) {
+            logger.error(err);
             reject({ status: "error", message: "Unable to save login creds" });
           }
           if (data) {
             resolve({
               status: "success",
-              message: `User login creds created with ${data._id}`
+              message: `User login creds created with ${data._id}`,
             });
           }
         });
@@ -101,11 +101,11 @@ const createLoginCreds = async login => {
   });
 };
 
-const updateLoginCreds = async loginCreds => {
+const updateLoginCreds = async (loginCreds) => {
   return new Promise(async (resolve, reject) => {
     try {
       const fetchedLoginCreds = await fetchLoginCreds({
-        username: loginCreds.username
+        username: loginCreds.username,
       });
       if (fetchedLoginCreds.length === 1 && fetchedLoginCreds[0]) {
         const isValid = await validateLoginCreds(
@@ -115,10 +115,10 @@ const updateLoginCreds = async loginCreds => {
         );
         logger.debug(`isValid ${JSON.stringify(isValid)}`);
         if (isValid) {
-          const newPass = passwordUtils.encrypt(loginCreds.newPassword);
+          const hashedPassword = await bcrypt.hash(loginCreds.newPassword);
           const updatedLoginCreds = await Login.updateOne(
             { username: loginCreds.username },
-            { password: newPass.encryptedData, iv: newPass.iv }
+            { password: hashedPassword }
           );
           logger.debug(`Updated creds ${JSON.stringify(updatedLoginCreds)}`);
         } else {
@@ -130,7 +130,7 @@ const updateLoginCreds = async loginCreds => {
         );
         reject({
           status: "error",
-          message: "unable to find credentials for the user"
+          message: "unable to find credentials for the user",
         });
       }
     } catch (err) {
@@ -144,16 +144,13 @@ export default { login, fetchLoginCreds, createLoginCreds };
 
 async function validateLoginCreds(fetchedLoginCreds, password, reject) {
   logger.debug(`Found login creds ${JSON.stringify(fetchedLoginCreds)}`);
-  if (fetchedLoginCreds[0].iv && fetchedLoginCreds[0].password && password) {
+  if (fetchedLoginCreds[0].password && password) {
     logger.debug("validating provided password");
-    const freshPassword = passwordUtils.encrypt(
+    const isValid = await bcrypt.compare(
       password,
-      fetchedLoginCreds[0].iv
-    ).encryptedData;
-    logger.debug(
-      `Calculated password ${freshPassword} Fetched password ${fetchedLoginCreds[0].password}`
+      fetchedLoginCreds[0].password
     );
-    if (freshPassword === fetchedLoginCreds[0].password) {
+    if (isValid) {
       return true;
     } else {
       reject({ status: "error", message: "Password mismatch" });
@@ -167,7 +164,7 @@ async function getLoginResponse(user, resolve, reject) {
   try {
     logger.debug("Passwords match");
     const userDetails = await User.retrieveUser({
-      "identifier.username": user.username
+      "identifier.username": user.username,
     });
     logger.debug(`User details ${JSON.stringify(userDetails)}`);
     if (userDetails && userDetails.records.length === 1) {
@@ -182,13 +179,13 @@ async function getLoginResponse(user, resolve, reject) {
       logger.debug(`Details ${JSON.stringify(detail)}`);
       resolve({
         data: detail,
-        jwt: getToken(detail, true)
+        jwt: getToken(detail, true),
       });
       return true;
     } else {
       reject({
         status: "error",
-        message: "Multiple or no  users found"
+        message: "Multiple or no  users found",
       });
       return false;
     }

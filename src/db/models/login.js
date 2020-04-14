@@ -11,7 +11,7 @@ const LoginSchema = new mongoose.Schema(
     username: {
       type: String,
       trim: true,
-      lowercase: true
+      lowercase: true,
     },
     email: {
       type: String,
@@ -21,7 +21,7 @@ const LoginSchema = new mongoose.Schema(
         if (!Validator.isEmail(value)) {
           throw new Error("Provided email is not valid");
         }
-      }
+      },
     },
     password: {
       type: String,
@@ -32,18 +32,14 @@ const LoginSchema = new mongoose.Schema(
         if (value.toLowerCase().trim() === "password") {
           throw new Error("Entered password is not allowed");
         }
-      }
-    },
-    iv: {
-      type: String,
-      required: true
+      },
     },
     lastLoggedIn: {
-      type: String
+      type: String,
     },
     isLoggedIn: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
@@ -61,7 +57,7 @@ LoginSchema.post("updateOne", (doc, next) => {
   next();
 });
 
-LoginSchema.post("find", result => {
+LoginSchema.post("find", (result) => {
   logger.debug(`Query ${JSON.stringify(this)}`);
   AuditEvent.createAudit("searching login credentials", this);
   logger.debug(`Found ${JSON.stringify(result)}`);
