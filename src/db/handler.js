@@ -3,6 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { initializeLogger } from "../utils/logger";
 
 const logger = initializeLogger("handler-js");
+let mongod = undefined;
 
 /**
  * Connect to the in-memory database.
@@ -19,9 +20,9 @@ export async function connectDatabase() {
       : undefined;
 
   try {
-    if (process.env.ENV === "dev") {
+    if (process.env.ENV === "dev" || process.env.ENV === "test") {
       logger.debug("Connecting to local DB");
-      const mongod = new MongoMemoryServer({
+      mongod = new MongoMemoryServer({
         instance: { port: 53005, dbName: process.env.DB_NAME },
       });
       uri = await mongod.getConnectionString();
@@ -36,7 +37,7 @@ export async function connectDatabase() {
     await connect(uri, mongooseOpts);
     logger.debug(`connected to db at ${uri}`);
   } catch (err) {
-    logger.err("Unable to connect to DB");
+    logger.error("Unable to connect to DB");
     logger.error(err);
   }
 }
@@ -45,9 +46,14 @@ export async function connectDatabase() {
  * Drop database, close the connection and stop mongod.
  */
 export async function closeDatabase() {
-  await connection.dropDatabase();
-  await connection.close();
-  await mongod.stop();
+  if (mongod) {
+    logger.debug("Closing DB connection");
+    await connection.dropDatabase();
+    await connection.close();
+    await mongod.stop();
+  } else {
+    logger.error("DB is not connected...");
+  }
 }
 
 /**

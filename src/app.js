@@ -67,6 +67,7 @@ app.use(async (req, res, next) => {
     next();
     return;
   }
+  //res.writeHeader(200, { "Content-Type": "application/json" });
   const headers = await readHeaders(req);
   logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
   if (username && username !== "anonymous") {
@@ -76,6 +77,7 @@ app.use(async (req, res, next) => {
       body: JSON.stringify(req.body),
       uri: req.path,
     });
+    //res.set("Content-Type", "application/json");
     res.sendStatus(403);
   }
 });
