@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Validator from "validator";
 import AuditEvent from "../operations/audit";
+import bcrypt from "bcrypt";
 
 import { initializeLogger } from "../../utils/logger";
 
@@ -28,8 +29,9 @@ const LoginSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
       trim: true,
-      validate(value) {
-        if (value.toLowerCase().trim() === "password") {
+      async validate(value) {
+        const comparison = await bcrypt.compare("password", value);
+        if (comparison) {
           throw new Error("Entered password is not allowed");
         }
       },
