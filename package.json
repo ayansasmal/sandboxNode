@@ -8,7 +8,8 @@
     "start": "env-cmd -e development nodemon -e js,json,yaml --exec babel-node ./src/index.js",
     "start-prod": "env-cmd -e production nodemon -e js,json,yaml --exec babel-node ./src/index.js",
     "start-dummy": "nodemon -e js,json,yaml --exec babel-node ./src/dummy.js",
-    "test": "env-cmd -e test jest --coverage --watchAll"
+    "test": "env-cmd -e test jest --coverage",
+    "test-watch": "env-cmd -e test jest --coverage --watchAll"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
