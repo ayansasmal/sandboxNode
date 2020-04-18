@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 app.disable("x-powered-by");
 
-const securityCheckExclusion = ["/login", "/audit"];
+const securityCheckExclusion = ["/login", "/audit", "/whoami"];
 
 const swaggerDefinition = {
   openapi: "3.0.3",
@@ -77,8 +77,9 @@ app.use(async (req, res, next) => {
       body: JSON.stringify(req.body),
       uri: req.path,
     });
-    //res.set("Content-Type", "application/json");
-    res.sendStatus(403);
+    res.set("Content-Type", "application/json");
+    res.status(403);
+    res.end();
   }
 });
 

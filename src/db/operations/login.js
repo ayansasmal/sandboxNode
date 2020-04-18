@@ -10,29 +10,18 @@ const logger = initializeLogger("login-operations-js");
 mongoose.Promise = global.Promise;
 
 const login = (user) => {
-  logger.debug(`Logging in for the user ${JSON.stringify(user)}`);
-  return new Promise(async (resolve, reject) => {
-    try {
+  try {
+    if (!user) {
+      throw new Error("User cannot be undefined");
+    }
+    logger.debug(`Logging in for the user ${JSON.stringify(user)}`);
+    return new Promise(async (resolve, reject) => {
+
       const fetchedLoginCreds = await fetchLoginCreds({
         username: user.username,
       });
       if (fetchedLoginCreds.length === 1 && fetchedLoginCreds[0]) {
-        const isValid = await validateLoginCreds(
-          fetchedLoginCreds,
-          user.password,
-          reject
-        );
-        logger.debug(`isValid ${JSON.stringify(isValid)}`);
-        if (isValid) {
-          await getLoginResponse(user, resolve, reject);
-          const updatedLoginCreds = await Login.updateOne(
-            { username: user.username },
-            { isLoggedIn: true, lastLoggedIn: LocaleDate }
-          );
-          logger.debug(`Updated creds ${JSON.stringify(updatedLoginCreds)}`);
-        } else {
-          logger.error(`invalid response ${JSON.stringify(isValid)}`);
-        }
+        await validateCredentialsForLogin(fetchedLoginCreds, user, reject, resolve);
       } else {
         logger.error(
           `Unable to find creds ${JSON.stringify(fetchedLoginCreds)}`
@@ -42,11 +31,12 @@ const login = (user) => {
           message: "unable to find credentials for the user",
         });
       }
-    } catch (err) {
-      logger.error(err);
-      reject({ status: "Error", description: err.message });
-    }
-  });
+
+    });
+  } catch (err) {
+    logger.error(err);
+    reject({ status: "Error", description: err.message });
+  }
 };
 
 const fetchLoginCreds = async (user) => {
@@ -108,22 +98,7 @@ const updateLoginCreds = async (loginCreds) => {
         username: loginCreds.username,
       });
       if (fetchedLoginCreds.length === 1 && fetchedLoginCreds[0]) {
-        const isValid = await validateLoginCreds(
-          fetchedLoginCreds,
-          loginCreds.oldPassword,
-          reject
-        );
-        logger.debug(`isValid ${JSON.stringify(isValid)}`);
-        if (isValid) {
-          const hashedPassword = await bcrypt.hash(loginCreds.newPassword);
-          const updatedLoginCreds = await Login.updateOne(
-            { username: loginCreds.username },
-            { password: hashedPassword }
-          );
-          logger.debug(`Updated creds ${JSON.stringify(updatedLoginCreds)}`);
-        } else {
-          logger.error(`invalid response ${JSON.stringify(isValid)}`);
-        }
+        await validateCredentialsForUpdate(fetchedLoginCreds, loginCreds, reject);
       } else {
         logger.error(
           `Unable to find creds ${JSON.stringify(fetchedLoginCreds)}`
@@ -142,7 +117,34 @@ const updateLoginCreds = async (loginCreds) => {
 
 export default { login, fetchLoginCreds, createLoginCreds };
 
-async function validateLoginCreds(fetchedLoginCreds, password, reject) {
+async function validateCredentialsForLogin(fetchedLoginCreds, user, reject, resolve) {
+  const isValid = await validatePasswords(fetchedLoginCreds, user.password, reject);
+  logger.debug(`isValid ${JSON.stringify(isValid)}`);
+  if (isValid) {
+    await getLoginResponse(user, resolve, reject);
+    const updatedLoginCreds = await Login.updateOne({ username: user.username }, { isLoggedIn: true, lastLoggedIn: LocaleDate });
+    logger.debug(`Updated creds ${JSON.stringify(updatedLoginCreds)}`);
+  }
+  else {
+    logger.error(`invalid response ${JSON.stringify(isValid)}`);
+    reject({ status: "error", message: "invalid credentials" });
+  }
+}
+
+async function validateCredentialsForUpdate(fetchedLoginCreds, loginCreds, reject) {
+  const isValid = await validatePasswords(fetchedLoginCreds, loginCreds.oldPassword, reject);
+  logger.debug(`isValid ${JSON.stringify(isValid)}`);
+  if (isValid) {
+    const hashedPassword = await bcrypt.hash(loginCreds.newPassword);
+    const updatedLoginCreds = await Login.updateOne({ username: loginCreds.username }, { password: hashedPassword });
+    logger.debug(`Updated creds ${JSON.stringify(updatedLoginCreds)}`);
+  }
+  else {
+    logger.error(`invalid response ${JSON.stringify(isValid)}`);
+  }
+}
+
+async function validatePasswords(fetchedLoginCreds, password, reject) {
   logger.debug(`Found login creds ${JSON.stringify(fetchedLoginCreds)}`);
   if (fetchedLoginCreds[0].password && password) {
     logger.debug("validating provided password");

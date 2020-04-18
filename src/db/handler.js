@@ -20,10 +20,18 @@ export async function connectDatabase() {
       : undefined;
 
   try {
-    if (process.env.ENV === "dev" || process.env.ENV === "test") {
+    logger.debug(`Environment :: ${process.env.ENV}`)
+    if (process.env.ENV === "dev") {
       logger.debug("Connecting to local DB");
       mongod = new MongoMemoryServer({
         instance: { port: 53005, dbName: process.env.DB_NAME },
+      });
+      uri = await mongod.getConnectionString();
+    }
+    else if (process.env.ENV === "test") {
+      logger.debug("Connecting to local DB");
+      mongod = new MongoMemoryServer({
+        instance: { port: 43005, dbName: process.env.DB_NAME },
       });
       uri = await mongod.getConnectionString();
     }
@@ -46,7 +54,7 @@ export async function connectDatabase() {
  * Drop database, close the connection and stop mongod.
  */
 export async function closeDatabase() {
-  if (mongod) {
+  if (mongod && connection.db) {
     logger.debug("Closing DB connection");
     await connection.dropDatabase();
     await connection.close();

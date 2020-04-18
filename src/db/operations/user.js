@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 import User from "../models/user";
 import LocaleDate from "../../utils/dateUtil";
-import password from "../../utils/password";
 
 import { initializeLogger } from "../../utils/logger";
 
@@ -12,14 +11,14 @@ mongoose.Promise = global.Promise;
 
 const create = async user => {
   logger.debug(`Creating and saving new user "${JSON.stringify(user)}"`);
-  const newPass = password.encrypt(user.password);
+  //const newPass = password.encrypt(user.password);
   return new User({
     identifier: user.identifier,
-    password: newPass.encryptedData,
+    //password: newPass.encryptedData,
     role: user.role,
     lastLoggedIn: LocaleDate,
-    isLoggedIn: false,
-    iv: newPass.iv
+    isLoggedIn: false
+    //iv: newPass.iv
   }).save();
 };
 
@@ -61,8 +60,8 @@ const retrieveUser = async filter => {
 
 const sanitizeUserData = records => {
   const sanitzedData = records.map(rec => {
-    rec.password = undefined;
-    rec.iv = undefined;
+    //rec.password = undefined;
+    //rec.iv = undefined;
     rec.isLoggedIn = undefined;
     rec._id = undefined;
     return rec;
