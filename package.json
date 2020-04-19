@@ -30,8 +30,10 @@
     "swagger-routes-express": "^3.1.2",
     "swagger-ui": "^3.25.0",
     "swagger-ui-express": "^4.1.4",
+    "uuid": "^7.0.3",
     "validator": "13.0.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "winston-mongodb": "^5.0.1"
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.7",

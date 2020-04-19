@@ -6,15 +6,39 @@ const logger = initializeLogger("user-controller");
 
 export const createUser = async (req, res) => {
   logger.debug("Create user");
-  if (req.body) {
-    try {
-      await checkIfUsernameIsAvailable(req, res);
-    } catch (err) {
-      logger.error(err);
+  try {
+    // if (!req.body || !req.body.identifier) {
+    //   throw new Error('Request Body cannot be empty or null');
+    // }
+    const isAvailable = await checkIfUsernameIsAvailable(req, res);
+    if (isAvailable) {
+      const id = await createAvailableUsername(req, res);
+      logger.debug(`ID of created User ${id}`)
+      if (id) {
+        const createCreds = await login.createLoginCreds({
+          username: req.body.identifier.username,
+          email: req.body.identifier.email,
+          password: req.body.password
+        });
+        logger.debug(`Created login creds ${JSON.stringify(createCreds)}`);
+        res.status(201);
+        res.json({ status: `User created with id ${id}` });
+      } else {
+        res.status(400);
+        res.json({ status: "error", message: "Username is not available" });
+      }
+
+    } else {
       res.status(400);
-      res.json(err);
+      res.json({ status: "error", message: "Username is not available" });
     }
+
+  } catch (err) {
+    logger.error('Unable to create user', err);
+    res.status(400);
+    res.json(err);
   }
+
 };
 
 const checkIfUsernameIsAvailable = async (req, res) => {
@@ -26,13 +50,13 @@ const checkIfUsernameIsAvailable = async (req, res) => {
     logger.debug(
       `User name is valid and available ${JSON.stringify(isUserNameAvailable)}`
     );
-    await createAvailableUsername(req, res);
+    return true;
+
   } else {
     logger.error(
       `Unable to create user ${req.body.identifier.username} as it exists`
     );
-    res.status(400);
-    res.json(isUserNameAvailable);
+    return false;
   }
 };
 
@@ -41,19 +65,13 @@ const createAvailableUsername = async (req, res) => {
     const createdUser = await Users.create(req.body);
     logger.debug(`${JSON.stringify(createdUser)}`);
     logger.debug(`Created User with id ${createdUser._id}`);
-    const createCreds = await login.createLoginCreds({
-      username: req.body.identifier.username,
-      email: req.body.identifier.email,
-      password: req.body.password
-    });
-    logger.debug(`Created login creds ${createCreds}`);
-    res.status(201);
-    res.json({ status: `User created with id ${createdUser._id}` });
+    return createdUser._id;
   } catch (err) {
     logger.error(`Unable to create user ${JSON.stringify(err)}`);
     res.status(400);
     res.json(err);
   }
+  return;
 };
 
 export const updateUser = async (req, res) => {

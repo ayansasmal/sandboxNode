@@ -1,10 +1,16 @@
 import winston from "winston";
+import { MongoDB } from "winston-mongodb";
+
+import { format as logformFormat } from "logform";
 
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, label, printf } = format;
 
+let sessionId = 'default';
+
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  return `${timestamp} [${label}] ${level} : ${message}`;
+  message = `${timestamp} ${sessionId} [${label}] ${level} : ${message}`;
+  return message;
 });
 
 const colorizedFormat = format.colorize({
@@ -28,7 +34,7 @@ const createConsoleTransport = () => {
   });
 };
 
-const createTransports = () => {
+const createTransports = providedLabel => {
   const transportArray = [
     new transports.File({ filename: "log/error.log", level: "error" })
   ];
@@ -39,7 +45,14 @@ const createTransports = () => {
   transportArray.push(
     new transports.File({ filename: "log/combined.log", level: "debug" })
   );
-  transportArray.push(createConsoleTransport());
+
+  transportArray.push(new MongoDB({
+    db: "mongodb://127.0.0.1:27017/",
+    level: 'debug',
+    label: providedLabel,
+    metaKey: "meta"
+  }))
+
   return transportArray;
 };
 
@@ -61,7 +74,7 @@ const initializeLogger = providedLabel => {
       timestamp({ format: timestampFormat }),
       myFormat
     ),
-    transports: createTransports(),
+    transports: createTransports(providedLabel),
     exceptionHandlers: createExceptionHandlers(),
     exitOnError: false
   });
@@ -70,8 +83,19 @@ const initializeLogger = providedLabel => {
     timestamp({ format: timestampFormat }),
     myFormat
   );
-  // logger.log("info", `created logger for ${providedLabel}`);
+
+  logger.debug = (message, obj) => {
+    logger.log("debug", message, { meta: { ...obj, sessionId } });
+  }
+
+  logger.error = (message, obj) => {
+    logger.log("error", message, { meta: { error: { ...obj }, sessionId } });
+  }
   return logger;
 };
 
-export { initializeLogger };
+const setSessionId = sId => {
+  sessionId = sId;
+}
+
+export { initializeLogger, setSessionId };

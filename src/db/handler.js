@@ -31,7 +31,7 @@ export async function connectDatabase() {
     else if (process.env.ENV === "test") {
       logger.debug("Connecting to local DB");
       mongod = new MongoMemoryServer({
-        instance: { port: 43005, dbName: process.env.DB_NAME },
+        instance: {dbName: process.env.DB_NAME },
       });
       uri = await mongod.getConnectionString();
     }

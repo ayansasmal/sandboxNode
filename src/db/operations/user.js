@@ -11,14 +11,11 @@ mongoose.Promise = global.Promise;
 
 const create = async user => {
   logger.debug(`Creating and saving new user "${JSON.stringify(user)}"`);
-  //const newPass = password.encrypt(user.password);
   return new User({
     identifier: user.identifier,
-    //password: newPass.encryptedData,
     role: user.role,
     lastLoggedIn: LocaleDate,
     isLoggedIn: false
-    //iv: newPass.iv
   }).save();
 };
 

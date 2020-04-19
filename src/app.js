@@ -2,7 +2,7 @@ import express from "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { connectDatabase } from "./db/handler";
-import { initializeLogger } from "./utils/logger";
+import { initializeLogger, setSessionId } from "./utils/logger";
 import { OpenApiValidator } from "express-openapi-validator";
 import { connector } from "swagger-routes-express";
 
@@ -11,6 +11,7 @@ import { readHeaders, username } from "./utils/headerUtils";
 import AuditEvent from "../src/db/operations/audit";
 
 import api from "./api";
+import {v4 as uuidv4} from "uuid";
 
 const logger = initializeLogger("app-js");
 
@@ -60,6 +61,7 @@ app.get("/audit/:id/history", async (req, res) => {
 });
 
 app.use(async (req, res, next) => {
+  setSessionId(uuidv4());
   logger.debug("in middleware");
   const excluded = await isExcluded(req);
   logger.debug(`${req.url} isExcluded ${excluded}`);
