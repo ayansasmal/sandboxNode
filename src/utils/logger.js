@@ -25,7 +25,7 @@ const colorizedFormat = format.colorize({
 const timestampFormat = "YYYY-MM-DD HH:mm:ss.SSS";
 
 const isProductionEnv =
-  process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production";
+  process.env.ENV === "prod" || process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production";
 
 const createConsoleTransport = () => {
   return new transports.Console({
