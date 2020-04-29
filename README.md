@@ -26,4 +26,5 @@ The OAS for the APIs is available on [Swagger Docs](http://localhost:8080/api-do
 
 ## Commits
 [![GitHub last commit](https://img.shields.io/github/last-commit/ayansasmal/sandboxNode/master?style=flat)]()
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ayansasmal/sandboxNode?style=flat)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ayansasmal/sandboxNode)]()
+
