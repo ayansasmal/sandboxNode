@@ -25,5 +25,5 @@ The OAS for the APIs is available on [Swagger Docs](http://localhost:8080/api-do
 [![CodeCov](https://codecov.io/gh/ayansasmal/sandboxNode/branch/master/graph/badge.svg)](https://codecov.io/gh/ayansasmal/sandboxNode)
 
 ## Commits
-[![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg?style=flat)]()
-[![GitHub commit activity the past week, 4 weeks](https://img.shields.io/github/commit-activity/y/eslint/eslint.svg?style=flat)]()
+[![GitHub last commit](https://img.shields.io/github/last-commit/ayansasmal/sandboxNode/master?style=flat)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ayansasmal/sandboxNode?style=flat)]()
