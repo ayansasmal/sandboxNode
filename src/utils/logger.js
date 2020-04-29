@@ -6,7 +6,7 @@ import { format as logformFormat } from "logform";
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, label, printf } = format;
 
-let sessionId = 'default';
+let sessionId = undefined;
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
   message = `${timestamp} ${sessionId} [${label}] ${level} : ${message}`;
@@ -50,8 +50,11 @@ const createTransports = providedLabel => {
     db: "mongodb://127.0.0.1:27017/",
     level: 'debug',
     label: providedLabel,
-    metaKey: "meta"
+    metaKey: "meta",
+    useUnifiedTopology: true
   }))
+
+  // transportArray.push(createConsoleTransport());
 
   return transportArray;
 };

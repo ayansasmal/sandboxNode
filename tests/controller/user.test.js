@@ -18,6 +18,10 @@ beforeAll(async () => {
   await clearDatabase();
 });
 
+afterEach(async () => {
+  await clearDatabase();
+})
+
 afterAll(async () => {
   await closeDatabase();
 });
@@ -43,7 +47,7 @@ test("Test to check User creation", async () => {
     })
     .set("Accept", "application/json")
     .set(
-      "session",
+      "authorization",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
     )
     .expect("Content-Type", "application/json; charset=utf-8")
@@ -80,7 +84,7 @@ test("Test to check User creation with invalid password", async () => {
     })
     .set("Accept", "application/json")
     .set(
-      "session",
+      "authorization",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
     )
     .expect("Content-Type", "application/json; charset=utf-8")
@@ -104,7 +108,7 @@ test("Test to check User creation with invalid email", async () => {
     })
     .set("Accept", "application/json")
     .set(
-      "session",
+      "authorization",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
     )
     .expect("Content-Type", "application/json; charset=utf-8")
@@ -118,7 +122,7 @@ test("Test to check User creation with blank details", async () => {
     .send({})
     .set("Accept", "application/json")
     .set(
-      "session",
+      "authorization",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
     )
     .expect("Content-Type", "application/json; charset=utf-8")
@@ -142,7 +146,7 @@ test("Test to check User creation with duplicate username", async () => {
   })
   .set("Accept", "application/json")
   .set(
-    "session",
+    "authorization",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
   )
   .expect("Content-Type", "application/json; charset=utf-8")
@@ -163,159 +167,149 @@ test("Test to check User creation with duplicate username", async () => {
     })
     .set("Accept", "application/json")
     .set(
-      "session",
+      "authorization",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
     )
     .expect("Content-Type", "application/json; charset=utf-8")
     .expect(400);
 });
 
-/*
-test("Test to check if login is valid", async () => {
-  testLogger.debug("Test to check if login is valid...");
-  await request(appServer)
-    .post("/login")
-    .send({ username: "ayansasmal", password: "ayansasmal" })
+test("Test User creation with invalid emailaddress", async () => {
+  try {
+   await new UserModel({
+      identifier: {
+        username: "ayansasmal2",
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi@gma@il.com",
+        mobileNumber: "0452299076",
+      },
+      role: ["dastkar-app-creator", "dastkar-super-user"],
+    }).save();
+  } catch (err){
+    testLogger.error('Unable to save', err);
+  }
+});
+
+test("Test to fetch User details", async () => {
+  testLogger.debug("Test to fetch User details");
+  const response = await request(appServer)
+  .post("/user")
+  .send({
+    identifier: {
+      username: "ayansasmal3",
+      firstName: "Ayan",
+      lastName: "sasmal",
+      email: "ayandeli@gmail.com",
+      mobileNumber: "0452299076",
+    },
+    password: "ayansasmal1",
+    role: ["dastkar-app-creator", "dastkar-super-user"],
+  })
+  .set("Accept", "application/json")
+  .set(
+    "authorization",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+  )
+  .expect("Content-Type", "application/json; charset=utf-8")
+  .expect(201);
+
+  const responseFetch = await request(appServer)
+    .get("/user/ayansasmal3")
     .set("Accept", "application/json")
-    .expect(204);
+    .set(
+      "authorization",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+    )
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(200);
+    
+    expect(responseFetch.body.identifier.username).toBe('ayansasmal3');
 });
 
-test("Test to check if login is valid with blank inputs", async () => {
-  testLogger.debug("Test to check if login is valid...");
-  await request(appServer)
-    .post("/login")
-    .send({ username: "", password: "123" })
+
+test("Test to fetch invalid User details", async () => {
+  testLogger.debug("Test to fetch User details");
+  const response = await request(appServer)
+  .post("/user")
+  .send({
+    identifier: {
+      username: "ayansasmal3",
+      firstName: "Ayan",
+      lastName: "sasmal",
+      email: "ayandeli@gmail.com",
+      mobileNumber: "0452299076",
+    },
+    password: "ayansasmal1",
+    role: ["dastkar-app-creator", "dastkar-super-user"],
+  })
+  .set("Accept", "application/json")
+  .set(
+    "authorization",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+  )
+  .expect("Content-Type", "application/json; charset=utf-8")
+  .expect(201);
+
+  const responseFetch = await request(appServer)
+    .get("/user/ayansasmal33")
     .set("Accept", "application/json")
-    .expect(500);
+    .set(
+      "authorization",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+    )
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(400);
 });
 
-test("Test to check if login is invalid with incorrect password", async () => {
-  testLogger.debug("Test to check if login is valid...");
-  await request(appServer)
-    .post("/login")
-    .send({ username: "ayansasmal", password: "ayansasmal1" })
+test("Test to fetch all users", async () => {
+  testLogger.debug("Test to fetch all users");
+  const response = await request(appServer)
+  .post("/user")
+  .send({
+    identifier: {
+      username: "ayansasmal3",
+      firstName: "Ayan",
+      lastName: "sasmal",
+      email: "ayandeli@gmail.com",
+      mobileNumber: "0452299076",
+    },
+    password: "ayansasmal1",
+    role: ["dastkar-app-creator", "dastkar-super-user"],
+  })
+  .set("Accept", "application/json")
+  .set(
+    "authorization",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+  )
+  .expect("Content-Type", "application/json; charset=utf-8")
+  .expect(201);
+
+  //console.log('service response ',response.body);
+
+  const responseFetch = await request(appServer)
+    .get("/user")
     .set("Accept", "application/json")
-    .expect(403);
+    .set(
+      "authorization",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+    )
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(200);
+    // console.log(responseFetch.body);
+    expect(responseFetch.body.length).toBe(1);
+    // expect(responseFetch.body.identifier.username).toBe('ayansasmal3');
 });
 
-test("Test to check if login is invalid with blank password", async () => {
-  testLogger.debug("Test to check if login is valid...");
-  await request(appServer)
-    .post("/login")
-    .send({ username: "ayansasmal", password: "" })
+test("Test to fetch all users when no users", async () => {
+  testLogger.debug("Test to fetch all users when no users");
+  const responseFetch = await request(appServer)
+    .get("/user")
     .set("Accept", "application/json")
-    .expect(403);
+    .set(
+      "authorization",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+    )
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(400);
 });
-
-test("Test to check if login is invalid with incorrect username", async () => {
-  testLogger.debug("Test to check if login is valid...");
-  await request(appServer)
-    .post("/login")
-    .send({ username: "ayansasmal1", password: "ayansasmal" })
-    .set("Accept", "application/json")
-    .expect(403);
-});
-
-test("Test login operation with no user details", async () => {
-  try {
-    await loginOperation.login();
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login Model with invalid details", async () => {
-  try {
-    await new login({ email: "ayan.com" }).save();
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for createLoginCredentials", async () => {
-  try {
-    await loginOperation.createLoginCreds({ username: "ayansasmal" });
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for createLoginCredentials with blank details", async () => {
-  try {
-    await loginOperation.createLoginCreds();
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for fetchLoginCedentials with blank details", async () => {
-  try {
-    await loginOperation.fetchLoginCreds();
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for fetchLoginCedentials with invalid details", async () => {
-  try {
-    await loginOperation.fetchLoginCreds({ dummy: "name" });
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for updateLoginCreds with valid details", async () => {
-  try {
-    await loginOperation.updateLoginCreds({
-      username: "ayansasmal",
-      oldPassword: "ayansasmal",
-      newPassword: "ayansasmal1123",
-    });
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for updateLoginCreds with invalid old password in details", async () => {
-  try {
-    await loginOperation.updateLoginCreds({
-      username: "ayansasmal",
-      oldPassword: "ayansasmal1",
-      newPassword: "ayansasmal1123",
-    });
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for updateLoginCreds with invalid details", async () => {
-  try {
-    await loginOperation.updateLoginCreds({
-      username: "ayansasmal1",
-      oldPassword: "ayansasmal",
-      newPassword: "ayansasmal1",
-    });
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-test("Test login operation for updateLoginCreds with invalid details", async () => {
-  try {
-    await loginOperation.updateLoginCreds();
-  } catch (err) {
-    testLogger.error(`Unable to log in`);
-    testLogger.error(err);
-  }
-});
-
-*/

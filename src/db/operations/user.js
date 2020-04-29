@@ -70,7 +70,8 @@ const isUsernameAvailable = async user => {
   logger.debug(`Finding user ${JSON.stringify(user)}`);
   return new Promise((resolve, reject) => {
     User.find(user, (err, data) => {
-      if (data === null || data.length === 0) {
+      logger.debug(`isUsernameAvailable Found user ${JSON.stringify(data)}`);
+      if (data === undefined || data === null || data.length === 0) {
         resolve({
           status: "success",
           message: "username is available",

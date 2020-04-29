@@ -30,6 +30,7 @@ const UserSchema = new mongoose.Schema(
         required: true,
         validate(value) {
           if (!Validator.isEmail(value)) {
+            logger.error("Provided email is not valid");
             throw new Error("Provided email is not valid");
           }
         }

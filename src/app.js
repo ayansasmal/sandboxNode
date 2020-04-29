@@ -62,7 +62,8 @@ app.get("/audit/:id/history", async (req, res) => {
 
 app.use(async (req, res, next) => {
   setSessionId(uuidv4());
-  logger.debug("in middleware");
+  logger.debug(`in middleware for ${req.url}`);
+  const headers = await readHeaders(req);
   const excluded = await isExcluded(req);
   logger.debug(`${req.url} isExcluded ${excluded}`);
   if (excluded) {
@@ -70,7 +71,6 @@ app.use(async (req, res, next) => {
     return;
   }
   //res.writeHeader(200, { "Content-Type": "application/json" });
-  const headers = await readHeaders(req);
   logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
   if (username && username !== "anonymous") {
     next();

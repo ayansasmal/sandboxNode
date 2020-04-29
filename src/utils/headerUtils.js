@@ -9,9 +9,19 @@ export let headers,
 export const readHeaders = async req => {
   logger.debug(`Reading headers ${JSON.stringify(req.headers)}`);
   headers = req.headers;
-  readUserName(req.header("session"));
+  readUserName(req.header("authorization"));
   return headers;
 };
+
+export const getAuth = () => {
+  if(headers && headers["authorization"]) {
+  const auth = headers["authorization"]
+  logger.debug(`Authorization Header ${auth}`);
+  return auth;
+  } else {
+    return undefined;
+  }
+}
 
 const readUserName = sessionJWT => {
   logger.debug(`checking who is logged in using session JWT :: ${sessionJWT}`);

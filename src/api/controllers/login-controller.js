@@ -1,6 +1,7 @@
 import Login from "../../db/operations/login";
 import { getData } from "../../utils/jwt";
 import { initializeLogger } from "../../utils/logger";
+import { getAuth } from "../../utils/headerUtils";
 
 const logger = initializeLogger("login-controller");
 
@@ -13,7 +14,7 @@ export const loginUser = (req, res) => {
     Login.login(req.body)
       .then((data) => {
         logger.debug(data);
-        res.set("session", data.jwt);
+        res.set("authorization", data.jwt);
         res.cookie("jwt", data.jwt);
         res.status(204);
         res.json({ status: "Login successfull" });
@@ -32,11 +33,11 @@ export const loginUser = (req, res) => {
 
 export const whoami = (req, res) => {
   logger.debug("checking who is logged in");
-  const sessionJWT = req.header("session");
-  logger.debug(`session value ${sessionJWT}`);
+  const authToken = getAuth();
+  logger.debug(`Auth token   ${authToken}`);
   try {
-    if (sessionJWT) {
-      const data = getData(sessionJWT);
+    if (authToken) {
+      const data = getData(authToken);
       logger.debug(`Data from jwt ${JSON.stringify(data)}`);
       res.set("Content-Type", "application/json");
       res.json({ username: data.username });

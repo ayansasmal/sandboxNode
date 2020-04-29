@@ -68,10 +68,8 @@ const createAvailableUsername = async (req, res) => {
     return createdUser._id;
   } catch (err) {
     logger.error(`Unable to create user ${JSON.stringify(err)}`);
-    res.status(400);
-    res.json(err);
+    return false;
   }
-  return;
 };
 
 export const updateUser = async (req, res) => {
@@ -88,7 +86,7 @@ export const removeUser = async (req, res) => {
 export const fetchUser = async (req, res) => {
   logger.debug(`Finding user ${JSON.stringify(req.params)}`);
   try {
-    const user = await Users.retrieveUser({});
+    const user = await Users.retrieveUser({"identifier.username":req.params.username});
     logger.debug(`Fetched user ${JSON.stringify(user)}`);
     res.status(200);
     res.json(user.records[0]);
