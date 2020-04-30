@@ -3,10 +3,11 @@ import { getData } from "./jwt";
 
 const logger = initializeLogger("header-utils-js");
 
+let roles;
 export let headers,
   username = "anonymous";
 
-export const readHeaders = async req => {
+export const readHeaders = async (req) => {
   logger.debug(`Reading headers ${JSON.stringify(req.headers)}`);
   headers = req.headers;
   readUserName(req.header("authorization"));
@@ -14,22 +15,31 @@ export const readHeaders = async req => {
 };
 
 export const getAuth = () => {
-  if(headers && headers["authorization"]) {
-  const auth = headers["authorization"]
-  logger.debug(`Authorization Header ${auth}`);
-  return auth;
+  if (headers && headers["authorization"]) {
+    const auth = headers["authorization"];
+    logger.debug(`Authorization Header ${auth}`);
+    return auth;
   } else {
     return undefined;
   }
-}
+};
 
-const readUserName = sessionJWT => {
-  logger.debug(`checking who is logged in using session JWT :: ${sessionJWT}`);
+export const getRoles = async (req) => {
+  if (!roles) {
+    await readHeaders(req);
+  }
+  logger.debug(`Found Roles ${JSON.stringify(roles)}`);
+  return roles;
+};
+
+const readUserName = (authJWT) => {
+  logger.debug(`checking who is logged in using session JWT :: ${authJWT}`);
   try {
-    if (sessionJWT) {
-      const data = getData(sessionJWT);
+    if (authJWT) {
+      const data = getData(authJWT);
       logger.debug(`Data from jwt ${JSON.stringify(data)}`);
       username = data.username;
+      roles = data.role;
     } else {
       username = "anonymous";
     }

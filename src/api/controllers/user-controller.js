@@ -1,15 +1,13 @@
 import Users from "../../db/operations/user";
 import { initializeLogger } from "../../utils/logger";
 import login from "../../db/operations/login";
+import {getRoles} from "../../utils/headerUtils";
 
 const logger = initializeLogger("user-controller");
 
 export const createUser = async (req, res) => {
   logger.debug("Create user");
   try {
-    // if (!req.body || !req.body.identifier) {
-    //   throw new Error('Request Body cannot be empty or null');
-    // }
     const isAvailable = await checkIfUsernameIsAvailable(req, res);
     if (isAvailable) {
       const id = await createAvailableUsername(req, res);

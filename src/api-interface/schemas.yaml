@@ -8,10 +8,13 @@ components:
       properties:
         code:
           type: string
+          example: "User-101"
         message:
           type: string
+          example: "User already exists"
         description:
           type: string
+          example: "User already exists"
     Status:
       type: object
       required:
@@ -19,6 +22,7 @@ components:
       properties:
         status:
           type: string
+          example: "Successfuly executed command"
 
 tags:
   - name: Artisan Management

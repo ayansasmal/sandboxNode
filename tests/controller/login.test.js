@@ -12,6 +12,8 @@ const testLogger = initializeLogger("login-test-js");
 
 let appServer;
 
+const authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXVzZXItY3JlYXRlIiwiZGFzdGthci1hcHAtYWRtaW4iXSwiaWF0IjoxNTg4MjM0MTE4fQ.VweZblvaVSgfi0z2CUdIRqAaVWouW4SQ406_lKlYwjU";
+
 beforeAll(async () => {
   appServer = await app;
   await clearDatabase();
@@ -45,7 +47,7 @@ test("Test to check login details", async () => {
     .set("Accept", "application/json")
     .set(
       "authorization",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
+      authorization
     )
     .expect("Content-Type", "application/json; charset=utf-8")
     .expect(201);
@@ -86,8 +88,7 @@ test("Test to check login details with invalid password", async () => {
     .set("Accept", "application/json")
     .set(
       "authorization",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwxIiwiZmlyc3RuYW1lIjoiQXlhbiIsImxhc3RuYW1lIjoic2FzbWFsIiwibGFzdExvZ2dlZEluIjoiU3VuZGF5LCAyOSBNYXJjaCAyMDIwLCAwMDowODoyNCIsInJvbGVzIjpbImRhc3RrYXItYXBwLWNyZWF0b3IiLCJkYXN0a2FyLXN1cGVyLXVzZXIiXSwiaWF0IjoxNTg1NDAwOTY1fQ.PTspgnGJF0MSjL8USCFjd5rrSknr4WR41VO3YvZpXPM"
-    )
+      authorization)
     .expect("Content-Type", "application/json; charset=utf-8")
     .expect(400);
 });

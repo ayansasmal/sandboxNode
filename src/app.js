@@ -2,16 +2,16 @@ import express from "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { connectDatabase } from "./db/handler";
-import { initializeLogger, setSessionId } from "./utils/logger";
+import { initializeLogger, setMessageId } from "./utils/logger";
 import { OpenApiValidator } from "express-openapi-validator";
 import { connector } from "swagger-routes-express";
 
-import { readHeaders, username } from "./utils/headerUtils";
+import { readHeaders, username, getRoles } from "./utils/headerUtils";
 
 import AuditEvent from "../src/db/operations/audit";
 
 import api from "./api";
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const logger = initializeLogger("app-js");
 
@@ -60,35 +60,60 @@ app.get("/audit/:id/history", async (req, res) => {
   res.json(history);
 });
 
+const populateMessageId = async (req, res) => {
+  logger.debug(`generating message id for ${req.url}`);
+  const messageId = uuidv4();
+  setMessageId(messageId);
+  res.header("messageId", messageId);
+};
+
 app.use(async (req, res, next) => {
-  setSessionId(uuidv4());
   logger.debug(`in middleware for ${req.url}`);
   const headers = await readHeaders(req);
+  await populateMessageId(req, res);
   const excluded = await isExcluded(req);
   logger.debug(`${req.url} isExcluded ${excluded}`);
   if (excluded) {
     next();
-    return;
-  }
-  //res.writeHeader(200, { "Content-Type": "application/json" });
-  logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
-  if (username && username !== "anonymous") {
-    next();
   } else {
-    await AuditEvent.createAudit("Failed security check", {
-      body: JSON.stringify(req.body),
-      uri: req.path,
-    });
-    res.set("Content-Type", "application/json");
-    res.status(403);
-    res.end();
+    await proceedWithUserValidation(headers, next, req, res);
   }
 });
+
+const roleMiddleware = async (req, res, next) => {
+  logger.debug("in role-middleware");
+  const requiredRole = req.openapi.schema["x-role"];
+  const rolesInHeader = await getRoles(req);
+  logger.debug(
+    `'Role updated in request ${JSON.stringify(
+      requiredRole
+    )}' && from header ${JSON.stringify(rolesInHeader)}`
+  );
+  if (requiredRole) {
+    req.role = requiredRole;
+    let isRolePresent = false;
+    requiredRole.forEach((role) => {
+      if (rolesInHeader.includes(role)) {
+        isRolePresent = true;
+      }
+    });
+    if (!isRolePresent) {
+      logger.error("Role not present");
+      res.status(403).json({ status: "error", message: "Unauthorised access" });
+      return;
+    }
+  }
+  next();
+};
 
 const loadRoutes = async (app) => {
   const connect = connector(api, swaggerSpec, {
     onCreateRoute: (method, descriptor) => {
-      // logger.debug(`Interface created : ${method} ${descriptor[0]}`);
+      // logger.debug(`Interface created : ${method} ${descriptor[0]} ${descriptor[2]} `);
+      // console.log(`Interface created : ${method} ${descriptor[0]} ${descriptor[2]} `);
+    },
+    middleware: {
+      roleMiddleware,
     },
   });
   connect(app);
@@ -124,3 +149,18 @@ const isExcluded = async (req) => {
   });
   return isExcluded;
 };
+async function proceedWithUserValidation(headers, next, req, res) {
+  logger.debug("Validating the username");
+  logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
+  if (username && username !== "anonymous") {
+    next();
+  } else {
+    await AuditEvent.createAudit("Failed security check", {
+      body: JSON.stringify(req.body),
+      uri: req.path,
+    });
+    res.set("Content-Type", "application/json");
+    res.status(403);
+    res.end();
+  }
+}

@@ -32,9 +32,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-  /roles/{name}:
+  /roles/{rolename}:
     parameters:
-      - $ref: "#/components/parameters/name"
+      - $ref: "#/components/parameters/rolename"
     get:
       description: Fetch detail of the role
       tags:
@@ -61,9 +61,9 @@ paths:
                 $ref: "#/components/schemas/Status"
 components:
   parameters:
-    name:
+    rolename:
       in: path
-      name: name
+      name: rolename
       required: true
       schema:
         type: string
@@ -77,5 +77,7 @@ components:
       properties:
         name:
           type: string
+          example: "dastkar-app-creator"
         description:
           type: string
+          example: "Role for app creator"

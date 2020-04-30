@@ -78,14 +78,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  firstname:
-                    type: string
-                  lastname:
-                    type: string
+                $ref: "#/components/schemas/WhoAmIResponse"
         "404":
           description: no user found response
 
@@ -99,5 +92,19 @@ components:
       properties:
         username:
           type: string
+          example: "johndoe"
         password:
           type: string
+          example: "johndoe1234"
+    WhoAmIResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "johndoe"
+        firstname:
+          type: string
+          example: "john"
+        lastname:
+          type: string
+          example: "doe"

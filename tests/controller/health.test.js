@@ -7,7 +7,6 @@ const testLogger = initializeLogger("health-test-js");
 let appServer;
 
 beforeAll(async () => {
-  // console.log('in User test');
   appServer = await app;
 }); 
 

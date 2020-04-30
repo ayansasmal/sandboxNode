@@ -27,11 +27,10 @@ export async function connectDatabase() {
         instance: { port: 53005, dbName: process.env.DB_NAME },
       });
       uri = await mongod.getConnectionString();
-    }
-    else if (process.env.ENV === "test") {
+    } else if (process.env.ENV === "test") {
       logger.debug("Connecting to local Test DB");
       mongod = new MongoMemoryServer({
-        instance: {dbName: process.env.DB_NAME },
+        instance: { dbName: process.env.DB_NAME },
       });
       uri = await mongod.getConnectionString();
     }
@@ -68,9 +67,15 @@ export async function closeDatabase() {
  * Remove all the data for all db collections.
  */
 export async function clearDatabase() {
-  const collections = connection.collections;
-  for (const key in collections) {
-    const collection = collections[key];
-    await collection.deleteMany();
+  try{
+    if (mongod && connection.db) {
+      const collections = connection.collections;
+      for (const key in collections) {
+        const collection = collections[key];
+        await collection.deleteMany();
+      }
+    }
+  } catch (err){
+    logger.error(`Error in clearing DB`,err);
   }
 }

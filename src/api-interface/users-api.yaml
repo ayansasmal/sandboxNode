@@ -5,6 +5,11 @@ paths:
       tags:
         - User Management
       operationId: fetchAllUsers
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-user-readAll
+        - dastkar-app-admin
       responses:
         "200":
           description: successfull retrieval
@@ -19,6 +24,11 @@ paths:
       tags:
         - User Management
       operationId: createUser
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-user-create
+        - dastkar-app-admin
       requestBody:
         required: true
         content:
@@ -41,6 +51,11 @@ paths:
       tags:
         - User Management
       operationId: fetchUser
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-user-read
+        - dastkar-app-admin
       responses:
         "200":
           description: successfull retrieval
@@ -53,6 +68,11 @@ paths:
       tags:
         - User Management
       operationId: updateUser
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-user-update
+        - dastkar-app-admin
       requestBody:
         required: true
         content:
@@ -71,6 +91,11 @@ paths:
       tags:
         - User Management
       operationId: removeUser
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-user-delete
+        - dastkar-app-admin
       responses:
         "200":
           description: successfull removal
@@ -98,28 +123,29 @@ components:
           properties:
             username:
               type: string
+              example: "johndoe123"
             firstName:
               type: string
+              example: "john"
             lastName:
               type: string
+              example: "doe"
             email:
               type: string
+              example: "johndoe@email.com"
             mobileNumber:
               type: string
+              example: "+61123123123"
         password:
           type: string
+          example: "johndoe1234"
+        oldPassword:
+          type: string
+          example: "johndoe1234"
         role:
           type: array
           items:
             type: string
-
-    Role:
-      type: object
-      required:
-        - name
-        - description
-      properties:
-        name:
-          type: string
-        description:
-          type: string
+          example:
+            - dastkar-app-creator
+            - dastkar-admin-user

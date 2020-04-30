@@ -1,0 +1,5 @@
+{
+    "jest.autoEnable": false,
+    "jest.enableInlineErrorMessages": true,
+    "jest.enableSnapshotUpdateMessages": false
+}

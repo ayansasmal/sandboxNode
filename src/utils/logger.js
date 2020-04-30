@@ -6,10 +6,10 @@ import { format as logformFormat } from "logform";
 const { createLogger, format, transports } = winston;
 const { combine, timestamp, label, printf } = format;
 
-let sessionId = undefined;
+let messageId = undefined;
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  message = `${timestamp} ${sessionId} [${label}] ${level} : ${message}`;
+  message = `${timestamp} ${messageId} [${label}] ${level} : ${message}`;
   return message;
 });
 
@@ -46,15 +46,15 @@ const createTransports = providedLabel => {
     new transports.File({ filename: "log/combined.log", level: "debug" })
   );
 
-  transportArray.push(new MongoDB({
-    db: "mongodb://127.0.0.1:27017/",
-    level: 'debug',
-    label: providedLabel,
-    metaKey: "meta",
-    useUnifiedTopology: true
-  }))
+  // transportArray.push(new MongoDB({
+  //   db: "mongodb://127.0.0.1:27017/",
+  //   level: 'debug',
+  //   label: providedLabel,
+  //   metaKey: "meta",
+  //   useUnifiedTopology: true
+  // }))
 
-  // transportArray.push(createConsoleTransport());
+  transportArray.push(createConsoleTransport());
 
   return transportArray;
 };
@@ -88,17 +88,21 @@ const initializeLogger = providedLabel => {
   );
 
   logger.debug = (message, obj) => {
-    logger.log("debug", message, { meta: { ...obj, sessionId } });
+    logger.log("debug", message, { meta: { ...obj, messageId  } });
   }
 
   logger.error = (message, obj) => {
-    logger.log("error", message, { meta: { error: { ...obj }, sessionId } });
+    logger.log("error", message, { meta: { error: { ...obj }, messageId } });
   }
   return logger;
 };
 
-const setSessionId = sId => {
-  sessionId = sId;
+const setMessageId = sId => {
+  messageId = sId;
 }
 
-export { initializeLogger, setSessionId };
+const getMessageId = ()=> {
+  return messageId;
+}
+
+export { initializeLogger, setMessageId, getMessageId };

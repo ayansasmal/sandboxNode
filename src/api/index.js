@@ -5,12 +5,12 @@ import {
   removeUser,
   updateUser,
   fetchUser,
-  fetchAllUsers
+  fetchAllUsers,
 } from "./controllers/user-controller";
 import {
   createRole,
   fetchAllRoles,
-  fetchRole
+  fetchRole,
 } from "./controllers/roles-controller";
 
 const logger = initializeLogger("api-index");
@@ -31,5 +31,5 @@ export default {
   whoami,
   createRole,
   getAllRoles: fetchAllRoles,
-  fetchRole
+  fetchRole,
 };

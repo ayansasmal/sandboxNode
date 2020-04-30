@@ -24,9 +24,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Artisan"
-                  }
+                  "items": { "$ref": "#/components/schemas/Artisan" }
                 }
               }
             }
@@ -35,9 +33,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -51,9 +47,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Artisan"
-              }
+              "schema": { "$ref": "#/components/schemas/Artisan" }
             }
           }
         },
@@ -66,12 +60,8 @@
                   "type": "object",
                   "required": ["artisanId", "status"],
                   "properties": {
-                    "artisanId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "artisanId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -81,9 +71,7 @@
             "description": "Artisan already exists and cannot be created",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -91,11 +79,7 @@
       }
     },
     "/artisan/{artisanId}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/artisanId"
-        }
-      ],
+      "parameters": [{ "$ref": "#/components/parameters/artisanId" }],
       "get": {
         "summary": "Get details of the artisan",
         "operationId": "getArtisan",
@@ -105,9 +89,7 @@
             "description": "successfully fetched artisan details",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Artisan"
-                }
+                "schema": { "$ref": "#/components/schemas/Artisan" }
               }
             }
           },
@@ -115,9 +97,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -131,9 +111,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Artisan"
-              }
+              "schema": { "$ref": "#/components/schemas/Artisan" }
             }
           }
         },
@@ -142,9 +120,7 @@
             "description": "successfully fetched artisan details",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Artisan"
-                }
+                "schema": { "$ref": "#/components/schemas/Artisan" }
               }
             }
           },
@@ -152,9 +128,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -169,9 +143,7 @@
             "description": "details of deleted Artisan",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           },
@@ -179,9 +151,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -200,9 +170,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Campaign"
-                  }
+                  "items": { "$ref": "#/components/schemas/Campaign" }
                 }
               }
             }
@@ -217,9 +185,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Campaign"
-              }
+              "schema": { "$ref": "#/components/schemas/Campaign" }
             }
           }
         },
@@ -228,9 +194,7 @@
             "description": "Success responses",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -238,11 +202,7 @@
       }
     },
     "/campaign/{campaignId}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/campaignId"
-        }
-      ],
+      "parameters": [{ "$ref": "#/components/parameters/campaignId" }],
       "get": {
         "description": "Fetch a campaign",
         "tags": ["Campaign Management"],
@@ -252,9 +212,7 @@
             "description": "successful responses",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Campaign"
-                }
+                "schema": { "$ref": "#/components/schemas/Campaign" }
               }
             }
           }
@@ -268,9 +226,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Campaign"
-              }
+              "schema": { "$ref": "#/components/schemas/Campaign" }
             }
           }
         },
@@ -279,9 +235,7 @@
             "description": "Success responses",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -296,9 +250,7 @@
             "description": "successfully deleted",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -314,9 +266,7 @@
           {
             "in": "query",
             "name": "status",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "description": "Status of the events to be fetched"
           }
         ],
@@ -327,9 +277,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Event"
-                  }
+                  "items": { "$ref": "#/components/schemas/Event" }
                 }
               }
             }
@@ -338,9 +286,7 @@
             "description": "unable to find events as per query params",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           },
@@ -348,9 +294,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -364,9 +308,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
+              "schema": { "$ref": "#/components/schemas/Event" }
             }
           }
         },
@@ -379,12 +321,8 @@
                   "type": "object",
                   "required": ["eventId", "status"],
                   "properties": {
-                    "eventId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "eventId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -398,12 +336,8 @@
                   "type": "object",
                   "required": ["eventId", "status"],
                   "properties": {
-                    "eventId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "eventId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -413,9 +347,7 @@
             "description": "Event already exists and cannot be created",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           },
@@ -423,9 +355,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -433,11 +363,7 @@
       }
     },
     "/events/{eventId}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/eventId"
-        }
-      ],
+      "parameters": [{ "$ref": "#/components/parameters/eventId" }],
       "get": {
         "description": "Get details of the event",
         "tags": ["Event Management"],
@@ -447,9 +373,7 @@
             "description": "successfully fetched event details",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
+                "schema": { "$ref": "#/components/schemas/Event" }
               }
             }
           },
@@ -457,9 +381,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -473,9 +395,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
+              "schema": { "$ref": "#/components/schemas/Event" }
             }
           }
         },
@@ -487,11 +407,7 @@
                 "schema": {
                   "type": "object",
                   "required": ["status"],
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    }
-                  }
+                  "properties": { "status": { "type": "string" } }
                 }
               }
             }
@@ -500,9 +416,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -517,9 +431,7 @@
             "description": "successfully fetched event details",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
+                "schema": { "$ref": "#/components/schemas/Event" }
               }
             }
           },
@@ -527,9 +439,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -541,20 +451,14 @@
         "description": "Add artisan to event",
         "tags": ["Event Management"],
         "operationId": "addArtisan",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/eventId"
-          }
-        ],
+        "parameters": [{ "$ref": "#/components/parameters/eventId" }],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Artisan"
-                }
+                "items": { "$ref": "#/components/schemas/Artisan" }
               }
             }
           }
@@ -568,12 +472,8 @@
                   "type": "object",
                   "required": ["eventId", "status"],
                   "properties": {
-                    "eventId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "eventId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -587,12 +487,8 @@
                   "type": "object",
                   "required": ["eventId", "status"],
                   "properties": {
-                    "eventId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "eventId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -602,9 +498,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -617,12 +511,8 @@
         "tags": ["Event Management"],
         "operationId": "removeArtisanEvent",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/eventId"
-          },
-          {
-            "$ref": "#/components/parameters/artisanId"
-          }
+          { "$ref": "#/components/parameters/eventId" },
+          { "$ref": "#/components/parameters/artisanId" }
         ],
         "responses": {
           "200": {
@@ -633,12 +523,8 @@
                   "type": "object",
                   "required": ["eventId", "status"],
                   "properties": {
-                    "eventId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "eventId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -652,12 +538,8 @@
                   "type": "object",
                   "required": ["eventId", "status"],
                   "properties": {
-                    "eventId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    }
+                    "eventId": { "type": "string" },
+                    "status": { "type": "string" }
                   }
                 }
               }
@@ -667,9 +549,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -686,9 +566,7 @@
             "description": "successfull reponse if the app is up and running",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           },
@@ -696,9 +574,7 @@
             "description": "Unexpected error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -714,9 +590,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDetails"
-              }
+              "schema": { "$ref": "#/components/schemas/LoginDetails" }
             }
           }
         },
@@ -726,9 +600,7 @@
             "headers": {
               "session": {
                 "description": "header value containing the JWT for the session",
-                "schema": {
-                  "type": "string"
-                }
+                "schema": { "type": "string" }
               },
               "Set-Cookie": {
                 "description": "set cookie with the jwt for the session",
@@ -740,9 +612,7 @@
             },
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           },
@@ -751,9 +621,7 @@
             "headers": {
               "session": {
                 "description": "header value containing the JWT for the session",
-                "schema": {
-                  "type": "string"
-                }
+                "schema": { "type": "string" }
               },
               "Set-Cookie": {
                 "description": "set cookie with the jwt for the session",
@@ -765,9 +633,7 @@
             },
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           },
@@ -775,9 +641,7 @@
             "description": "Username and password combination is incorrect",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           },
@@ -785,9 +649,7 @@
             "description": "Username not found",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -799,11 +661,7 @@
         "description": "Logout from the application",
         "operationId": "logout",
         "tags": ["Session Management"],
-        "responses": {
-          "204": {
-            "description": "Successfull logout"
-          }
-        }
+        "responses": { "204": { "description": "Successfull logout" } }
       }
     },
     "/whoami": {
@@ -816,26 +674,11 @@
             "description": "success response",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "username": {
-                      "type": "string"
-                    },
-                    "firstname": {
-                      "type": "string"
-                    },
-                    "lastname": {
-                      "type": "string"
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/WhoAmIResponse" }
               }
             }
           },
-          "404": {
-            "description": "no user found response"
-          }
+          "404": { "description": "no user found response" }
         }
       }
     },
@@ -851,9 +694,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Product"
-                  }
+                  "items": { "$ref": "#/components/schemas/Product" }
                 }
               }
             }
@@ -868,9 +709,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
+              "schema": { "$ref": "#/components/schemas/Product" }
             }
           }
         },
@@ -879,9 +718,7 @@
             "description": "User creation successful",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -889,11 +726,7 @@
       }
     },
     "/products/{productId}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/productId"
-        }
-      ],
+      "parameters": [{ "$ref": "#/components/parameters/productId" }],
       "get": {
         "description": "get details of the product",
         "tags": ["Product Management"],
@@ -903,9 +736,7 @@
             "description": "product details",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Product"
-                }
+                "schema": { "$ref": "#/components/schemas/Product" }
               }
             }
           }
@@ -920,9 +751,7 @@
             "in": "path",
             "name": "productId",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "description": "productId of the product to be fetched"
           }
         ],
@@ -930,9 +759,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
+              "schema": { "$ref": "#/components/schemas/Product" }
             }
           }
         },
@@ -941,9 +768,7 @@
             "description": "successfully updated product",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -958,9 +783,7 @@
             "in": "path",
             "name": "productId",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "description": "productId of the product to be fetched"
           }
         ],
@@ -969,9 +792,7 @@
             "description": "deleted products",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -990,9 +811,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
+                  "items": { "$ref": "#/components/schemas/Category" }
                 }
               }
             }
@@ -1007,9 +826,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
+              "schema": { "$ref": "#/components/schemas/Category" }
             }
           }
         },
@@ -1018,9 +835,7 @@
             "description": "success response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1028,11 +843,7 @@
       }
     },
     "/categories/{code}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/productCode"
-        }
-      ],
+      "parameters": [{ "$ref": "#/components/parameters/productCode" }],
       "get": {
         "description": "Fetch all categories",
         "tags": ["Product Categories Management"],
@@ -1042,9 +853,7 @@
             "description": "List of all categories",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Category"
-                }
+                "schema": { "$ref": "#/components/schemas/Category" }
               }
             }
           }
@@ -1058,9 +867,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
+              "schema": { "$ref": "#/components/schemas/Category" }
             }
           }
         },
@@ -1069,9 +876,7 @@
             "description": "success response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1086,9 +891,7 @@
             "description": "successful deletion",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1107,9 +910,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Role"
-                  }
+                  "items": { "$ref": "#/components/schemas/Role" }
                 }
               }
             }
@@ -1124,9 +925,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Role"
-              }
+              "schema": { "$ref": "#/components/schemas/Role" }
             }
           }
         },
@@ -1135,21 +934,15 @@
             "description": "User creation successful",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
         }
       }
     },
-    "/roles/{name}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/name"
-        }
-      ],
+    "/roles/{rolename}": {
+      "parameters": [{ "$ref": "#/components/parameters/rolename" }],
       "get": {
         "description": "Fetch detail of the role",
         "tags": ["Role Management"],
@@ -1159,9 +952,7 @@
             "description": "All the roles",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Role"
-                }
+                "schema": { "$ref": "#/components/schemas/Role" }
               }
             }
           }
@@ -1176,9 +967,7 @@
             "description": "role deleted successfully",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1190,6 +979,8 @@
         "description": "Fetch all the users",
         "tags": ["User Management"],
         "operationId": "fetchAllUsers",
+        "x-middleware": ["roleMiddleware"],
+        "x-role": ["dastkar-user-readAll", "dastkar-app-admin"],
         "responses": {
           "200": {
             "description": "successfull retrieval",
@@ -1197,9 +988,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserDetails"
-                  }
+                  "items": { "$ref": "#/components/schemas/UserDetails" }
                 }
               }
             }
@@ -1210,13 +999,13 @@
         "description": "Create user of the application",
         "tags": ["User Management"],
         "operationId": "createUser",
+        "x-middleware": ["roleMiddleware"],
+        "x-role": ["dastkar-user-create", "dastkar-app-admin"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDetails"
-              }
+              "schema": { "$ref": "#/components/schemas/UserDetails" }
             }
           }
         },
@@ -1225,9 +1014,7 @@
             "description": "User creation successful",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1235,23 +1022,19 @@
       }
     },
     "/user/{username}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/username"
-        }
-      ],
+      "parameters": [{ "$ref": "#/components/parameters/username" }],
       "get": {
         "description": "Fetch all the users",
         "tags": ["User Management"],
         "operationId": "fetchUser",
+        "x-middleware": ["roleMiddleware"],
+        "x-role": ["dastkar-user-read", "dastkar-app-admin"],
         "responses": {
           "200": {
             "description": "successfull retrieval",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDetails"
-                }
+                "schema": { "$ref": "#/components/schemas/UserDetails" }
               }
             }
           }
@@ -1261,13 +1044,13 @@
         "description": "update user of the application",
         "tags": ["User Management"],
         "operationId": "updateUser",
+        "x-middleware": ["roleMiddleware"],
+        "x-role": ["dastkar-user-update", "dastkar-app-admin"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDetails"
-              }
+              "schema": { "$ref": "#/components/schemas/UserDetails" }
             }
           }
         },
@@ -1276,9 +1059,7 @@
             "description": "User creation successful",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1288,14 +1069,14 @@
         "description": "delete user",
         "tags": ["User Management"],
         "operationId": "removeUser",
+        "x-middleware": ["roleMiddleware"],
+        "x-role": ["dastkar-user-delete", "dastkar-app-admin"],
         "responses": {
           "200": {
             "description": "successfull removal",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Status"
-                }
+                "schema": { "$ref": "#/components/schemas/Status" }
               }
             }
           }
@@ -1309,63 +1090,49 @@
         "in": "path",
         "name": "artisanId",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "artisan Id of the event to be removed"
       },
       "campaignId": {
         "in": "path",
         "name": "campaignId",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "campaign Id of the campaign to be fetched"
       },
       "eventId": {
         "in": "path",
         "name": "eventId",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "Event Id of the event to be updated"
       },
       "productCode": {
         "in": "path",
         "name": "code",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "code of the category to be deleted"
       },
       "productId": {
         "in": "path",
         "name": "productId",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "productId of the product to be fetched"
       },
-      "name": {
+      "rolename": {
         "in": "path",
-        "name": "name",
+        "name": "rolename",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "name of the role"
       },
       "username": {
         "in": "path",
         "name": "username",
         "required": true,
-        "schema": {
-          "type": "string"
-        },
+        "schema": { "type": "string" },
         "description": "username of the user"
       }
     },
@@ -1374,116 +1141,60 @@
         "type": "object",
         "required": ["id", "name", "pointOfContact", "contacts"],
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
           "pointOfContact": {
             "type": "object",
             "required": ["name", "address", "contacts"],
             "properties": {
-              "name": {
-                "type": "string"
-              },
-              "address": {
-                "$ref": "#/components/schemas/Address"
-              },
+              "name": { "type": "string" },
+              "address": { "$ref": "#/components/schemas/Address" },
               "contacts": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Contact"
-                }
+                "items": { "$ref": "#/components/schemas/Contact" }
               }
             }
           },
-          "address": {
-            "$ref": "#/components/schemas/Address"
-          },
+          "address": { "$ref": "#/components/schemas/Address" },
           "contacts": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Contact"
-            }
+            "items": { "$ref": "#/components/schemas/Contact" }
           },
-          "emailId": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "description": {
-            "type": "string"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
+          "emailId": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "description": { "type": "string" },
+          "products": { "type": "array", "items": { "type": "string" } }
         }
       },
       "Contact": {
         "type": "object",
         "required": ["number", "type"],
         "properties": {
-          "number": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
+          "number": { "type": "string" },
+          "type": { "type": "string" }
         }
       },
       "Address": {
         "type": "object",
         "required": ["line1", "state", "city", "pin"],
         "properties": {
-          "line1": {
-            "type": "string"
-          },
-          "line2": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "pin": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          }
+          "line1": { "type": "string" },
+          "line2": { "type": "string" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "pin": { "type": "string" },
+          "country": { "type": "string" }
         }
       },
       "Campaign": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "startdate": {
-            "type": "string"
-          },
-          "enddate": {
-            "type": "string"
-          }
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "code": { "type": "string" },
+          "description": { "type": "string" },
+          "startdate": { "type": "string" },
+          "enddate": { "type": "string" }
         }
       },
       "Event": {
@@ -1496,39 +1207,21 @@
           "pointOfContact"
         ],
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "startsOn": {
-            "type": "string"
-          },
-          "endsOn": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "pointOfContact": {
-            "type": "string"
-          },
-          "adUrl": {
-            "type": "string"
-          },
-          "comments": {
-            "type": "string"
-          },
+          "name": { "type": "string" },
+          "startsOn": { "type": "string" },
+          "endsOn": { "type": "string" },
+          "location": { "type": "string" },
+          "pointOfContact": { "type": "string" },
+          "adUrl": { "type": "string" },
+          "comments": { "type": "string" },
           "artisans": {
             "type": "array",
             "items": {
               "type": "object",
               "required": ["id", "name"],
               "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                }
+                "id": { "type": "string" },
+                "name": { "type": "string" }
               }
             }
           }
@@ -1538,117 +1231,64 @@
         "type": "object",
         "required": ["username", "password"],
         "properties": {
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
+          "username": { "type": "string", "example": "johndoe" },
+          "password": { "type": "string", "example": "johndoe1234" }
+        }
+      },
+      "WhoAmIResponse": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string", "example": "johndoe" },
+          "firstname": { "type": "string", "example": "john" },
+          "lastname": { "type": "string", "example": "doe" }
         }
       },
       "Category": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
+          "code": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "products": { "type": "array", "items": { "type": "string" } }
         }
       },
       "Product": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "description": {
-            "type": "string"
-          },
-          "tag": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "price": {
-            "type": "number"
-          },
-          "currency": {
-            "type": "string"
-          },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "categories": { "type": "array", "items": { "type": "string" } },
+          "description": { "type": "string" },
+          "tag": { "type": "array", "items": { "type": "string" } },
+          "price": { "type": "number" },
+          "currency": { "type": "string" },
           "restrictions": {
             "type": "object",
             "properties": {
-              "maximum": {
-                "type": "number"
-              },
-              "minimun": {
-                "type": "number"
-              },
-              "description": {
-                "type": "string"
-              }
+              "maximum": { "type": "number" },
+              "minimun": { "type": "number" },
+              "description": { "type": "string" }
             }
           },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "campaigns": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
+          "images": { "type": "array", "items": { "type": "string" } },
+          "campaigns": { "type": "array", "items": { "type": "string" } }
         }
       },
       "Role": {
         "type": "object",
         "required": ["name", "description"],
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
+          "name": { "type": "string", "example": "dastkar-app-creator" },
+          "description": { "type": "string", "example": "Role for app creator" }
         }
       },
       "Error": {
         "type": "object",
         "required": ["code", "message"],
         "properties": {
-          "code": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
+          "code": { "type": "string", "example": "User-101" },
+          "message": { "type": "string", "example": "User already exists" },
+          "description": { "type": "string", "example": "User already exists" }
         }
       },
       "Status": {
@@ -1656,7 +1296,8 @@
         "required": ["status"],
         "properties": {
           "status": {
-            "type": "string"
+            "type": "string",
+            "example": "Successfuly executed command"
           }
         }
       },
@@ -1667,31 +1308,19 @@
           "identifier": {
             "type": "object",
             "properties": {
-              "username": {
-                "type": "string"
-              },
-              "firstName": {
-                "type": "string"
-              },
-              "lastName": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string"
-              },
-              "mobileNumber": {
-                "type": "string"
-              }
+              "username": { "type": "string", "example": "johndoe123" },
+              "firstName": { "type": "string", "example": "john" },
+              "lastName": { "type": "string", "example": "doe" },
+              "email": { "type": "string", "example": "johndoe@email.com" },
+              "mobileNumber": { "type": "string", "example": "+61123123123" }
             }
           },
-          "password": {
-            "type": "string"
-          },
+          "password": { "type": "string", "example": "johndoe1234" },
+          "oldPassword": { "type": "string", "example": "johndoe1234" },
           "role": {
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" },
+            "example": ["dastkar-app-creator", "dastkar-admin-user"]
           }
         }
       }
@@ -1730,9 +1359,6 @@
       "name": "Session Management",
       "description": "Everything about managing the Session for Dastkar Exhibition System"
     },
-    {
-      "name": "Health Check",
-      "description": "Health check for the APIs"
-    }
+    { "name": "Health Check", "description": "Health check for the APIs" }
   ]
 }

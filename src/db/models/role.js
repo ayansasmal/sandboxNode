@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
 
-const Role = mongoose.model("Role", {
+export const Role = mongoose.model("Role", {
   name: { type: String, required: true, trim: true },
   description: { type: String, required: true },
   createdOn: {
-    type: String
+    type: String,
   },
   createdBy: {
     type: String,
     required: true,
-    trim: true
-  }
+    trim: true,
+  },
 });
 
-export default Role;
+export const AccessRegistry = mongoose.model("AccessRegistry", {
+  interface: { type: String, required: true },
+  role: { type: String },
+});
