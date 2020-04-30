@@ -20,7 +20,7 @@ export async function connectDatabase() {
       : undefined;
 
   try {
-    logger.debug(`Environment :: ${process.env.ENV}`)
+    //logger.debug(`Environment :: ${process.env.ENV}`)
     if (process.env.ENV === "dev") {
       logger.debug("Connecting to local DB");
       mongod = new MongoMemoryServer({
@@ -29,7 +29,7 @@ export async function connectDatabase() {
       uri = await mongod.getConnectionString();
     }
     else if (process.env.ENV === "test") {
-      logger.debug("Connecting to local DB");
+      logger.debug("Connecting to local Test DB");
       mongod = new MongoMemoryServer({
         instance: {dbName: process.env.DB_NAME },
       });

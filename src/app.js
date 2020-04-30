@@ -88,7 +88,7 @@ app.use(async (req, res, next) => {
 const loadRoutes = async (app) => {
   const connect = connector(api, swaggerSpec, {
     onCreateRoute: (method, descriptor) => {
-      logger.debug(`Interface created : ${method} ${descriptor[0]}`);
+      // logger.debug(`Interface created : ${method} ${descriptor[0]}`);
     },
   });
   connect(app);
