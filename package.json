@@ -52,7 +52,7 @@
     "@types/winston": "^2.4.4",
     "babel-jest": "^25.5.1",
     "env-cmd": "^10.1.0",
-    "jest": "^25.5.1",
+    "jest": "^25.5.2",
     "nodemon": "2.0.3"
   },
   "keywords": []

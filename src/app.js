@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.disable("x-powered-by");
 
-const securityCheckExclusion = ["/login", "/audit", "/whoami"];
+const securityCheckExclusion = ["/login", "/audit", "/whoami", "/healthcheck"];
 
 const swaggerDefinition = {
   openapi: "3.0.3",

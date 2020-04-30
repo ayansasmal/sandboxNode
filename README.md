@@ -3,6 +3,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ayansasmal/sandboxNode)](https://github.com/ayansasmal/sandboxNode/commits/master)
 [![David](https://david-dm.org/ayansasmal/sandboxNode.svg)](https://david-dm.org/ayansasmal/sandboxNode)
 [![CodeCov](https://codecov.io/gh/ayansasmal/sandboxNode/branch/master/graph/badge.svg)](https://codecov.io/gh/ayansasmal/sandboxNode)
+
 This is a Node.js Application
 
 ## Installation

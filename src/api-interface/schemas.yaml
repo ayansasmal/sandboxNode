@@ -37,3 +37,5 @@ tags:
     description: Everything about managing the Roles for the Users for Dastkar Exhibition System
   - name: Session Management
     description: Everything about managing the Session for Dastkar Exhibition System
+  - name: Health Check
+    description: Health check for the APIs

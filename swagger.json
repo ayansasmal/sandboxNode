@@ -1,1839 +1,1738 @@
 {
-    "openapi": "3.0.3",
-    "info": {
+  "openapi": "3.0.3",
+  "info": {
     "title": "Dastkar Exhibition API",
     "version": "1.0.0",
     "description": "This is the swagger specification for Dastkar Exhibition System"
-    },
-    "servers": [
+  },
+  "servers": [
     {
-    "url": "http://localhost:8080",
-    "description": " Local host server details"
+      "url": "http://localhost:8080",
+      "description": " Local host server details"
     }
-    ],
-    "paths": {
+  ],
+  "paths": {
     "/artisan": {
-    "get": {
-    "summary": "Fetch all the artisans",
-    "tags": [
-    "Artisan Management"
-    ],
-    "operationId": "fetchArtisans",
-    "responses": {
-    "200": {
-    "description": "successfull in fetching details of all the artisans",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Artisan"
-    }
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "summary": "Create a new artisan",
-    "operationId": "createArtisan",
-    "tags": [
-    "Artisan Management"
-    ],
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Artisan"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "Artisan created successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "artisanId",
-    "status"
-    ],
-    "properties": {
-    "artisanId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Artisan already exists and cannot be created",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "summary": "Fetch all the artisans",
+        "tags": ["Artisan Management"],
+        "operationId": "fetchArtisans",
+        "responses": {
+          "200": {
+            "description": "successfull in fetching details of all the artisans",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Artisan"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new artisan",
+        "operationId": "createArtisan",
+        "tags": ["Artisan Management"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Artisan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Artisan created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["artisanId", "status"],
+                  "properties": {
+                    "artisanId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Artisan already exists and cannot be created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/artisan/{artisanId}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/artisanId"
-    }
-    ],
-    "get": {
-    "summary": "Get details of the artisan",
-    "operationId": "getArtisan",
-    "tags": [
-    "Artisan Management"
-    ],
-    "responses": {
-    "200": {
-    "description": "successfully fetched artisan details",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Artisan"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "summary": "Update details of the artisan",
-    "operationId": "updateArtisan",
-    "tags": [
-    "Artisan Management"
-    ],
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Artisan"
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "successfully fetched artisan details",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Artisan"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "summary": "Remove the artisan",
-    "operationId": "removeArtisan",
-    "tags": [
-    "Artisan Management"
-    ],
-    "responses": {
-    "200": {
-    "description": "details of deleted Artisan",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/artisanId"
+        }
+      ],
+      "get": {
+        "summary": "Get details of the artisan",
+        "operationId": "getArtisan",
+        "tags": ["Artisan Management"],
+        "responses": {
+          "200": {
+            "description": "successfully fetched artisan details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artisan"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Update details of the artisan",
+        "operationId": "updateArtisan",
+        "tags": ["Artisan Management"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Artisan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successfully fetched artisan details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artisan"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove the artisan",
+        "operationId": "removeArtisan",
+        "tags": ["Artisan Management"],
+        "responses": {
+          "200": {
+            "description": "details of deleted Artisan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/campaign": {
-    "get": {
-    "description": "Fetch all campaigns",
-    "tags": [
-    "Campaign Management"
-    ],
-    "operationId": "getCampaigns",
-    "responses": {
-    "200": {
-    "description": "List of campaigns",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Campaign"
-    }
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Create new campaign",
-    "tags": [
-    "Campaign Management"
-    ],
-    "operationId": "createCampaign",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Campaign"
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "Success responses",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "description": "Fetch all campaigns",
+        "tags": ["Campaign Management"],
+        "operationId": "getCampaigns",
+        "responses": {
+          "200": {
+            "description": "List of campaigns",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Campaign"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create new campaign",
+        "tags": ["Campaign Management"],
+        "operationId": "createCampaign",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Campaign"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/campaign/{campaignId}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/campaignId"
-    }
-    ],
-    "get": {
-    "description": "Fetch a campaign",
-    "tags": [
-    "Campaign Management"
-    ],
-    "operationId": "getCampaign",
-    "responses": {
-    "200": {
-    "description": "successful responses",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Campaign"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Update campaign",
-    "tags": [
-    "Campaign Management"
-    ],
-    "operationId": "updateCampaign",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Campaign"
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "Success responses",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "description": "Delete the selected campaign",
-    "tags": [
-    "Campaign Management"
-    ],
-    "operationId": "removeCampaign",
-    "responses": {
-    "200": {
-    "description": "successfully deleted",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/campaignId"
+        }
+      ],
+      "get": {
+        "description": "Fetch a campaign",
+        "tags": ["Campaign Management"],
+        "operationId": "getCampaign",
+        "responses": {
+          "200": {
+            "description": "successful responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Campaign"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Update campaign",
+        "tags": ["Campaign Management"],
+        "operationId": "updateCampaign",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Campaign"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete the selected campaign",
+        "tags": ["Campaign Management"],
+        "operationId": "removeCampaign",
+        "responses": {
+          "200": {
+            "description": "successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/events": {
-    "get": {
-    "description": "Get all events",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "fetchEvents",
-    "parameters": [
-    {
-    "in": "query",
-    "name": "status",
-    "schema": {
-    "type": "string"
-    },
-    "description": "Status of the events to be fetched"
-    }
-    ],
-    "responses": {
-    "200": {
-    "description": "successfully fetched events",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Event"
-    }
-    }
-    }
-    }
-    },
-    "404": {
-    "description": "unable to find events as per query params",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Create an event",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "createEvent",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Event"
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "Event created successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "eventId",
-    "status"
-    ],
-    "properties": {
-    "eventId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "201": {
-    "description": "Event created successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "eventId",
-    "status"
-    ],
-    "properties": {
-    "eventId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "406": {
-    "description": "Event already exists and cannot be created",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "description": "Get all events",
+        "tags": ["Event Management"],
+        "operationId": "fetchEvents",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Status of the events to be fetched"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully fetched events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "unable to find events as per query params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create an event",
+        "tags": ["Event Management"],
+        "operationId": "createEvent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Event created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["eventId", "status"],
+                  "properties": {
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Event created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["eventId", "status"],
+                  "properties": {
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Event already exists and cannot be created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/events/{eventId}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/eventId"
-    }
-    ],
-    "get": {
-    "description": "Get details of the event",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "getEvent",
-    "responses": {
-    "200": {
-    "description": "successfully fetched event details",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Event"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Update details of the event",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "updateEvent",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Event"
-    }
-    }
-    }
-    },
-    "responses": {
-    "202": {
-    "description": "successfully updated event details",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "status"
-    ],
-    "properties": {
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "description": "delete the selected event",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "removeEvent",
-    "responses": {
-    "200": {
-    "description": "successfully fetched event details",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Event"
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/eventId"
+        }
+      ],
+      "get": {
+        "description": "Get details of the event",
+        "tags": ["Event Management"],
+        "operationId": "getEvent",
+        "responses": {
+          "200": {
+            "description": "successfully fetched event details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Update details of the event",
+        "tags": ["Event Management"],
+        "operationId": "updateEvent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "successfully updated event details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status"],
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete the selected event",
+        "tags": ["Event Management"],
+        "operationId": "removeEvent",
+        "responses": {
+          "200": {
+            "description": "successfully fetched event details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/events/{eventId}/artisan": {
-    "post": {
-    "description": "Add artisan to event",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "addArtisan",
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/eventId"
-    }
-    ],
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Artisan"
-    }
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "Event Updated successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "eventId",
-    "status"
-    ],
-    "properties": {
-    "eventId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "201": {
-    "description": "Event Updated successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "eventId",
-    "status"
-    ],
-    "properties": {
-    "eventId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+      "post": {
+        "description": "Add artisan to event",
+        "tags": ["Event Management"],
+        "operationId": "addArtisan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/eventId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artisan"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Event Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["eventId", "status"],
+                  "properties": {
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Event Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["eventId", "status"],
+                  "properties": {
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/events/{eventId}/artisan/{artisanId}": {
-    "delete": {
-    "description": "remove artisan from event",
-    "tags": [
-    "Event Management"
-    ],
-    "operationId": "removeArtisanEvent",
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/eventId"
+      "delete": {
+        "description": "remove artisan from event",
+        "tags": ["Event Management"],
+        "operationId": "removeArtisanEvent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/eventId"
+          },
+          {
+            "$ref": "#/components/parameters/artisanId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["eventId", "status"],
+                  "properties": {
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Event Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["eventId", "status"],
+                  "properties": {
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
-    {
-    "$ref": "#/components/parameters/artisanId"
-    }
-    ],
-    "responses": {
-    "200": {
-    "description": "Event Updated successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "eventId",
-    "status"
-    ],
-    "properties": {
-    "eventId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "201": {
-    "description": "Event Updated successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "required": [
-    "eventId",
-    "status"
-    ],
-    "properties": {
-    "eventId": {
-    "type": "string"
-    },
-    "status": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "default": {
-    "description": "Unexpected error",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+    "/healthcheck": {
+      "get": {
+        "summary": "To check the health of the application",
+        "tags": ["Health Check"],
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "successfull reponse if the app is up and running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/login": {
-    "post": {
-    "description": "Login to the application",
-    "operationId": "loginUser",
-    "tags": [
-    "Session Management"
-    ],
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/LoginDetails"
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "Successfull Login",
-    "headers": {
-    "session": {
-    "description": "header value containing the JWT for the session",
-    "schema": {
-    "type": "string"
-    }
-    },
-    "Set-Cookie": {
-    "description": "set cookie with the jwt for the session",
-    "schema": {
-    "type": "string",
-    "example": "sessionid=abcde12345; Path=/; HttpOnly"
-    }
-    }
-    },
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    },
-    "204": {
-    "description": "Successful login",
-    "headers": {
-    "session": {
-    "description": "header value containing the JWT for the session",
-    "schema": {
-    "type": "string"
-    }
-    },
-    "Set-Cookie": {
-    "description": "set cookie with the jwt for the session",
-    "schema": {
-    "type": "string",
-    "example": "sessionid=abcde12345; Path=/; HttpOnly"
-    }
-    }
-    },
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    },
-    "401": {
-    "description": "Username and password combination is incorrect",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    },
-    "404": {
-    "description": "Username not found",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Error"
-    }
-    }
-    }
-    }
-    }
-    }
+      "post": {
+        "description": "Login to the application",
+        "operationId": "loginUser",
+        "tags": ["Session Management"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull Login",
+            "headers": {
+              "session": {
+                "description": "header value containing the JWT for the session",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Set-Cookie": {
+                "description": "set cookie with the jwt for the session",
+                "schema": {
+                  "type": "string",
+                  "example": "sessionid=abcde12345; Path=/; HttpOnly"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Successful login",
+            "headers": {
+              "session": {
+                "description": "header value containing the JWT for the session",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Set-Cookie": {
+                "description": "set cookie with the jwt for the session",
+                "schema": {
+                  "type": "string",
+                  "example": "sessionid=abcde12345; Path=/; HttpOnly"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Username and password combination is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Username not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/logout": {
-    "get": {
-    "description": "Logout from the application",
-    "operationId": "logout",
-    "tags": [
-    "Session Management"
-    ],
-    "responses": {
-    "204": {
-    "description": "Successfull logout"
-    }
-    }
-    }
+      "get": {
+        "description": "Logout from the application",
+        "operationId": "logout",
+        "tags": ["Session Management"],
+        "responses": {
+          "204": {
+            "description": "Successfull logout"
+          }
+        }
+      }
     },
     "/whoami": {
-    "get": {
-    "description": "Get logged in user's username",
-    "operationId": "whoami",
-    "tags": [
-    "Session Management"
-    ],
-    "responses": {
-    "200": {
-    "description": "success response",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "object",
-    "properties": {
-    "username": {
-    "type": "string"
-    },
-    "firstname": {
-    "type": "string"
-    },
-    "lastname": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "404": {
-    "description": "no user found response"
-    }
-    }
-    }
+      "get": {
+        "description": "Get logged in user's username",
+        "operationId": "whoami",
+        "tags": ["Session Management"],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "firstname": {
+                      "type": "string"
+                    },
+                    "lastname": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "no user found response"
+          }
+        }
+      }
     },
     "/products": {
-    "get": {
-    "description": "Fetch all the products",
-    "tags": [
-    "Product Management"
-    ],
-    "operationId": "fetchAllProducts",
-    "responses": {
-    "200": {
-    "description": "success fetchAllProducts",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Product"
-    }
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Create product of the application",
-    "tags": [
-    "Product Management"
-    ],
-    "operationId": "createProduct",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Product"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "User creation successful",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "description": "Fetch all the products",
+        "tags": ["Product Management"],
+        "operationId": "fetchAllProducts",
+        "responses": {
+          "200": {
+            "description": "success fetchAllProducts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create product of the application",
+        "tags": ["Product Management"],
+        "operationId": "createProduct",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User creation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/products/{productId}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/productId"
-    }
-    ],
-    "get": {
-    "description": "get details of the product",
-    "tags": [
-    "Product Management"
-    ],
-    "operationId": "getProductDetails",
-    "responses": {
-    "200": {
-    "description": "product details",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Product"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "update details of the product",
-    "tags": [
-    "Product Management"
-    ],
-    "operationId": "updateProductDetails",
-    "parameters": [
-    {
-    "in": "path",
-    "name": "productId",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "productId of the product to be fetched"
-    }
-    ],
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Product"
-    }
-    }
-    }
-    },
-    "responses": {
-    "200": {
-    "description": "successfully updated product",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "description": "remove product",
-    "tags": [
-    "Product Management"
-    ],
-    "operationId": "removeProduct",
-    "parameters": [
-    {
-    "in": "path",
-    "name": "productId",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "productId of the product to be fetched"
-    }
-    ],
-    "responses": {
-    "200": {
-    "description": "deleted products",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/productId"
+        }
+      ],
+      "get": {
+        "description": "get details of the product",
+        "tags": ["Product Management"],
+        "operationId": "getProductDetails",
+        "responses": {
+          "200": {
+            "description": "product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "update details of the product",
+        "tags": ["Product Management"],
+        "operationId": "updateProductDetails",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "productId of the product to be fetched"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successfully updated product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "remove product",
+        "tags": ["Product Management"],
+        "operationId": "removeProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "productId of the product to be fetched"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/categories": {
-    "get": {
-    "description": "Fetch all categories",
-    "tags": [
-    "Product Categories Management"
-    ],
-    "operationId": "fetchCategories",
-    "responses": {
-    "200": {
-    "description": "List of all categories",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Category"
-    }
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "create new Category",
-    "tags": [
-    "Product Categories Management"
-    ],
-    "operationId": "createCategory",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Category"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "success response",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "description": "Fetch all categories",
+        "tags": ["Product Categories Management"],
+        "operationId": "fetchCategories",
+        "responses": {
+          "200": {
+            "description": "List of all categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "create new Category",
+        "tags": ["Product Categories Management"],
+        "operationId": "createCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/categories/{code}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/productCode"
-    }
-    ],
-    "get": {
-    "description": "Fetch all categories",
-    "tags": [
-    "Product Categories Management"
-    ],
-    "operationId": "getCategory",
-    "responses": {
-    "200": {
-    "description": "List of all categories",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Category"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "create new Category",
-    "tags": [
-    "Product Categories Management"
-    ],
-    "operationId": "updateCategory",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Category"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "success response",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "description": "delete the selected Category",
-    "tags": [
-    "Product Categories Management"
-    ],
-    "operationId": "removeCategory",
-    "responses": {
-    "200": {
-    "description": "successful deletion",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/productCode"
+        }
+      ],
+      "get": {
+        "description": "Fetch all categories",
+        "tags": ["Product Categories Management"],
+        "operationId": "getCategory",
+        "responses": {
+          "200": {
+            "description": "List of all categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "create new Category",
+        "tags": ["Product Categories Management"],
+        "operationId": "updateCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete the selected Category",
+        "tags": ["Product Categories Management"],
+        "operationId": "removeCategory",
+        "responses": {
+          "200": {
+            "description": "successful deletion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/roles": {
-    "get": {
-    "description": "Fetch all the roles",
-    "tags": [
-    "Role Management"
-    ],
-    "operationId": "getAllRoles",
-    "responses": {
-    "200": {
-    "description": "All the roles",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Role"
-    }
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Create role for an user",
-    "tags": [
-    "Role Management"
-    ],
-    "operationId": "createRole",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Role"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "User creation successful",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "description": "Fetch all the roles",
+        "tags": ["Role Management"],
+        "operationId": "getAllRoles",
+        "responses": {
+          "200": {
+            "description": "All the roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Role"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create role for an user",
+        "tags": ["Role Management"],
+        "operationId": "createRole",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User creation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/roles/{name}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/name"
-    }
-    ],
-    "get": {
-    "description": "Fetch detail of the role",
-    "tags": [
-    "Role Management"
-    ],
-    "operationId": "getRole",
-    "responses": {
-    "200": {
-    "description": "All the roles",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Role"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "description": "delete the role",
-    "tags": [
-    "Role Management"
-    ],
-    "operationId": "removeRole",
-    "responses": {
-    "200": {
-    "description": "role deleted successfully",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/name"
+        }
+      ],
+      "get": {
+        "description": "Fetch detail of the role",
+        "tags": ["Role Management"],
+        "operationId": "getRole",
+        "responses": {
+          "200": {
+            "description": "All the roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete the role",
+        "tags": ["Role Management"],
+        "operationId": "removeRole",
+        "responses": {
+          "200": {
+            "description": "role deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/user": {
-    "get": {
-    "description": "Fetch all the users",
-    "tags": [
-    "User Management"
-    ],
-    "operationId": "fetchAllUsers",
-    "responses": {
-    "200": {
-    "description": "successfull retrieval",
-    "content": {
-    "application/json": {
-    "schema": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/UserDetails"
-    }
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "Create user of the application",
-    "tags": [
-    "User Management"
-    ],
-    "operationId": "createUser",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/UserDetails"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "User creation successful",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
+      "get": {
+        "description": "Fetch all the users",
+        "tags": ["User Management"],
+        "operationId": "fetchAllUsers",
+        "responses": {
+          "200": {
+            "description": "successfull retrieval",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserDetails"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create user of the application",
+        "tags": ["User Management"],
+        "operationId": "createUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User creation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/user/{username}": {
-    "parameters": [
-    {
-    "$ref": "#/components/parameters/username"
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/username"
+        }
+      ],
+      "get": {
+        "description": "Fetch all the users",
+        "tags": ["User Management"],
+        "operationId": "fetchUser",
+        "responses": {
+          "200": {
+            "description": "successfull retrieval",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "update user of the application",
+        "tags": ["User Management"],
+        "operationId": "updateUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User creation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete user",
+        "tags": ["User Management"],
+        "operationId": "removeUser",
+        "responses": {
+          "200": {
+            "description": "successfull removal",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
     }
-    ],
-    "get": {
-    "description": "Fetch all the users",
-    "tags": [
-    "User Management"
-    ],
-    "operationId": "fetchUser",
-    "responses": {
-    "200": {
-    "description": "successfull retrieval",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/UserDetails"
-    }
-    }
-    }
-    }
-    }
-    },
-    "post": {
-    "description": "update user of the application",
-    "tags": [
-    "User Management"
-    ],
-    "operationId": "updateUser",
-    "requestBody": {
-    "required": true,
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/UserDetails"
-    }
-    }
-    }
-    },
-    "responses": {
-    "201": {
-    "description": "User creation successful",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    },
-    "delete": {
-    "description": "delete user",
-    "tags": [
-    "User Management"
-    ],
-    "operationId": "removeUser",
-    "responses": {
-    "200": {
-    "description": "successfull removal",
-    "content": {
-    "application/json": {
-    "schema": {
-    "$ref": "#/components/schemas/Status"
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    },
-    "components": {
+  },
+  "components": {
     "parameters": {
-    "artisanId": {
-    "in": "path",
-    "name": "artisanId",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "artisan Id of the event to be removed"
-    },
-    "campaignId": {
-    "in": "path",
-    "name": "campaignId",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "campaign Id of the campaign to be fetched"
-    },
-    "eventId": {
-    "in": "path",
-    "name": "eventId",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "Event Id of the event to be updated"
-    },
-    "productCode": {
-    "in": "path",
-    "name": "code",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "code of the category to be deleted"
-    },
-    "productId": {
-    "in": "path",
-    "name": "productId",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "productId of the product to be fetched"
-    },
-    "name": {
-    "in": "path",
-    "name": "name",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "name of the role"
-    },
-    "username": {
-    "in": "path",
-    "name": "username",
-    "required": true,
-    "schema": {
-    "type": "string"
-    },
-    "description": "username of the user"
-    }
+      "artisanId": {
+        "in": "path",
+        "name": "artisanId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "artisan Id of the event to be removed"
+      },
+      "campaignId": {
+        "in": "path",
+        "name": "campaignId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "campaign Id of the campaign to be fetched"
+      },
+      "eventId": {
+        "in": "path",
+        "name": "eventId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Event Id of the event to be updated"
+      },
+      "productCode": {
+        "in": "path",
+        "name": "code",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "code of the category to be deleted"
+      },
+      "productId": {
+        "in": "path",
+        "name": "productId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "productId of the product to be fetched"
+      },
+      "name": {
+        "in": "path",
+        "name": "name",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "name of the role"
+      },
+      "username": {
+        "in": "path",
+        "name": "username",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "username of the user"
+      }
     },
     "schemas": {
-    "Artisan": {
-    "type": "object",
-    "required": [
-    "id",
-    "name",
-    "pointOfContact",
-    "contacts"
-    ],
-    "properties": {
-    "id": {
-    "type": "string"
-    },
-    "name": {
-    "type": "string"
-    },
-    "pointOfContact": {
-    "type": "object",
-    "required": [
-    "name",
-    "address",
-    "contacts"
-    ],
-    "properties": {
-    "name": {
-    "type": "string"
-    },
-    "address": {
-    "$ref": "#/components/schemas/Address"
-    },
-    "contacts": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Contact"
+      "Artisan": {
+        "type": "object",
+        "required": ["id", "name", "pointOfContact", "contacts"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "pointOfContact": {
+            "type": "object",
+            "required": ["name", "address", "contacts"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "address": {
+                "$ref": "#/components/schemas/Address"
+              },
+              "contacts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "emailId": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "required": ["number", "type"],
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "required": ["line1", "state", "city", "pin"],
+        "properties": {
+          "line1": {
+            "type": "string"
+          },
+          "line2": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "pin": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "Campaign": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startdate": {
+            "type": "string"
+          },
+          "enddate": {
+            "type": "string"
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "required": [
+          "name",
+          "startsOn",
+          "endsOn",
+          "location",
+          "pointOfContact"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "startsOn": {
+            "type": "string"
+          },
+          "endsOn": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "pointOfContact": {
+            "type": "string"
+          },
+          "adUrl": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "artisans": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "name"],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "LoginDetails": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "price": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "restrictions": {
+            "type": "object",
+            "properties": {
+              "maximum": {
+                "type": "number"
+              },
+              "minimun": {
+                "type": "number"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "campaigns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Status": {
+        "type": "object",
+        "required": ["status"],
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDetails": {
+        "type": "object",
+        "required": ["identifier"],
+        "properties": {
+          "identifier": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "mobileNumber": {
+                "type": "string"
+              }
+            }
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
-    }
-    }
-    },
-    "address": {
-    "$ref": "#/components/schemas/Address"
-    },
-    "contacts": {
-    "type": "array",
-    "items": {
-    "$ref": "#/components/schemas/Contact"
-    }
-    },
-    "emailId": {
-    "type": "string"
-    },
-    "tags": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    },
-    "description": {
-    "type": "string"
-    },
-    "products": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    }
-    }
-    },
-    "Contact": {
-    "type": "object",
-    "required": [
-    "number",
-    "type"
-    ],
-    "properties": {
-    "number": {
-    "type": "string"
-    },
-    "type": {
-    "type": "string"
-    }
-    }
-    },
-    "Address": {
-    "type": "object",
-    "required": [
-    "line1",
-    "state",
-    "city",
-    "pin"
-    ],
-    "properties": {
-    "line1": {
-    "type": "string"
-    },
-    "line2": {
-    "type": "string"
-    },
-    "city": {
-    "type": "string"
-    },
-    "state": {
-    "type": "string"
-    },
-    "pin": {
-    "type": "string"
-    },
-    "country": {
-    "type": "string"
-    }
-    }
-    },
-    "Campaign": {
-    "type": "object",
-    "properties": {
-    "id": {
-    "type": "string"
-    },
-    "name": {
-    "type": "string"
-    },
-    "code": {
-    "type": "string"
-    },
-    "description": {
-    "type": "string"
-    },
-    "startdate": {
-    "type": "string"
-    },
-    "enddate": {
-    "type": "string"
-    }
-    }
-    },
-    "Event": {
-    "type": "object",
-    "required": [
-    "name",
-    "startsOn",
-    "endsOn",
-    "location",
-    "pointOfContact"
-    ],
-    "properties": {
-    "name": {
-    "type": "string"
-    },
-    "startsOn": {
-    "type": "string"
-    },
-    "endsOn": {
-    "type": "string"
-    },
-    "location": {
-    "type": "string"
-    },
-    "pointOfContact": {
-    "type": "string"
-    },
-    "adUrl": {
-    "type": "string"
-    },
-    "comments": {
-    "type": "string"
-    },
-    "artisans": {
-    "type": "array",
-    "items": {
-    "type": "object",
-    "required": [
-    "id",
-    "name"
-    ],
-    "properties": {
-    "id": {
-    "type": "string"
-    },
-    "name": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "LoginDetails": {
-    "type": "object",
-    "required": [
-    "username",
-    "password"
-    ],
-    "properties": {
-    "username": {
-    "type": "string"
-    },
-    "password": {
-    "type": "string"
-    }
-    }
-    },
-    "Category": {
-    "type": "object",
-    "properties": {
-    "code": {
-    "type": "string"
-    },
-    "name": {
-    "type": "string"
-    },
-    "description": {
-    "type": "string"
-    },
-    "products": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    }
-    }
-    },
-    "Product": {
-    "type": "object",
-    "properties": {
-    "id": {
-    "type": "string"
-    },
-    "name": {
-    "type": "string"
-    },
-    "categories": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    },
-    "description": {
-    "type": "string"
-    },
-    "tag": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    },
-    "price": {
-    "type": "number"
-    },
-    "currency": {
-    "type": "string"
-    },
-    "restrictions": {
-    "type": "object",
-    "properties": {
-    "maximum": {
-    "type": "number"
-    },
-    "minimun": {
-    "type": "number"
-    },
-    "description": {
-    "type": "string"
-    }
-    }
-    },
-    "images": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    },
-    "campaigns": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    }
-    }
-    },
-    "Role": {
-    "type": "object",
-    "required": [
-    "name",
-    "description"
-    ],
-    "properties": {
-    "name": {
-    "type": "string"
-    },
-    "description": {
-    "type": "string"
-    }
-    }
-    },
-    "Error": {
-    "type": "object",
-    "required": [
-    "code",
-    "message"
-    ],
-    "properties": {
-    "code": {
-    "type": "string"
-    },
-    "message": {
-    "type": "string"
-    },
-    "description": {
-    "type": "string"
-    }
-    }
-    },
-    "Status": {
-    "type": "object",
-    "required": [
-    "status"
-    ],
-    "properties": {
-    "status": {
-    "type": "string"
-    }
-    }
-    },
-    "UserDetails": {
-    "type": "object",
-    "required": [
-    "identifier"
-    ],
-    "properties": {
-    "identifier": {
-    "type": "object",
-    "properties": {
-    "username": {
-    "type": "string"
-    },
-    "firstName": {
-    "type": "string"
-    },
-    "lastName": {
-    "type": "string"
-    },
-    "email": {
-    "type": "string"
-    },
-    "mobileNumber": {
-    "type": "string"
-    }
-    }
-    },
-    "password": {
-    "type": "string"
-    },
-    "role": {
-    "type": "array",
-    "items": {
-    "type": "string"
-    }
-    }
-    }
-    }
-    }
-    },
-    "tags": [
+  },
+  "tags": [
     {
-    "name": "Artisan Management",
-    "description": "Everything about managing the Artisans for Dastkar Exhibition System"
+      "name": "Artisan Management",
+      "description": "Everything about managing the Artisans for Dastkar Exhibition System"
     },
     {
-    "name": "Event Management",
-    "description": "Everything about managing the Events for Dastkar Exhibition System"
+      "name": "Event Management",
+      "description": "Everything about managing the Events for Dastkar Exhibition System"
     },
     {
-    "name": "Campaign Management",
-    "description": "Everything about managing the Campaigns for Dastkar Exhibition System"
+      "name": "Campaign Management",
+      "description": "Everything about managing the Campaigns for Dastkar Exhibition System"
     },
     {
-    "name": "Product Management",
-    "description": "Everything about managing the Products for Dastkar Exhibition System"
+      "name": "Product Management",
+      "description": "Everything about managing the Products for Dastkar Exhibition System"
     },
     {
-    "name": "Product Categories Management",
-    "description": "Everything about managing the Categories of Products for Dastkar Exhibition System"
+      "name": "Product Categories Management",
+      "description": "Everything about managing the Categories of Products for Dastkar Exhibition System"
     },
     {
-    "name": "User Management",
-    "description": "Everything about managing the Users for Dastkar Exhibition System"
+      "name": "User Management",
+      "description": "Everything about managing the Users for Dastkar Exhibition System"
     },
     {
-    "name": "Role Management",
-    "description": "Everything about managing the Roles for the Users for Dastkar Exhibition System"
+      "name": "Role Management",
+      "description": "Everything about managing the Roles for the Users for Dastkar Exhibition System"
     },
     {
-    "name": "Session Management",
-    "description": "Everything about managing the Session for Dastkar Exhibition System"
+      "name": "Session Management",
+      "description": "Everything about managing the Session for Dastkar Exhibition System"
+    },
+    {
+      "name": "Health Check",
+      "description": "Health check for the APIs"
     }
-    ]
-    }
+  ]
+}

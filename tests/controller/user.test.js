@@ -1,5 +1,4 @@
 import app from "../../src/app";
-// import bcrypt from "bcrypt";
 import request from "supertest";
 import { initializeLogger } from "../../src/utils/logger";
 import { closeDatabase, clearDatabase } from "../../src/db/handler";

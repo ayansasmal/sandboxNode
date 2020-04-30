@@ -1,0 +1,20 @@
+paths:
+  /healthcheck:
+    get:
+      summary: To check the health of the application
+      tags:
+        - Health Check
+      operationId: healthCheck
+      responses:
+        "200":
+          description: successfull reponse if the app is up and running
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
