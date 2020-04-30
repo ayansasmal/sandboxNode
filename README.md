@@ -35,7 +35,9 @@ npm start-prod
 ## Dependencies
 [![David](https://david-dm.org/ayansasmal/sandboxNode.svg)](https://david-dm.org/ayansasmal/sandboxNode)
 
-## API OAS
-The OAS for the APIs is available on [Swagger Docs](http://localhost:8080/api-doc)
+## API OAS 
+[![Swagger Validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fayansasmal%2FsandboxNode%2Fmaster%2Fswagger.json)]
 
-Pre-requisite : Start the app in development mode
+The OAS for the APIs is available on [Swagger Docs](https://raw.githubusercontent.com/ayansasmal/sandboxNode/master/swagger.json)
+
+To get the latest swagger spec, start the app in development mode and open http://localhost:8080/api-doc or http://localhost:8080/swagger.json
