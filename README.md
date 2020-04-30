@@ -21,7 +21,7 @@ OR
 yarn install
 ```
 
-## Running the app for development
+## Running the app
 
 For development
 ```
@@ -37,4 +37,5 @@ npm start-prod
 
 ## API OAS
 The OAS for the APIs is available on [Swagger Docs](http://localhost:8080/api-doc)
+
 Pre-requisite : Start the app in development mode
