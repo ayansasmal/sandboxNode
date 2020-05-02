@@ -9,7 +9,7 @@
     "start-prod": "env-cmd -e production nodemon -e js,json,yaml --exec babel-node ./src/index.js",
     "start-dummy": "nodemon -e js,json,yaml --exec babel-node ./src/dummy.js",
     "test": "env-cmd -e test jest --coverage",
-    "test-report": "env-cmd -e test jest && codecov -t ecae250d-23e3-4bbe-a753-34559f60e62a",
+    "test-report": "env-cmd -e test jest --coverage && codecov -t ecae250d-23e3-4bbe-a753-34559f60e62a",
     "test-watch": "env-cmd -e test jest --coverage --watchAll"
   },
   "dependencies": {

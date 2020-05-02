@@ -96,31 +96,38 @@ const update = async (username, user) => {
       { "identifier.username": username },
       user,
       (err, doc) => {
-        if (err) {
-          reject(err);
-        }
         if (doc) {
           logger.debug(`Updated doc ${doc}`);
           resolve(doc);
         }
+        logger.error(`Unable to find user ${JSON.stringify(err) | username}`);
+        reject({
+          status: "error",
+          message: `Unable to find user with ${JSON.stringify(err) | username}`,
+        });
       }
     );
   });
 };
 
-const remove = async user => {
-  return new Promise ((resolve, reject) => {
+const remove = async (user) => {
+  return new Promise((resolve, reject) => {
     User.findOneAndDelete(user, (err, res) => {
-      if(err){
-        logger.error(`delete response ${err}`);
-        reject(err);
-      }
-      if(res){
+      if (res) {
         logger.debug(`delete response ${res}`);
         resolve(res);
       }
-    })
-  })
+      logger.error(
+        `unable to find ${JSON.stringify(err) | JSON.stringify(user)}`
+      );
+      reject({
+        status: "error",
+        message: `Unable to find user with ${
+          JSON.stringify(err) | JSON.stringify(user)
+        }`,
+      });
+    });
+  });
 };
 
-export default { create, retrieveUser, isUsernameAvailable, update , remove};
+export default { create, retrieveUser, isUsernameAvailable, update, remove };

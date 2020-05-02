@@ -139,6 +139,7 @@ const updateLoginCreds = async (loginCreds) => {
 };
 
 const deleteLoginCreds = async (username) => {
+  logger.debug(`'Trying to delete ${username}'`);
   return new Promise((resolve, reject) => {
     Login.findOneAndDelete({username}, (err, res) => {
       if(err){
@@ -148,7 +149,9 @@ const deleteLoginCreds = async (username) => {
       if(res){
         logger.debug(`login creds deleted ${JSON.stringify(res)}`);
         resolve(res);
-      }
+      } 
+      logger.debug(`Unable to find any user`);
+      reject({status:"error", message:`"unable to find login creds for ${username}"`})
     })
   })
 

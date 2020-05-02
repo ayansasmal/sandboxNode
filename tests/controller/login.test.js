@@ -7,6 +7,7 @@ import { closeDatabase, clearDatabase } from "../../src/db/handler";
 // models
 import login from "../../src/db/models/login";
 import loginOperation from "../../src/db/operations/login";
+import { logger } from "../../src/utils/jwt";
 
 const testLogger = initializeLogger("login-test-js");
 
@@ -278,3 +279,13 @@ test("Neagtive Test to check who logged in with no token", async () => {
     .expect("Content-Type", "application/json; charset=utf-8")
     .expect(404);
 });
+
+test("Test to delete invalid user", async () => {
+  testLogger.debug("Test to delete invalid user");
+  try{
+    const deleteStatus = await loginOperation.deleteLoginCreds("ayansasmalNotThere");
+    logger.debug(`DeleteStatus ${JSON.stringify(deleteStatus)}`);
+  } catch(err){
+    logger.error(`Unable to delete user ${JSON.stringify(err)}`, err)
+  }
+})
