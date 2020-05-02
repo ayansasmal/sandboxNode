@@ -15,6 +15,9 @@ let appServer;
 
 const authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXVzZXItY3JlYXRlIiwiZGFzdGthci1hcHAtYWRtaW4iXSwiaWF0IjoxNTg4MjM0MTE4fQ.VweZblvaVSgfi0z2CUdIRqAaVWouW4SQ406_lKlYwjU";
 
+const authWithAllRole =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXJvbGUtY3JlYXRlIiwiZGFzdGthci1yb2xlLXJlYWQiLCJkYXN0a2FyLXJvbGUtZGVsZXRlIiwiZGFzdGthci1hcHAtYWRtaW4iXSwiaWF0IjoxNTg4MjM0MTE4fQ.BCyNa7jMlPMwJvCjX3gPYdJkm6YbYujThXWfo5vCz4U";
+
 beforeAll(async () => {
   appServer = await app;
   await clearDatabase();
@@ -33,6 +36,14 @@ afterEach(() => {});
 test("Test to check login details", async () => {
   testLogger.debug("Test to check login details...");
   await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-admin", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
     .post("/user")
     .send({
       identifier: {
@@ -43,7 +54,7 @@ test("Test to check login details", async () => {
         mobileNumber: "0452299076",
       },
       password: "ayansasmal",
-      role: ["dastkar-app-creator", "dastkar-super-user"],
+      role: ["dastkar-app-admin"],
     })
     .set("Accept", "application/json")
     .set(
@@ -74,6 +85,14 @@ test("Test to check login details", async () => {
 test("Test to check login details with invalid password", async () => {
   testLogger.debug("Test to check login details...");
   await request(appServer)
+  .post("/roles")
+  .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+  .set("Accept", "application/json")
+  .set("authorization", authWithAllRole)
+  .expect("Content-Type", "application/json; charset=utf-8")
+  .expect(201);
+
+  await request(appServer)
     .post("/user")
     .send({
       identifier: {
@@ -84,7 +103,7 @@ test("Test to check login details with invalid password", async () => {
         mobileNumber: "0452299076",
       },
       password: "password",
-      role: ["dastkar-app-creator", "dastkar-super-user"],
+      role: ["dastkar-app-creator"],
     })
     .set("Accept", "application/json")
     .set(

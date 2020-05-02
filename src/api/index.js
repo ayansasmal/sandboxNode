@@ -10,7 +10,7 @@ import {
 import {
   createRole,
   fetchAllRoles,
-  fetchRole,
+  fetchRole,removeRole
 } from "./controllers/roles-controller";
 
 const logger = initializeLogger("api-index");
@@ -31,5 +31,6 @@ export default {
   whoami,
   createRole,
   getAllRoles: fetchAllRoles,
-  fetchRole,
+  getRole: fetchRole,
+  removeRole
 };

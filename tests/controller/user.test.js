@@ -21,6 +21,9 @@ const authWithAdminRole =
 const authWithNoRightRole =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLWFwcC1jcmVhdG9yIl0sImlhdCI6MTU4ODIzNDExOH0._c7gG3AE10II_G8L2C9qx_52as5k6Zq6m3QsCwM2wb8";
 
+const authWithAllRole =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXJvbGUtY3JlYXRlIiwiZGFzdGthci1yb2xlLXJlYWQiLCJkYXN0a2FyLXJvbGUtZGVsZXRlIiwiZGFzdGthci1hcHAtYWRtaW4iXSwiaWF0IjoxNTg4MjM0MTE4fQ.BCyNa7jMlPMwJvCjX3gPYdJkm6YbYujThXWfo5vCz4U";
+
 beforeAll(async () => {
   // console.log('in User test');
   appServer = await app;
@@ -45,6 +48,14 @@ test("Test to check User creation", async () => {
   testName = "Test to check User creation";
   testLogger.debug("Test to check User creation...");
   await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
     .post("/user")
     .send({
       identifier: {
@@ -55,7 +66,7 @@ test("Test to check User creation", async () => {
         mobileNumber: "0452299076",
       },
       password: "ayansasmal",
-      role: ["dastkar-app-creator", "dastkar-super-user"],
+      role: ["dastkar-app-creator"],
     })
     .set("Accept", "application/json")
     .set("authorization", authWithBothRoles)
@@ -75,9 +86,61 @@ test("Test to check User creation", async () => {
   });
 });
 
+test("Test to check User creation with invalid roles", async () => {
+  testName = "Test to check User creation with invalid roles";
+  testLogger.debug("Test to check User creation with invalid roles");
+  await request(appServer)
+    .post("/user")
+    .send({
+      identifier: {
+        username: "ayansasmalBoth",
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi@gmail.com",
+        mobileNumber: "0452299076",
+      },
+      password: "ayansasmal",
+      role: ["dastkar-app-creator","dastkar-user-read"],
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithBothRoles)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(400);
+});
+
+test("Test to check User creation with no roles", async () => {
+  testName = "Test to check User creation with no roles";
+  testLogger.debug("Test to check User creation with no roles");
+  await request(appServer)
+    .post("/user")
+    .send({
+      identifier: {
+        username: "ayansasmalBoth",
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi@gmail.com",
+        mobileNumber: "0452299076",
+      },
+      password: "ayansasmal"
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithBothRoles)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(400);
+});
+
+
 test("Test to check User creation with User Role", async () => {
   testName = "Test to check User creation with User Role";
   testLogger.debug(testName);
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -89,7 +152,7 @@ test("Test to check User creation with User Role", async () => {
         mobileNumber: "0452299076",
       },
       password: "ayansasmal",
-      role: ["dastkar-app-creator", "dastkar-super-user"],
+      role: ["dastkar-app-creator"],
     })
     .set("Accept", "application/json")
     .set("authorization", authWithUserRole)
@@ -112,6 +175,22 @@ test("Test to check User creation with User Role", async () => {
 test("Test to check User creation with Admin Role", async () => {
   testName = "Test to check User creation with Admin Role";
   testLogger.debug(testName);
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -146,6 +225,22 @@ test("Test to check User creation with Admin Role", async () => {
 test("Test to check User creation with No Role", async () => {
   testName = "Test to check User creation with No Role";
   testLogger.debug(testName);
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   const response = await request(appServer)
     .post("/user")
     .send({
@@ -171,6 +266,22 @@ test("Test to check User creation with invalid password", async () => {
   testName = "Test to check User creation with invalid password";
   testLogger.debug("Test to check User creation with invalid password");
   await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
     .post("/user")
     .send({
       identifier: {
@@ -192,6 +303,22 @@ test("Test to check User creation with invalid password", async () => {
 test("Test to check User creation with invalid email", async () => {
   testName = "Test to check User creation with invalid email";
   testLogger.debug("Test to check User creation with invalid email");
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -226,6 +353,22 @@ test("Test to check User creation with blank details", async () => {
 test("Test to check User creation with duplicate username", async () => {
   testName = "Test to check User creation with duplicate username";
   testLogger.debug("Test to check User creation with duplicate username");
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -265,6 +408,23 @@ test("Test to check User creation with duplicate username", async () => {
 
 test("Test User creation with invalid emailaddress", async () => {
   testName = "Test User creation with invalid emailaddress";
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   try {
     await new UserModel({
       identifier: {
@@ -284,6 +444,22 @@ test("Test User creation with invalid emailaddress", async () => {
 test("Test to fetch User details", async () => {
   testName = "Test to fetch User details";
   testLogger.debug("Test to fetch User details");
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   const response = await request(appServer)
     .post("/user")
     .send({
@@ -315,6 +491,22 @@ test("Test to fetch User details", async () => {
 test("Test to fetch invalid User details", async () => {
   testName = "Test to fetch invalid User details";
   testLogger.debug("Test to fetch User details");
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   const response = await request(appServer)
     .post("/user")
     .send({
@@ -344,6 +536,22 @@ test("Test to fetch invalid User details", async () => {
 test("Test to fetch all users", async () => {
   testName = "Test to fetch all users";
   testLogger.debug("Test to fetch all users");
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   const response = await request(appServer)
     .post("/user")
     .send({
@@ -390,6 +598,22 @@ test("Test to fetch all users when no users", async () => {
 test("Test to update the user details", async () => {
   testName = "Test to update the user details";
   testLogger.debug(testName);
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -466,12 +690,28 @@ test("Test to update the user details", async () => {
     })
     .set("Accept", "application/json")
     .set("authorization", authWithUserRole)
-    .expect(201);
+    .expect(400);
 });
 
 test("Test to delete User", async () => {
   testName = "Test to delete User";
   testLogger.debug(testName);
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -516,6 +756,23 @@ test("Test to delete User", async () => {
 test("Test to delete Logged in User", async () => {
   testName = "Test to delete Logged in User";
   testLogger.debug(testName);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-app-creator", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/roles")
+    .send({ name: "dastkar-super-user", description: "Role for app admin" })
+    .set("Accept", "application/json")
+    .set("authorization", authWithAllRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
   await request(appServer)
     .post("/user")
     .send({
@@ -563,4 +820,3 @@ test("Test to delete invalid User", async () => {
 
   testLogger.debug(`Delete response ${JSON.stringify(deleteResponse.body)}`);
 });
-

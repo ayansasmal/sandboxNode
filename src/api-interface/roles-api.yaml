@@ -5,6 +5,11 @@ paths:
       tags:
         - Role Management
       operationId: getAllRoles
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-role-read
+        - dastkar-app-admin
       responses:
         "200":
           description: All the roles
@@ -19,6 +24,11 @@ paths:
       tags:
         - Role Management
       operationId: createRole
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-role-create
+        - dastkar-app-admin
       requestBody:
         required: true
         content:
@@ -40,6 +50,11 @@ paths:
       tags:
         - Role Management
       operationId: getRole
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-role-read
+        - dastkar-app-admin
       responses:
         "200":
           description: All the roles
@@ -52,6 +67,11 @@ paths:
       tags:
         - Role Management
       operationId: removeRole
+      x-middleware:
+        - roleMiddleware
+      x-role: 
+        - dastkar-role-delete
+        - dastkar-app-admin
       responses:
         "200":
           description: role deleted successfully

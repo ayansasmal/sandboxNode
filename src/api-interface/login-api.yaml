@@ -15,7 +15,7 @@ paths:
         "200":
           description: Successfull Login
           headers:
-            session:
+            authorization:
               description: header value containing the JWT for the session
               schema:
                 type: string
@@ -23,7 +23,7 @@ paths:
               description: set cookie with the jwt for the session
               schema:
                 type: string
-                example: sessionid=abcde12345; Path=/; HttpOnly
+                example: authorization=abcde12345; Path=/; HttpOnly
           content:
             application/json:
               schema:
@@ -31,7 +31,7 @@ paths:
         "204":
           description: Successful login
           headers:
-            session:
+            authorization:
               description: header value containing the JWT for the session
               schema:
                 type: string
@@ -39,7 +39,7 @@ paths:
               description: set cookie with the jwt for the session
               schema:
                 type: string
-                example: sessionid=abcde12345; Path=/; HttpOnly
+                example: authorization=abcde12345; Path=/; HttpOnly
           content:
             application/json:
               schema:

@@ -1,5 +1,6 @@
 import Users from "../../db/operations/user";
 import login from "../../db/operations/login";
+import Roles from "../../db/operations/roles";
 import { initializeLogger } from "../../utils/logger";
 
 import bcrypt from "bcrypt";
@@ -10,7 +11,8 @@ export const createUser = async (req, res) => {
   logger.debug("Create user");
   try {
     const isAvailable = await checkIfUsernameIsAvailable(req, res);
-    if (isAvailable) {
+    const areRolesValid = await checkIfValidRolesProvided(req.body.role)
+    if (isAvailable && areRolesValid) {
       const id = await createAvailableUsername(req, res);
       logger.debug(`ID of created User ${id}`);
       if (id) {
@@ -36,6 +38,18 @@ export const createUser = async (req, res) => {
     res.json(err);
   }
 };
+
+const checkIfValidRolesProvided = async roles => {
+  if(roles && roles.length>=1){
+    let areRolesValid = true;
+    roles.forEach(role => {
+      if(areRolesValid)
+        areRolesValid = Roles.isValidRole({name:role})
+    });
+    return areRolesValid;
+  }
+  return false;
+}
 
 const checkIfUsernameIsAvailable = async (req, res) => {
   const isUserNameAvailable = await Users.isUsernameAvailable({
@@ -72,12 +86,22 @@ export const updateUser = async (req, res) => {
   logger.debug(
     `Updating the user ${req.params.username} ${JSON.stringify(newDetail)}`
   );
+  if(newDetail.role && newDetail.role.length>=1){
+    const areRolesValid = await checkIfValidRolesProvided(newDetail.role);
+    if(!areRolesValid){
+      logger.error(`Provided roles are invalid ${JSON.stringify(newDetail.role)}`);
+      res.status(400).json({status:"error", message:"Roles are invalid"});
+      return;
+    }
+  }
+
   //fetch the user
   const users = await Users.retrieveUser({
     "identifier.username": req.params.username,
   });
   const existingDetail = users.records[0];
   logger.debug(`Existing details ${JSON.stringify(existingDetail)}`);
+  
   // translate the new information
   const updatedDetail = translateDetails(newDetail, existingDetail);
 

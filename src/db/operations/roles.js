@@ -15,7 +15,7 @@ const create = async (name, description) => {
     name,
     description,
     createdBy: "Ayan",
-    createdOn: LocaleDate
+    createdOn: LocaleDate,
   }).save();
 };
 
@@ -24,58 +24,55 @@ const fetchAll = async () => {
   return new Promise((resolve, reject) => {
     Role.find({}, (err, data) => {
       if (data) {
+        logger.debug(`Fetched roles ${JSON.stringify(data)}`);
         resolve(data);
-      } else {
-        reject(err);
       }
+      logger.error(`unable to fetch roles due to ${JSON.stringify(err)}`, err);
     });
   });
 };
 
-const fetch = async role => {
-  logger.debug("Reading all the Tasks");
+const fetch = async (role) => {
+  logger.debug(`"Fetching roles with ${role}"`);
   return new Promise((resolve, reject) => {
-    Role.find({ name: role }, (err, data) => {
+    Role.find({ name: role }, (err, data) => {      
+      logger.debug(`Found data ${JSON.stringify(data)}`);
       if (data) {
         resolve(data);
-      } else {
-        reject(err);
       }
+      logger.error(
+        `unable to fetch roles due to ${
+          JSON.stringify(err) | JSON.stringify(role)
+        }`
+      );
+      reject({status:"Error",message:"No roles found"});
     });
   });
 };
 
-const isValidRole = async role => {
-  logger.debug(`Trying to validate ${role}`);
+const isValidRole = async (role) => {
+  logger.debug(`Trying to validate ${JSON.stringify(role)}`);
   return new Promise((resolve, reject) => {
     Role.findOne(role, (err, data) => {
-      if (data.length === 1) {
-        resolve({ status: "success", message: "role is valid" });
-      } else {
-        reject({ status: "error", message: "No or multiple role found" });
-      }
-    });
-  });
-};
-
-const exists = async role => {
-  logger.debug(`Trying to find ${JSON.stringify(role)}`);
-  return new Promise((resolve, reject) => {
-    Role.findOne(role, (err, data) => {
-      if (err) {
-        reject({
-          status: "error",
-          message: "Unable to find role",
-          description: JSON.stringify(err)
-        });
-      }
       if (data) {
         resolve(true);
-      } else {
-        resolve(false);
       }
+      resolve(false);
     });
   });
 };
 
-export default { create, fetchAll, fetch, isValidRole, exists };
+const deleteRole = async (role) => {
+  logger.debug(`Trying to delete role ${role}`);
+  return new Promise((resolve, reject) => {
+    Role.findOneAndDelete({name:role},(err, res)=> {
+      if(res){
+        resolve(res);
+      }
+      logger.error(`Unable to delete role ${role}`);
+      reject({status:"error", message:`Unable to delete ${role} due to ${JSON.stringify(err)}`});
+    })
+  });
+}
+
+export default { create, fetchAll, fetch, isValidRole, deleteRole };
