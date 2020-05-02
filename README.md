@@ -1,4 +1,4 @@
-# REST Services for Dastkar Billing Managment System
+# REST Services for Dastkar Exhibition Managment System
 
 [![David](https://david-dm.org/ayansasmal/sandboxNode.svg)](https://david-dm.org/ayansasmal/sandboxNode)
 [![devDependencies Status](https://david-dm.org/ayansasmal/sandboxNode/dev-status.svg)](https://david-dm.org/ayansasmal/sandboxNode?type=dev)
