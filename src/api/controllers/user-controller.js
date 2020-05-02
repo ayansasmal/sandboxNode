@@ -1,7 +1,9 @@
 import Users from "../../db/operations/user";
-import { initializeLogger } from "../../utils/logger";
 import login from "../../db/operations/login";
-import {getRoles} from "../../utils/headerUtils";
+import { initializeLogger } from "../../utils/logger";
+
+import bcrypt from "bcrypt";
+import _ from "lodash";
 
 const logger = initializeLogger("user-controller");
 
@@ -11,12 +13,12 @@ export const createUser = async (req, res) => {
     const isAvailable = await checkIfUsernameIsAvailable(req, res);
     if (isAvailable) {
       const id = await createAvailableUsername(req, res);
-      logger.debug(`ID of created User ${id}`)
+      logger.debug(`ID of created User ${id}`);
       if (id) {
         const createCreds = await login.createLoginCreds({
           username: req.body.identifier.username,
           email: req.body.identifier.email,
-          password: req.body.password
+          password: req.body.password,
         });
         logger.debug(`Created login creds ${JSON.stringify(createCreds)}`);
         res.status(201);
@@ -25,23 +27,20 @@ export const createUser = async (req, res) => {
         res.status(400);
         res.json({ status: "error", message: "Username is not available" });
       }
-
     } else {
       res.status(400);
       res.json({ status: "error", message: "Username is not available" });
     }
-
   } catch (err) {
-    logger.error('Unable to create user', err);
+    logger.error("Unable to create user", err);
     res.status(400);
     res.json(err);
   }
-
 };
 
 const checkIfUsernameIsAvailable = async (req, res) => {
   const isUserNameAvailable = await Users.isUsernameAvailable({
-    "identifier.username": req.body.identifier.username
+    "identifier.username": req.body.identifier.username,
   });
   logger.debug(JSON.stringify(isUserNameAvailable));
   if (isUserNameAvailable.status === "success") {
@@ -49,7 +48,6 @@ const checkIfUsernameIsAvailable = async (req, res) => {
       `User name is valid and available ${JSON.stringify(isUserNameAvailable)}`
     );
     return true;
-
   } else {
     logger.error(
       `Unable to create user ${req.body.identifier.username} as it exists`
@@ -71,10 +69,34 @@ const createAvailableUsername = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  logger.debug(req.params);
+  const newDetail = req.body;
   logger.debug(
-    `Updating the user ${req.params.username} ${JSON.stringify(req.body)}`
+    `Updating the user ${req.params.username} ${JSON.stringify(newDetail)}`
   );
+  //fetch the user
+  const users = await Users.retrieveUser({
+    "identifier.username": req.params.username,
+  });
+  const existingDetail = users.records[0];
+  logger.debug(`Existing details ${JSON.stringify(existingDetail)}`);
+  // translate the new information
+  const updatedDetail = translateDetails(newDetail, existingDetail);
+
+  //update the user details in user table
+  const updatedRecord = await Users.update(req.params.username, updatedDetail);
+  logger.debug(`Updated doc ${JSON.stringify(updatedRecord)}`);
+
+  if (newDetail.password) {
+    //update login details
+    await updateCredentials(req, newDetail, res);
+  } else {
+    res.status(201).json({
+      status: "success",
+      message: "User details updated successfully",
+    });
+  }
+
+  res.status(501).send();
 };
 
 export const removeUser = async (req, res) => {
@@ -84,7 +106,9 @@ export const removeUser = async (req, res) => {
 export const fetchUser = async (req, res) => {
   logger.debug(`Finding user ${JSON.stringify(req.params)}`);
   try {
-    const user = await Users.retrieveUser({"identifier.username":req.params.username});
+    const user = await Users.retrieveUser({
+      "identifier.username": req.params.username,
+    });
     logger.debug(`Fetched user ${JSON.stringify(user)}`);
     res.status(200);
     res.json(user.records[0]);
@@ -108,3 +132,61 @@ export const fetchAllUsers = async (req, res) => {
     res.json(err);
   }
 };
+
+async function updateCredentials(req, newDetail, res) {
+  const loginDetails = await login.fetchLoginCreds({
+    username: req.params.username,
+  });
+  logger.debug(`Fetched Login details ${JSON.stringify(loginDetails)}`);
+  //validate if password match
+  const isValidPassword = await bcrypt.compare(
+    newDetail.oldPassword,
+    loginDetails[0].password
+  );
+  logger.debug(`'Password is valid ?? ' ${isValidPassword}`);
+  if (isValidPassword) {
+    //update the login credentials
+    const loginUpdateStatus = await login.updateLoginCreds({
+      username: req.params.username,
+      oldPassword: newDetail.oldPassword,
+      newPassword: newDetail.password,
+    });
+    if (loginUpdateStatus.status === "success") {
+      logger.debug("All good so far! Updated Login details");
+      res.status(201).json({
+        status: "success",
+        message: "User details updated successfully",
+      });
+    }
+  } else {
+    res.status(403).send();
+  }
+}
+
+function translateDetails(newDetail, existingDetail) {
+  const newIdentifier = newDetail.identifier;
+  const existingIdentifier = existingDetail.identifier;
+  const updatedDetail = {};
+  updatedDetail.identifier = existingIdentifier;
+  updatedDetail.role = existingDetail.role;
+  if (newIdentifier != {}) {
+    logger.debug(
+      `${JSON.stringify(newIdentifier)} -> ${JSON.stringify(
+        existingIdentifier
+      )}`
+    );
+
+    if (newIdentifier.email)
+      updatedDetail.identifier.email = newIdentifier.email;
+    if (newIdentifier.firstName)
+      updatedDetail.identifier.firstName = newIdentifier.firstName;
+    if (newIdentifier.lastName)
+      updatedDetail.identifier.lastName = newIdentifier.lastName;
+    if (newIdentifier.mobileNumber)
+      updatedDetail.identifier.mobileNumber = newIdentifier.mobileNumber;
+  }
+  if (newDetail.role) {
+    updatedDetail.role = newDetail.role;
+  }
+  return updatedDetail;
+}

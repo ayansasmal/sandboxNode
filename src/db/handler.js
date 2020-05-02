@@ -4,6 +4,7 @@ import { initializeLogger } from "../utils/logger";
 
 const logger = initializeLogger("handler-js");
 let mongod = undefined;
+let isDbAvailable = true;
 
 /**
  * Connect to the in-memory database.
@@ -43,6 +44,7 @@ export async function connectDatabase() {
 
     await connect(uri, mongooseOpts);
     logger.debug(`connected to db at ${uri}`);
+    isDbAvailable=true;
   } catch (err) {
     logger.error("Unable to connect to DB");
     logger.error(err);
@@ -53,11 +55,12 @@ export async function connectDatabase() {
  * Drop database, close the connection and stop mongod.
  */
 export async function closeDatabase() {
-  if (mongod && connection.db) {
+  if (isDbAvailable && mongod && connection.db) {
     logger.debug("Closing DB connection");
     await connection.dropDatabase();
     await connection.close();
     await mongod.stop();
+    isDbAvailable = false;
   } else {
     logger.error("DB is not connected...");
   }
@@ -68,7 +71,7 @@ export async function closeDatabase() {
  */
 export async function clearDatabase() {
   try{
-    if (mongod && connection.db) {
+    if (isDbAvailable && mongod && connection.db) {
       const collections = connection.collections;
       for (const key in collections) {
         const collection = collections[key];

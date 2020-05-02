@@ -84,6 +84,19 @@ const isUsernameAvailable = async user => {
   });
 };
 
-const update = async user => {};
+const update = async (username, user) => {
+  logger.debug(`Updating user with ${username} and ${JSON.stringify(user)}`);
+  return new Promise((resolve, reject)=>{
+    User.findOneAndUpdate({"identifier.username":username},user,(err, doc)=>{
+      if(err){
+        reject(err);
+      }
+      if(doc){
+        logger.debug(`Updated doc ${doc}`);
+        resolve(doc);
+      }
+    })
+  })
+};
 
-export default { create, retrieveUser, isUsernameAvailable };
+export default { create, retrieveUser, isUsernameAvailable, update};

@@ -1,11 +1,10 @@
-import app from "../../src/app";
 import request from "supertest";
-import { initializeLogger, getMessageId } from "../../src/utils/logger";
-import { closeDatabase, clearDatabase } from "../../src/db/handler";
-
+import app from "../../src/app";
+import { clearDatabase, closeDatabase } from "../../src/db/handler";
 // models
 import UserModel from "../../src/db/models/user";
-import UserOperation from "../../src/db/operations/user";
+import { getMessageId, initializeLogger } from "../../src/utils/logger";
+import bcrypt from "bcrypt";
 
 const testLogger = initializeLogger("user-test-js");
 
@@ -13,10 +12,10 @@ let appServer;
 let testName;
 
 const authWithBothRoles =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXVzZXItY3JlYXRlIiwiZGFzdGthci1hcHAtYWRtaW4iXSwiaWF0IjoxNTg4MjM0MTE4fQ.VweZblvaVSgfi0z2CUdIRqAaVWouW4SQ406_lKlYwjU";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXVzZXItY3JlYXRlIiwiZGFzdGthci1hcHAtYWRtaW4iLCJkYXN0a2FyLXVzZXItdXBkYXRlIl0sImlhdCI6MTU4ODIzNDExOH0.WgamTatK5p8P6ghKL3WyzFBg4AMPs5oZn48VGZwKEXA";
 
 const authWithUserRole =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXVzZXItY3JlYXRlIl0sImlhdCI6MTU4ODIzNDExOH0.8DFHMRuUB-3SYiiy1jIveO-TrAd_4YL6lJ9VB1Dxyuk";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLXVzZXItY3JlYXRlIiwiZGFzdGthci11c2VyLXVwZGF0ZSIsImRhc3RrYXItdXNlci1yZWFkIiwiZGFzdGthci11c2VyLWRlbGV0ZSIsImRhc3RrYXItYXBwLWFkbWluIl0sImlhdCI6MTU4ODIzNDExOH0.EjKKxxmmv4B4btYdyNd2dogqEqxbTbnzFrfLOfbG19Y";
 const authWithAdminRole =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5YW5zYXNtYWwiLCJmaXJzdG5hbWUiOiJBeWFuIiwibGFzdG5hbWUiOiJzYXNtYWwiLCJlbWFpbCI6ImF5YW5kZWxoaUBnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOiIwNDUyMjk5MDc2Iiwicm9sZSI6WyJkYXN0a2FyLWFwcC1hZG1pbiJdLCJpYXQiOjE1ODgyMzQxMTh9.GOUlCR8YHGyCgJbA6hyP5Bl7w7LyUSWssSAduvLyQXw";
 const authWithNoRightRole =
@@ -388,3 +387,84 @@ test("Test to fetch all users when no users", async () => {
 });
 
 // test updating user
+test("Test to update the user details", async () => {
+  testName = "Test to update the user details";
+  testLogger.debug(testName);
+  await request(appServer)
+    .post("/user")
+    .send({
+      identifier: {
+        username: "ayansasmalBoth",
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi@gmail.com",
+        mobileNumber: "0452299076",
+      },
+      password: "ayansasmal",
+      role: ["dastkar-app-creator", "dastkar-super-user"],
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithBothRoles)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  const updateResp = await request(appServer)
+    .post("/user/ayansasmalBoth")
+    .send({
+      identifier: {
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi1@gmail.com",
+        mobileNumber: "61452299076",
+      },
+      password: "ayansasmalNew",
+      oldPassword: "ayansasmal",
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithUserRole)
+    .expect(201);
+  console.log("Update response", updateResp.body);
+
+  const fetchResponse = await request(appServer)
+    .get("/user/ayansasmalBoth")
+    .set("Accept", "application/json")
+    .set("authorization", authWithAdminRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(200);
+
+  console.log("Fetch response", fetchResponse.body);
+  expect(fetchResponse.body.identifier.email).toBe("ayandelhi1@gmail.com");
+  expect(fetchResponse.body.identifier.mobileNumber).toBe("61452299076");
+
+  await request(appServer)
+    .post("/login")
+    .send({ username: "ayansasmalBoth", password: "ayansasmalNew" })
+    .set("Accept", "application/json")
+    .expect(204);
+
+  testLogger.debug("Test cases are good till here");
+  testLogger.debug("before update request with names");
+  await request(appServer)
+    .post("/user/ayansasmalBoth")
+    .send({
+      identifier: {
+        firstName: "Ayan",
+        lastName: "sasmal",
+      },
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithUserRole)
+    .expect(201);
+
+  testLogger.debug("Test cases are good till here");
+  testLogger.debug("before update request with roles");
+  await request(appServer)
+    .post("/user/ayansasmalBoth")
+    .send({
+      identifier:{},
+      role: ["dastkar-app-one"],
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithUserRole)
+    .expect(201);
+});

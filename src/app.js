@@ -76,7 +76,9 @@ app.use(async (req, res, next) => {
   if (excluded) {
     next();
   } else {
-    await proceedWithUserValidation(headers, next, req, res);
+    logger.debug("Validating the username");
+    logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
+    await proceedWithUserValidation(next, req, res);
   }
 });
 
@@ -94,6 +96,7 @@ const roleMiddleware = async (req, res, next) => {
     let isRolePresent = false;
     requiredRole.forEach((role) => {
       if (rolesInHeader.includes(role)) {
+        logger.debug(`Found role ${role}`);
         isRolePresent = true;
       }
     });
@@ -110,7 +113,6 @@ const loadRoutes = async (app) => {
   const connect = connector(api, swaggerSpec, {
     onCreateRoute: (method, descriptor) => {
       // logger.debug(`Interface created : ${method} ${descriptor[0]} ${descriptor[2]} `);
-      // console.log(`Interface created : ${method} ${descriptor[0]} ${descriptor[2]} `);
     },
     middleware: {
       roleMiddleware,
@@ -149,9 +151,7 @@ const isExcluded = async (req) => {
   });
   return isExcluded;
 };
-async function proceedWithUserValidation(headers, next, req, res) {
-  logger.debug("Validating the username");
-  logger.debug(`All the headers for ${username}, ${JSON.stringify(headers)}`);
+async function proceedWithUserValidation(next, req, res) {
   if (username && username !== "anonymous") {
     next();
   } else {
