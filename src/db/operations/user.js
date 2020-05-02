@@ -9,17 +9,17 @@ const logger = initializeLogger("user-operations-js");
 
 mongoose.Promise = global.Promise;
 
-const create = async user => {
+const create = async (user) => {
   logger.debug(`Creating and saving new user "${JSON.stringify(user)}"`);
   return new User({
     identifier: user.identifier,
     role: user.role,
     lastLoggedIn: LocaleDate,
-    isLoggedIn: false
+    isLoggedIn: false,
   }).save();
 };
 
-const retrieveUser = async filter => {
+const retrieveUser = async (filter) => {
   logger.debug(`Filter ${JSON.stringify(filter)}`);
   return new Promise((resolve, reject) => {
     try {
@@ -29,17 +29,22 @@ const retrieveUser = async filter => {
           reject({
             status: "Error",
             message: err.message,
-            description: "unable to fetch user(s)"
+            description: "unable to fetch user(s)",
           });
         }
-        if (data === undefined || data === null || data === [] || data.length === 0) {
+        if (
+          data === undefined ||
+          data === null ||
+          data === [] ||
+          data.length === 0
+        ) {
           logger.error("Empty data set");
           reject({ status: "error", message: "No Users found" });
         } else {
           logger.debug(`Got response ${data}`);
           resolve({
             status: "success",
-            records: sanitizeUserData(data)
+            records: sanitizeUserData(data),
           });
         }
         return;
@@ -49,14 +54,14 @@ const retrieveUser = async filter => {
       reject({
         status: "Error",
         message: err.message,
-        description: "unable to fetch user(s)"
+        description: "unable to fetch user(s)",
       });
     }
   });
 };
 
-const sanitizeUserData = records => {
-  const sanitzedData = records.map(rec => {
+const sanitizeUserData = (records) => {
+  const sanitzedData = records.map((rec) => {
     //rec.password = undefined;
     //rec.iv = undefined;
     rec.isLoggedIn = undefined;
@@ -66,7 +71,7 @@ const sanitizeUserData = records => {
   return sanitzedData;
 };
 
-const isUsernameAvailable = async user => {
+const isUsernameAvailable = async (user) => {
   logger.debug(`Finding user ${JSON.stringify(user)}`);
   return new Promise((resolve, reject) => {
     User.find(user, (err, data) => {
@@ -75,7 +80,7 @@ const isUsernameAvailable = async user => {
         resolve({
           status: "success",
           message: "username is available",
-          description: "no user found"
+          description: "no user found",
         });
       } else {
         reject({ status: "error", message: "username not available" });
@@ -86,17 +91,36 @@ const isUsernameAvailable = async user => {
 
 const update = async (username, user) => {
   logger.debug(`Updating user with ${username} and ${JSON.stringify(user)}`);
-  return new Promise((resolve, reject)=>{
-    User.findOneAndUpdate({"identifier.username":username},user,(err, doc)=>{
+  return new Promise((resolve, reject) => {
+    User.findOneAndUpdate(
+      { "identifier.username": username },
+      user,
+      (err, doc) => {
+        if (err) {
+          reject(err);
+        }
+        if (doc) {
+          logger.debug(`Updated doc ${doc}`);
+          resolve(doc);
+        }
+      }
+    );
+  });
+};
+
+const remove = async user => {
+  return new Promise ((resolve, reject) => {
+    User.findOneAndDelete(user, (err, res) => {
       if(err){
+        logger.error(`delete response ${err}`);
         reject(err);
       }
-      if(doc){
-        logger.debug(`Updated doc ${doc}`);
-        resolve(doc);
+      if(res){
+        logger.debug(`delete response ${res}`);
+        resolve(res);
       }
     })
   })
 };
 
-export default { create, retrieveUser, isUsernameAvailable, update};
+export default { create, retrieveUser, isUsernameAvailable, update , remove};

@@ -461,10 +461,106 @@ test("Test to update the user details", async () => {
   await request(appServer)
     .post("/user/ayansasmalBoth")
     .send({
-      identifier:{},
+      identifier: {},
       role: ["dastkar-app-one"],
     })
     .set("Accept", "application/json")
     .set("authorization", authWithUserRole)
     .expect(201);
 });
+
+test("Test to delete User", async () => {
+  testName = "Test to delete User";
+  testLogger.debug(testName);
+  await request(appServer)
+    .post("/user")
+    .send({
+      identifier: {
+        username: "ayansasmalBoth",
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi@gmail.com",
+        mobileNumber: "0452299076",
+      },
+      password: "ayansasmal",
+      role: ["dastkar-app-creator", "dastkar-super-user"],
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithBothRoles)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  const deleteResponse = await request(appServer)
+    .delete("/user/ayansasmalBoth")
+    .set("Accept", "application/json")
+    .set("authorization", authWithUserRole)
+    // .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(200);
+
+  testLogger.debug(`Delete response ${JSON.stringify(deleteResponse.body)}`);
+
+  await request(appServer)
+    .get("/user/ayansasmalBoth")
+    .set("Accept", "application/json")
+    .set("authorization", authWithAdminRole)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(400);
+
+  await request(appServer)
+    .post("/login")
+    .send({ username: "ayansasmalBoth", password: "ayansasmal" })
+    .set("Accept", "application/json")
+    .expect(403);
+});
+
+test("Test to delete Logged in User", async () => {
+  testName = "Test to delete Logged in User";
+  testLogger.debug(testName);
+  await request(appServer)
+    .post("/user")
+    .send({
+      identifier: {
+        username: "ayansasmalBoth",
+        firstName: "Ayan",
+        lastName: "sasmal",
+        email: "ayandelhi@gmail.com",
+        mobileNumber: "0452299076",
+      },
+      password: "ayansasmal",
+      role: ["dastkar-app-creator", "dastkar-super-user"],
+    })
+    .set("Accept", "application/json")
+    .set("authorization", authWithBothRoles)
+    .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(201);
+
+  await request(appServer)
+    .post("/login")
+    .send({ username: "ayansasmalBoth", password: "ayansasmal" })
+    .set("Accept", "application/json")
+    .expect(204);
+
+  const deleteResponse = await request(appServer)
+    .delete("/user/ayansasmalBoth")
+    .set("Accept", "application/json")
+    .set("authorization", authWithUserRole)
+    // .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(404);
+
+  testLogger.debug(`Delete response ${JSON.stringify(deleteResponse.body)}`);
+});
+
+test("Test to delete invalid User", async () => {
+  testName = "Test to invalid User";
+  testLogger.debug(testName);
+
+  const deleteResponse = await request(appServer)
+    .delete("/user/ayansasmalBoth")
+    .set("Accept", "application/json")
+    .set("authorization", authWithUserRole)
+    // .expect("Content-Type", "application/json; charset=utf-8")
+    .expect(404);
+
+  testLogger.debug(`Delete response ${JSON.stringify(deleteResponse.body)}`);
+});
+

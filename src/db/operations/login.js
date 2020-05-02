@@ -138,7 +138,23 @@ const updateLoginCreds = async (loginCreds) => {
   });
 };
 
-export default { login, fetchLoginCreds, createLoginCreds, updateLoginCreds };
+const deleteLoginCreds = async (username) => {
+  return new Promise((resolve, reject) => {
+    Login.findOneAndDelete({username}, (err, res) => {
+      if(err){
+        logger.error(`'Unable to remove the login credentials for ${username}'`, err);
+        reject(err)
+      }
+      if(res){
+        logger.debug(`login creds deleted ${JSON.stringify(res)}`);
+        resolve(res);
+      }
+    })
+  })
+
+};
+
+export default { login, fetchLoginCreds, createLoginCreds, updateLoginCreds, deleteLoginCreds };
 
 async function validateCredentialsForLogin(
   fetchedLoginCreds,

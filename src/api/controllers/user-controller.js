@@ -3,7 +3,6 @@ import login from "../../db/operations/login";
 import { initializeLogger } from "../../utils/logger";
 
 import bcrypt from "bcrypt";
-import _ from "lodash";
 
 const logger = initializeLogger("user-controller");
 
@@ -95,12 +94,43 @@ export const updateUser = async (req, res) => {
       message: "User details updated successfully",
     });
   }
-
-  res.status(501).send();
 };
 
 export const removeUser = async (req, res) => {
-  logger.debug(`Removing user ${JSON.stringify(req.body)}`);
+  logger.debug(`Removing user ${req.params.username}`);
+  const userToDelete = req.params.username;
+  try {
+    if (userToDelete) {
+      const user = await Users.retrieveUser({
+        "identifier.username": userToDelete,
+      });
+      logger.debug(`Fetched user ${JSON.stringify(user)}`);
+      const loginDetails = await login.fetchLoginCreds({
+        username: userToDelete,
+      });
+      logger.debug(`Fetched Login details ${JSON.stringify(loginDetails)}`);
+      if (loginDetails[0].isLoggedIn) {
+        logger.error('Trying to delete a logged in user');
+        res
+          .status(404)
+          .json({
+            status: "error",
+            message:
+              "User is already logged in. Please ask user to logout and then try again.",
+          });
+      } else {
+        logger.debug('User is not logged in. Safe to delete');
+        const deletedUser = await Users.remove({"identifier.username":userToDelete});
+        logger.debug(`Delete response ${deletedUser}`);
+        const deletedLoginCreds = await login.deleteLoginCreds(userToDelete);
+        logger.debug(`Deleted login credentials response ${deletedLoginCreds}`);
+        res.status(200).json({status:"success", message:"user is deleted"});
+      }
+    }
+  } catch (err){
+    logger.error('Unable to delete user', err)
+    res.status(404).json({status:"error", message:"Unable to delete user"});
+  }
 };
 
 export const fetchUser = async (req, res) => {

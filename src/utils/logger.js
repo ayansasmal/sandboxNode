@@ -17,7 +17,7 @@ const colorizedFormat = format.colorize({
   colors: {
     info: "white italic",
     debug: "yellow italic",
-    error: "black bgRed italic"
+    error: "white bgRed italic"
   },
   all: true
 });
