@@ -68,6 +68,29 @@ const alphabets = "abcdefghijklmnopqrstuvwxyz,.\"'-".split("");
 
 console.log(alphabets);
 
+const getFreq = (para) => {
+  const freqs = {};
+  let totalCounted = 0;
+  for (let i = 0; i < para.length; i++) {
+    const char = para.charAt(i).toLowerCase();
+    if (totalCounted >= para.length) continue;
+    if (freqs[char]) continue;
+    let counter = 1;
+    for (let j = i + 1; j < para.length; j++) {
+      if (char === para.charAt(j).toLowerCase()) {
+        counter++;
+      }
+    }
+    // console.log(char, counter);
+    freqs[char] = counter;
+    totalCounted += counter;
+    // console.log(totalCounted, para.length)
+  }
+  return freqs;
+};
+
+console.log(getFreq(para));
+
 const getFrequency = (para) => {
   const frequencies = {};
   for (let i = 0; i < para.length; i++) {
@@ -82,22 +105,22 @@ const getFrequency = (para) => {
   return frequencies;
 };
 
-const getSortedFrequencies = frequencies => {
+const getSortedFrequencies = (frequencies) => {
   const arrFreq = [];
   Object.keys(frequencies).forEach((character) => {
-    arrFreq.push({c:character, f:frequencies[character]});
-  })
+    arrFreq.push({ c: character, f: frequencies[character] });
+  });
 
-  arrFreq.sort((a,b)=>a.f - b.f);
+  arrFreq.sort((a, b) => a.f - b.f);
   //console.log(arrFreq);
   return arrFreq;
-}
+};
 
 const getMostFrequentCharacter = (frequencies) => {
-  let alphabetMax = { character:undefined, frequency: 0};
+  let alphabetMax = { character: undefined, frequency: 0 };
   Object.keys(frequencies).forEach((character) => {
     if (frequencies[character] > alphabetMax.frequency) {
-      alphabetMax = {character, frequency: frequencies[character]}
+      alphabetMax = { character, frequency: frequencies[character] };
     }
   });
   return alphabetMax;
@@ -105,8 +128,8 @@ const getMostFrequentCharacter = (frequencies) => {
 
 const freq = getFrequency(para);
 console.log(freq);
-console.log(getSortedFrequencies(freq));
-console.log(getMostFrequentCharacter(freq));
+// console.log(getSortedFrequencies(freq));
+// console.log(getMostFrequentCharacter(freq));
 
 // const add = async (a, b) => {
 //   return new Promise((resolve, reject) => {
