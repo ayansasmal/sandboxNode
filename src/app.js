@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { connectDatabase } from "./db/handler";
@@ -16,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 const logger = initializeLogger("app-js");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.disable("x-powered-by");
 

@@ -46,14 +46,6 @@ const createTransports = providedLabel => {
     new transports.File({ filename: "log/combined.log", level: "debug" })
   );
 
-  // transportArray.push(new MongoDB({
-  //   db: "mongodb://127.0.0.1:27017/",
-  //   level: 'debug',
-  //   label: providedLabel,
-  //   metaKey: "meta",
-  //   useUnifiedTopology: true
-  // }))
-
   transportArray.push(createConsoleTransport());
 
   return transportArray;

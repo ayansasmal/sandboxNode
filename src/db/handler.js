@@ -10,18 +10,18 @@ let isDbAvailable = true;
  * Connect to the in-memory database.
  */
 export async function connectDatabase() {
+
   let uri =
     process.env.ENV === "prod"
       ? process.env.MONGO_ONLINE_URL.replace(
           "<username>",
-          process.env.MONGO_CREDS.SUPER.USERNAME
+          process.env.MUNAME
         )
-          .replace("<password>", process.env.MONGO_CREDS.SUPER.PASSWORD)
+          .replace("<password>", process.env.MPWD)
           .replace("<dbname>", process.env.DB_NAME)
       : undefined;
 
   try {
-    //logger.debug(`Environment :: ${process.env.ENV}`)
     if (process.env.ENV === "dev") {
       logger.debug("Connecting to local DB");
       mongod = new MongoMemoryServer({
@@ -41,7 +41,7 @@ export async function connectDatabase() {
       useNewUrlParser: true,
       useFindAndModify: false,
     };
-
+    logger.debug(`connecting to db at ${uri}`);
     await connect(uri, mongooseOpts);
     logger.debug(`connected to db at ${uri}`);
     isDbAvailable=true;
