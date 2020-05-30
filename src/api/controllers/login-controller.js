@@ -14,7 +14,7 @@ export const loginUser = (req, res) => {
     Login.login(req.body)
       .then((data) => {
         logger.debug(data);
-        res.set("authorization", data.jwt);
+        res.set("Authorization", data.jwt);
         res.cookie("jwt", data.jwt);
         res.status(204);
         res.json({ status: "Login successfull" });

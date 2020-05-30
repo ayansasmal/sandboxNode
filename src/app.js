@@ -1,5 +1,5 @@
 import express from "express";
-import cors from 'cors';
+import cors from "cors";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { connectDatabase } from "./db/handler";
@@ -17,7 +17,15 @@ import { v4 as uuidv4 } from "uuid";
 const logger = initializeLogger("app-js");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Content-Type", "Authorization"],
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
 app.use(express.json());
 app.disable("x-powered-by");
 
@@ -75,6 +83,9 @@ app.use(async (req, res, next) => {
   await populateMessageId(req, res);
   const excluded = await isExcluded(req);
   logger.debug(`${req.url} isExcluded ${excluded}`);
+  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  // res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorisation");
   if (excluded) {
     next();
   } else {

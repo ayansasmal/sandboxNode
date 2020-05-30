@@ -24,17 +24,18 @@ export async function connectDatabase() {
   try {
     if (process.env.ENV === "dev") {
       logger.debug("Connecting to local DB");
-      mongod = new MongoMemoryServer({
-        instance: { port: 53005, dbName: process.env.DB_NAME },
-      });
-      uri = await mongod.getConnectionString();
+      // mongod = new MongoMemoryServer({
+      //   instance: { port: 53005, dbName: process.env.DB_NAME },
+      // });
+      // uri = await mongod.getConnectionString();
+      uri = "mongodb://localhost:27017/"+process.env.DB_NAME;
     } else if (process.env.ENV === "test") {
       logger.debug("Connecting to local Test DB");
       mongod = new MongoMemoryServer({
         instance: { dbName: process.env.DB_NAME },
       });
       uri = await mongod.getConnectionString();
-    }
+    }  
 
     const mongooseOpts = {
       useUnifiedTopology: true,

@@ -10,13 +10,13 @@ export let headers,
 export const readHeaders = async (req) => {
   logger.debug(`Reading headers ${JSON.stringify(req.headers)}`);
   headers = req.headers;
-  readUserName(req.header("authorization"));
+  readUserName(req.header("Authorization"));
   return headers;
 };
 
 export const getAuth = () => {
-  if (headers && headers["authorization"]) {
-    const auth = headers["authorization"];
+  if (headers && headers["Authorization"]) {
+    const auth = headers["Authorization"];
     logger.debug(`Authorization Header ${auth}`);
     return auth;
   } else {

@@ -38,13 +38,13 @@ const createTransports = providedLabel => {
   const transportArray = [
     new transports.File({ filename: "log/error.log", level: "error" })
   ];
-
-  if (isProductionEnv) {
-    return transportArray;
-  }
   transportArray.push(
     new transports.File({ filename: "log/combined.log", level: "debug" })
   );
+  if (isProductionEnv) {
+    return transportArray;
+  }
+
 
   transportArray.push(createConsoleTransport());
 
